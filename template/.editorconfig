@@ -1,0 +1,9 @@
+# http://editorconfig.org/
+
+# top-most EditorConfig file
+root = true
+
+# 4 space indentation
+[*.{ts,js,tsx,css}]
+indent_style = space
+indent_size = 4
