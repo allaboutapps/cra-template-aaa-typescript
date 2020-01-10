@@ -37,7 +37,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "build:licenses": "craco build",
+        "build:withLicenses": "craco build",
         "test": "react-scripts test"
     }
 }
