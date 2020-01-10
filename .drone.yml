@@ -42,6 +42,7 @@ pipeline:
     group: pre-check
     image: ${DRONE_REPO,,}-monorepo
     commands:
+      - ls
       - yarn create react-app my-app-ci --template file:///${DRONE_REPO,,}-monorepo
     <<: *WHEN_BUILD_EVENT
 
