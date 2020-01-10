@@ -19,4 +19,4 @@ RUN rm -f /usr/local/bin/yarn && \
     chmod +x ~/.yarn/bin/yarn && \
     ln -s ~/.yarn/bin/yarn /usr/local/bin/yarn
 
-RUN yarn global add create-react-app@v3.3.0 
+RUN yarn global add create-react-app

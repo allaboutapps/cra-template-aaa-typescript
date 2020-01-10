@@ -29,20 +29,12 @@ pipeline:
   # BUILD Monorepo
   # ---------------------------------------------------------------------------
 
-  "docker build":
-    group: build-monorepo
-    image: docker:latest
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    commands:
-      - "docker build --compress -t ${DRONE_REPO,,}-monorepo ."
-    <<: *WHEN_BUILD_EVENT
-
   "create-react-app":
     group: pre-check
     image: ${DRONE_REPO,,}-monorepo
     commands:
-      - "yarn create-react-app my-app-ci --template file:///${DRONE_REPO,,}-monorepo"
+      - yarn global add create-react-app@3.3.0
+      - yarn create-react-app my-app-ci --template file:///${DRONE_REPO,,}-monorepo
     <<: *WHEN_BUILD_EVENT
 
   # ---------------------------------------------------------------------------
