@@ -1,7 +1,7 @@
+import * as React from "react";
 import * as mui from "@material-ui/core";
 import { TextFieldProps } from "@material-ui/core/TextField";
 import { withFormsy } from "formsy-react";
-import * as React from "react";
 import { IFormsyComponentProps } from "../externals/IFormsyComponentProps";
 
 type IProps = IFormsyComponentProps & TextFieldProps & {
@@ -23,24 +23,23 @@ interface IState {
 }
 
 class CustomInputFieldUnwrapped extends React.Component<IProps, IState> {
-    constructor(props: IProps) {
-        super(props);
 
-        this.state = {
-            blurred: false
-        };
+    state = {
+        blurred: false
     }
 
     changeValue = (event: any) => {
+        const { inputValidations, onChange, setValue } = this.props
+
         // Check input validations and return in case value is not valid
         // which discards changes.
-        if (this.props.inputValidations) {
-            if (typeof this.props.inputValidations === "function") {
-                if (!this.props.inputValidations(event.currentTarget.value)) {
+        if (inputValidations) {
+            if (typeof inputValidations === "function") {
+                if (!inputValidations(event.currentTarget.value)) {
                     return;
                 }
-            } else if ((this.props.inputValidations as any) instanceof Array) {
-                for (const validator of (this.props.inputValidations as Function[])) {
+            } else if ((inputValidations as any) instanceof Array) {
+                for (const validator of (inputValidations as Function[])) {
                     if (!validator(event.currentTarget.value)) {
                         return;
                     }
@@ -48,51 +47,53 @@ class CustomInputFieldUnwrapped extends React.Component<IProps, IState> {
             }
         }
 
-        if (this.props.onChange) {
-            this.props.onChange(event);
+        if (onChange) {
+            onChange(event);
         }
 
-        this.props.setValue(event.target.value);
+        setValue(event.target.value);
     }
 
     handleBlur = () => {
-        if (this.props.onBlur) {
-            this.props.onBlur();
+        const { onBlur, setValue, getValue } = this.props
+
+        if (onBlur) {
+            onBlur();
         }
 
         // Trim whitespace characters on blur.
-        this.props.setValue(this.props.getValue() && this.props.getValue().trim());
+        setValue(getValue() && getValue().trim());
 
-        this.setState({
-            blurred: true
-        });
+        this.setState({ blurred: true });
     }
 
     handleFocus = () => {
-        this.setState({
-            blurred: false
-        });
+        this.setState({ blurred: false });
     }
 
     shouldShowError = () => {
-        return !this.props.showErrorOnBlurOnly || (this.props.showErrorOnBlurOnly && this.state.blurred);
+        const { showErrorOnBlurOnly } = this.props
+
+        return !showErrorOnBlurOnly || (showErrorOnBlurOnly && this.state.blurred);
     }
 
     render() {
-        const errorMessage = this.shouldShowError() ? this.props.getErrorMessage() : "";
+        const { getErrorMessage, style, label, getValue, type, autoComplete, required } = this.props
+
+        const errorMessage = this.shouldShowError() ? getErrorMessage() : "";
 
         return (
-            <div style={this.props.style}>
+            <div style={style}>
                 <mui.TextField
-                    label={this.props.label}
-                    value={this.props.getValue() || ""}
-                    onChange={(event) => { this.changeValue(event); }}
-                    onBlur={() => { this.handleBlur(); }}
-                    onFocus={() => { this.handleFocus(); }}
+                    label={label}
+                    value={getValue() || ""}
+                    onChange={this.changeValue}
+                    onBlur={this.handleBlur}
+                    onFocus={this.handleFocus}
                     fullWidth
-                    type={this.props.type}
-                    autoComplete={this.props.autoComplete}
-                    required={this.props.required}
+                    type={type}
+                    autoComplete={autoComplete}
+                    required={required}
                     error={!!errorMessage}
                     margin="dense"
                     aria-label={this.props["aria-label"]}
@@ -115,5 +116,4 @@ class CustomInputFieldUnwrapped extends React.Component<IProps, IState> {
     }
 }
 
-const CustomInputField = withFormsy(CustomInputFieldUnwrapped);
-export { CustomInputField };
+export const CustomInputField = withFormsy(CustomInputFieldUnwrapped);
