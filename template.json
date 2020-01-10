@@ -34,10 +34,6 @@
         "react-router-dom": "^5.0.0",
         "typescript": "^3.3.3"
     },
-    "resolutions": {
-        "@types/react": "16.9.1",
-        "@types/react-dom": "16.8.5"
-    },
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
