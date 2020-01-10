@@ -39,8 +39,9 @@
         "@types/react-dom": "16.8.5"
     },
     "scripts": {
-        "start": "craco start",
-        "build": "craco build",
-        "test": "craco test"
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "build:licenses": "craco build",
+        "test": "react-scripts test"
     }
 }
