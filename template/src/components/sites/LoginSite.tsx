@@ -22,7 +22,7 @@ interface ILoginValues {
 }
 
 @observer
-class LoginSite extends React.Component<IProps, IState> {
+export class LoginSite extends React.Component<IProps, IState> {
     state: IState = {
         canSubmit: false,
         error: ""
@@ -156,5 +156,3 @@ class LoginSite extends React.Component<IProps, IState> {
         );
     }
 }
-
-export { LoginSite };

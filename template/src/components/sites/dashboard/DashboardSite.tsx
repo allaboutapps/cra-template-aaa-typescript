@@ -8,7 +8,7 @@ import { history } from "../../routers/history";
 import { Routes } from "../../routers/Routes";
 
 @observer
-class DashboardSite extends React.Component {
+export class DashboardSite extends React.Component {
     render() {
         return (
             <h1 style={{ margin: 24, textAlign: "center" }}>
@@ -42,6 +42,3 @@ class DashboardSite extends React.Component {
         );
     }
 }
-
-export { DashboardSite };
-
