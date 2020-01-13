@@ -12,7 +12,7 @@ import * as serviceWorker from "./serviceWorker";
 
     // Polyfill "Intl.PluralRules"
     // https://github.com/formatjs/react-intl/blob/master/docs/Upgrade-Guide.md#migrate-to-using-native-intl-apis
-    if (!Intl.RelativeTimeFormat) {
+    if (!(Intl as any).RelativeTimeFormat) {
         require('@formatjs/intl-relativetimeformat/polyfill-locales');
     }
 
