@@ -24,6 +24,6 @@ export const AppRouter = observer(() => (
                 </Switch>
             </RoutingManager>
         </Router>
-        <LoadingOverlay isVisible={generalStore.isLoading} />
+        {generalStore.isLoading && <LoadingOverlay />}
     </ApolloProvider>
 ));

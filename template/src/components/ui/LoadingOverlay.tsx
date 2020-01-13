@@ -1,14 +1,10 @@
 import * as React from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-interface IProps {
-    isVisible: boolean;
-}
-
-export const LoadingOverlay = ({ isVisible }: IProps) => (
+export const LoadingOverlay = () => (
     <div
         style={{
-            display: isVisible ? "flex" : "none",
+            display: "flex",
             position: "fixed",
             width: "100%",
             height: "100%",
