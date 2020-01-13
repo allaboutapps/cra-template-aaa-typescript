@@ -1,6 +1,6 @@
 /* eslint-disable no-throw-literal */
 
-import * as Config from "../../config";
+import * as Config from "../config";
 import { authStore, ICredentials } from "../stores/AuthStore";
 
 export const STATUS_CODE_UNAUTHORIZED = 401;

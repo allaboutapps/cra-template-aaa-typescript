@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import * as React from "react";
 import { Redirect, Route } from "react-router-dom";
-import { authStore } from "../stores/AuthStore";
+import { authStore } from "../../stores/AuthStore";
 import { Routes } from "./Routes";
 
 export const PrivateRoute: any = observer(({ component: Component, ...rest }: any): any => {

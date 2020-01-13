@@ -5,7 +5,7 @@ import { Route, Router, Switch } from "react-router-dom";
 import { graphqlClient } from "../../graphql/graphqlClient";
 import { LoginSite } from "../sites/LoginSite";
 import { NotFoundSite } from "../sites/NotFoundSite";
-import { generalStore } from "../stores/GeneralStore";
+import { generalStore } from "../../stores/GeneralStore";
 import { LoadingOverlay } from "../ui/LoadingOverlay";
 import { DashboardRouter } from "./DashboardRouter";
 import { history } from "./history";

@@ -1,6 +1,6 @@
 import ApolloClient from "apollo-boost";
 import { ErrorResponse } from "../../node_modules/apollo-link-error";
-import { authStore } from "../components/stores/AuthStore";
+import { authStore } from "../stores/AuthStore";
 import * as config from "../config";
 
 export const graphqlClient = new ApolloClient({

@@ -2,8 +2,8 @@ import { Button } from "@material-ui/core";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { t, setLocale } from "../../../i18n/util";
-import { generalStore } from "../../stores/GeneralStore";
-import { authStore } from "../../stores/AuthStore";
+import { generalStore } from "../../../stores/GeneralStore";
+import { authStore } from "../../../stores/AuthStore";
 import { history } from "../../routers/history";
 import { Routes } from "../../routers/Routes";
 

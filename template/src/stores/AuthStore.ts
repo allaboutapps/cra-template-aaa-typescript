@@ -1,6 +1,6 @@
 import { action, observable } from "mobx";
 import { create, persist } from "mobx-persist";
-import * as config from "../../config";
+import * as config from "../config";
 import { API, STATUS_CODE_UNAUTHORIZED } from "../network/API";
 
 export interface ICredentials {

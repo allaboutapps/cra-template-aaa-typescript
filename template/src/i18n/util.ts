@@ -2,7 +2,7 @@ import { PrimitiveType } from "intl-messageformat";
 import { createIntl, createIntlCache } from "react-intl";
 import deMessages from "./de";
 import enMessages, { IAvailableI18nIds } from "./en";
-import { generalStore } from "../components/stores/GeneralStore";
+import { generalStore } from "../stores/GeneralStore";
 import { ILocales } from "./ILocales";
 
 const DEFAULT_LOCALE = "en";
