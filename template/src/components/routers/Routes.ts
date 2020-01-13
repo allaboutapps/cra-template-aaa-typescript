@@ -1,9 +1,7 @@
 // tslint:disable-next-line:typedef
-const Routes = {
+export const Routes = {
     ROOT: "/",
     DASHBOARD: {
         ROOT: "/dashboard"
     }
 };
-
-export { Routes };
