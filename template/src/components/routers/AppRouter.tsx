@@ -13,22 +13,17 @@ import { PrivateRoute } from "./PrivateRoute";
 import { Routes } from "./Routes";
 import { RoutingManager } from "./RoutingManager";
 
-@observer
-export class AppRouter extends React.Component {
-    render() {
-        return (
-            <ApolloProvider client={graphqlClient}>
-                <Router history={history}>
-                    <RoutingManager>
-                        <Switch>
-                            <Route exact path={Routes.ROOT} component={LoginSite} />
-                            <PrivateRoute path={Routes.DASHBOARD.ROOT} component={DashboardRouter} />
-                            <Route component={NotFoundSite} />
-                        </Switch>
-                    </RoutingManager>
-                </Router>
-                <LoadingOverlay isVisible={generalStore.isLoading} />
-            </ApolloProvider>
-        );
-    }
-}
+export const AppRouter = observer(() => (
+    <ApolloProvider client={graphqlClient}>
+        <Router history={history}>
+            <RoutingManager>
+                <Switch>
+                    <Route exact path={Routes.ROOT} component={LoginSite} />
+                    <PrivateRoute path={Routes.DASHBOARD.ROOT} component={DashboardRouter} />
+                    <Route component={NotFoundSite} />
+                </Switch>
+            </RoutingManager>
+        </Router>
+        <LoadingOverlay isVisible={generalStore.isLoading} />
+    </ApolloProvider>
+));

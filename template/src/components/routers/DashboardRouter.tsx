@@ -5,14 +5,9 @@ import { NotFoundSite } from "../sites/NotFoundSite";
 import { Routes } from "./Routes";
 import { DashboardSite } from "../sites/dashboard/DashboardSite";
 
-@observer
-export class DashboardRouter extends React.Component {
-    render() {
-        return (
-            <Switch>
-                <Route exact path={Routes.DASHBOARD.ROOT} component={DashboardSite} />
-                <Route component={NotFoundSite} />
-            </Switch>
-        );
-    }
-}
+export const DashboardRouter = observer(() => (
+    <Switch>
+        <Route exact path={Routes.DASHBOARD.ROOT} component={DashboardSite} />
+        <Route component={NotFoundSite} />
+    </Switch>
+));
