@@ -1,7 +1,6 @@
-import * as React from "react";
-import * as mui from "@material-ui/core";
-import { TextFieldProps } from "@material-ui/core/TextField";
+import TextField, { TextFieldProps } from "@material-ui/core/TextField";
 import { withFormsy } from "formsy-react";
+import * as React from "react";
 import { IFormsyComponentProps } from "../externals/IFormsyComponentProps";
 
 type IProps = IFormsyComponentProps & TextFieldProps & {
@@ -84,7 +83,7 @@ class CustomInputFieldUnwrapped extends React.Component<IProps, IState> {
 
         return (
             <div style={style}>
-                <mui.TextField
+                <TextField
                     label={label}
                     value={getValue() || ""}
                     onChange={this.changeValue}
