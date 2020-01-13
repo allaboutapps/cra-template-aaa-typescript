@@ -105,7 +105,7 @@ export class LoginSite extends React.Component<IProps, IState> {
                     >
                         {t("screen.login.title")}
                     </div>
-                    <div style={{ padding: 24, border: "1px solid rgb(253, 128, 72)" }}>
+                    <div style={{ padding: 24, border: "1px solid rgb(253, 128, 72)", borderTop: "none" }}>
                         <Formsy.default
                             onValidSubmit={this.submit}
                             onValid={this.enableButton}
