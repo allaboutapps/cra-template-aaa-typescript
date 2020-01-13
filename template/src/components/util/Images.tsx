@@ -8,8 +8,6 @@ const ImageLogo = (props: { style?: React.CSSProperties }) => (
     />
 );
 
-const Images = {
+export const Images = {
     ImageLogo
 };
-
-export { Images };
