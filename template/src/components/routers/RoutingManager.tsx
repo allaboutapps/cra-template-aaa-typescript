@@ -6,7 +6,7 @@ type IState = {
     lastLocation: any;
 };
 
-class RoutingManager extends React.Component<IProps, IState> {
+export class RoutingManager extends React.Component<IProps, IState> {
     state: IState = {
         lastLocation: history.location
     };
@@ -28,5 +28,3 @@ class RoutingManager extends React.Component<IProps, IState> {
         );
     }
 }
-
-export { RoutingManager };

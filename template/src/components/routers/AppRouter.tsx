@@ -14,7 +14,7 @@ import { Routes } from "./Routes";
 import { RoutingManager } from "./RoutingManager";
 
 @observer
-class AppRouter extends React.Component {
+export class AppRouter extends React.Component {
     render() {
         return (
             <ApolloProvider client={graphqlClient}>
@@ -32,5 +32,3 @@ class AppRouter extends React.Component {
         );
     }
 }
-
-export { AppRouter };

@@ -6,7 +6,7 @@ import { Routes } from "./Routes";
 import { DashboardSite } from "../sites/dashboard/DashboardSite";
 
 @observer
-class DashboardRouter extends React.Component {
+export class DashboardRouter extends React.Component {
     render() {
         return (
             <Switch>
@@ -16,5 +16,3 @@ class DashboardRouter extends React.Component {
         );
     }
 }
-
-export { DashboardRouter };
