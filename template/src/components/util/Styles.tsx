@@ -1,3 +1,1 @@
-const Styles = {};
-
-export { Styles };
+export const Styles = {};
