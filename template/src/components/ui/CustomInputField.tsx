@@ -24,7 +24,7 @@ interface IState {
 
 class CustomInputFieldUnwrapped extends React.Component<IProps, IState> {
 
-    state = {
+    state: IState = {
         blurred: false
     }
 
