@@ -29,7 +29,7 @@ class CustomInputFieldUnwrapped extends React.Component<IProps, IState> {
     }
 
     changeValue = (event: any) => {
-        const { inputValidations, onChange, setValue } = this.props
+        const { inputValidations, onChange, setValue } = this.props;
 
         // Check input validations and return in case value is not valid
         // which discards changes.
@@ -55,7 +55,7 @@ class CustomInputFieldUnwrapped extends React.Component<IProps, IState> {
     }
 
     handleBlur = () => {
-        const { onBlur, setValue, getValue } = this.props
+        const { onBlur, setValue, getValue } = this.props;
 
         if (onBlur) {
             onBlur();
@@ -72,13 +72,13 @@ class CustomInputFieldUnwrapped extends React.Component<IProps, IState> {
     }
 
     shouldShowError = () => {
-        const { showErrorOnBlurOnly } = this.props
+        const { showErrorOnBlurOnly } = this.props;
 
         return !showErrorOnBlurOnly || (showErrorOnBlurOnly && this.state.blurred);
     }
 
     render() {
-        const { getErrorMessage, style, label, getValue, type, autoComplete, required } = this.props
+        const { getErrorMessage, style, label, getValue, type, autoComplete, required } = this.props;
 
         const errorMessage = this.shouldShowError() ? getErrorMessage() : "";
 

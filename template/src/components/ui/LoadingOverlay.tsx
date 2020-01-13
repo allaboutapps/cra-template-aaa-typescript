@@ -22,6 +22,6 @@ export const LoadingOverlay = ({ isVisible }: IProps) => (
     >
         <CircularProgress color="secondary" />
     </div>
-)
+);
 
 
