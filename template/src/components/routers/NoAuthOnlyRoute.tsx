@@ -4,8 +4,8 @@ import { Redirect, Route } from "react-router-dom";
 import { authStore } from "../../stores/AuthStore";
 import { Routes } from "./Routes";
 
-export const PrivateRoute: any = observer(({ component: Component, ...props }: any): any => {
-    if (authStore.isRehydrated === false) {
+export const NoAuthOnlyRoute: any = observer(({ component: Component, ...props }: any): any => {
+    if (!authStore.isRehydrated) {
         return null;
     }
 
@@ -13,12 +13,12 @@ export const PrivateRoute: any = observer(({ component: Component, ...props }: a
         <Route
             {...props}
             render={(props: any): any =>
-                authStore.isAuthenticated ? (
+                !authStore.isAuthenticated ? (
                     <Component {...props} />
                 ) : (
                         <Redirect
                             to={{
-                                pathname: Routes.ROOT,
+                                pathname: Routes.DASHBOARD.ROOT,
                                 state: { from: props.location }
                             }}
                         />
@@ -27,3 +27,4 @@ export const PrivateRoute: any = observer(({ component: Component, ...props }: a
         />
     );
 });
+

@@ -27,12 +27,6 @@ export class LoginSite extends React.Component<IProps, IState> {
         error: ""
     }
 
-    componentDidUpdate() {
-        if (authStore.isAuthenticated) {
-            history.push(Routes.DASHBOARD.ROOT);
-        }
-    }
-
     submit = async (model: ILoginValues) => {
         generalStore.isLoading = true;
         this.setState({ error: "" });
