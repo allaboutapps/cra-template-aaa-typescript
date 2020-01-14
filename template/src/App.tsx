@@ -6,9 +6,6 @@ import { AppRouter } from "./components/routers/AppRouter";
 import { theme } from "./components/util/Theme";
 import { intl } from "./i18n/util";
 import { generalStore } from "./stores/GeneralStore";
-import { FormValidations } from "./components/util/FormValidations";
-
-FormValidations.addRules();
 
 const App: React.FunctionComponent = observer(() => {
     return (

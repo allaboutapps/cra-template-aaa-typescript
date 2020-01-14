@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const ImageLogo = (props: { style?: React.CSSProperties }) => (
+export const ImageLogo = (props: { style?: React.CSSProperties }) => (
     <img
         alt="Logo"
         src={require("../../assets/images/logo.png")}
@@ -8,6 +8,3 @@ const ImageLogo = (props: { style?: React.CSSProperties }) => (
     />
 );
 
-export const Images = {
-    ImageLogo
-};

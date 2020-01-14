@@ -1,18 +1,18 @@
-import * as Formsy from "formsy-react";
+import Button from "@material-ui/core/Button";
+import { Field, Formik, Form } from 'formik';
 import { observer } from "mobx-react";
 import * as React from "react";
-import { Routes } from "../routers/Routes";
+import * as Yup from 'yup';
+import { t } from "../../i18n/util";
 import { authStore } from "../../stores/AuthStore";
 import { generalStore } from "../../stores/GeneralStore";
-import { CustomInputField } from "../ui/CustomInputField";
-import { Images } from "../util/Images";
-import { t } from "../../i18n/util";
 import { history } from "../routers/history";
-import Button from "@material-ui/core/Button";
+import { Routes } from "../routers/Routes";
+import { CustomInputField } from "../ui/CustomInputField";
+import { ImageLogo } from "../util/Images";
 
 type IProps = {};
 type IState = {
-    canSubmit: boolean;
     error: string;
 }
 
@@ -24,7 +24,6 @@ interface ILoginValues {
 @observer
 export class LoginSite extends React.Component<IProps, IState> {
     state: IState = {
-        canSubmit: false,
         error: ""
     }
 
@@ -56,14 +55,6 @@ export class LoginSite extends React.Component<IProps, IState> {
         generalStore.isLoading = false;
     }
 
-    disableButton = () => {
-        this.setState({ canSubmit: false });
-    }
-
-    enableButton = () => {
-        this.setState({ canSubmit: true });
-    }
-
     render() {
         if (!authStore.isRehydrated) {
             return null;
@@ -82,7 +73,7 @@ export class LoginSite extends React.Component<IProps, IState> {
                     padding: 24
                 }}
             >
-                <Images.ImageLogo style={{ maxWidth: 200 }} />
+                <ImageLogo style={{ maxWidth: 200 }} />
                 <div
                     style={{
                         background: "#fff",
@@ -106,53 +97,70 @@ export class LoginSite extends React.Component<IProps, IState> {
                         {t("screen.login.title")}
                     </div>
                     <div style={{ padding: 24, border: "1px solid rgb(253, 128, 72)", borderTop: "none" }}>
-                        <Formsy.default
-                            onValidSubmit={this.submit}
-                            onValid={this.enableButton}
-                            onInvalid={this.disableButton}
+                        <Formik
+                            initialValues={{
+                                email: '',
+                                password: ''
+                            }}
+                            onSubmit={this.submit}
+                            validationSchema={
+                                Yup.object().shape({
+                                    email: Yup.string()
+                                        .email(t("screen.login.form.email.validation_error"))
+                                        .required(t("screen.login.form.email.validation_error"))
+                                        .trim(),
+                                    password: Yup.string()
+                                        .min(6, t("screen.login.form.password.validation_error"))
+                                        .required(t("screen.login.form.password.validation_error"))
+                                })}
+                            validateOnBlur
                         >
-                            <CustomInputField
-                                name="email"
-                                label={t("screen.login.form.email.label")}
-                                type="email"
-                                required
-                                autoComplete="username"
-                                validations="isEmail"
-                                validationError={t("screen.login.form.email.validation_error")}
-                                showErrorOnBlurOnly
-                            />
-
-                            <CustomInputField
-                                name="password"
-                                label={t("screen.login.form.password.label")}
-                                type="password"
-                                required
-                                autoComplete="current-password"
-                                validations="minLength:6"
-                                validationError={t("screen.login.form.password.validation_error")}
-                            />
-
-                            {this.state.error && <div style={{ color: "#f00", fontSize: 14 }}>
-                                {this.state.error}
-                            </div>
-                            }
-
-                            <Button
-                                variant="contained"
-                                style={{
-                                    boxShadow: "none",
-                                    borderRadius: 24,
-                                    marginTop: 24
-                                }}
-                                fullWidth disabled={!this.state.canSubmit}
-                                type="submit"
-                            >
-                                {t("screen.login.form.submit")}
-                            </Button>
-                        </Formsy.default>
+                            {({ errors, touched, isSubmitting, }) => (
+                                <Form>
+                                    <Field
+                                        component={CustomInputField}
+                                        label={t("screen.login.form.email.label")}
+                                        name="email"
+                                        type="email"
+                                        required
+                                        autoComplete="username"
+                                        errorMessage={errors.email}
+                                        isTouched={touched.email}
+                                    />
+                                    <Field
+                                        component={CustomInputField}
+                                        label={t("screen.login.form.password.label")}
+                                        name="password"
+                                        type="password"
+                                        required
+                                        autoComplete="current-password"
+                                        errorMessage={errors.password}
+                                        isTouched={touched.password}
+                                    />
+                                    {
+                                        this.state.error && <div style={{ color: "#f00", fontSize: 14 }}>
+                                            {this.state.error}
+                                        </div>
+                                    }
+                                    <Button
+                                        variant="contained"
+                                        style={{
+                                            boxShadow: "none",
+                                            borderRadius: 24,
+                                            marginTop: 24
+                                        }}
+                                        fullWidth
+                                        disabled={isSubmitting}
+                                        type="submit"
+                                    >
+                                        {t("screen.login.form.submit")}
+                                    </Button>
+                                </Form>
+                            )}
+                        </Formik>
                     </div>
                 </div>
-            </div>
+            </div >
         );
     }
 }
