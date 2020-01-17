@@ -7,6 +7,7 @@
         "eg2.tslint",
         "jpoissonnier.vscode-styled-components",
         "apollographql.vscode-apollo",
-        "msjsdiag.debugger-for-chrome"
+        "msjsdiag.debugger-for-chrome",
+        "esbenp.prettier-vscode"
     ]
 }
