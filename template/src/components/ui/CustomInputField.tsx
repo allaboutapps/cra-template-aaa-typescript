@@ -8,8 +8,18 @@ type IProps = TextFieldProps & {
     isTouched?: boolean;
 };
 
-export const CustomInputField = ({ style, label, type, autoComplete, required, errorMessage, field, isTouched, ...props }: IProps) => {
-    const showError = isTouched && !!errorMessage
+export const CustomInputField = ({
+    style,
+    label,
+    type,
+    autoComplete,
+    required,
+    errorMessage,
+    field,
+    isTouched,
+    ...props
+}: IProps) => {
+    const showError = isTouched && !!errorMessage;
 
     return (
         <div style={style}>
@@ -34,12 +44,11 @@ export const CustomInputField = ({ style, label, type, autoComplete, required, e
                     width: "100%",
                     marginTop: 4,
                     marginBottom: 10,
-                    fontSize: 12
+                    fontSize: 12,
                 }}
             >
                 {showError && errorMessage}
             </span>
         </div>
     );
-}
-
+};

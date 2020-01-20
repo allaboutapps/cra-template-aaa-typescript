@@ -1,8 +1,8 @@
 import Button from "@material-ui/core/Button";
-import { Field, Formik, Form } from 'formik';
+import { Field, Formik, Form } from "formik";
 import { observer } from "mobx-react";
 import * as React from "react";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 import { t } from "../../i18n/util";
 import { authStore } from "../../stores/AuthStore";
 import { generalStore } from "../../stores/GeneralStore";
@@ -14,7 +14,7 @@ import { ImageLogo } from "../util/Images";
 type IProps = {};
 type IState = {
     error: string;
-}
+};
 
 interface ILoginValues {
     email: string;
@@ -24,8 +24,8 @@ interface ILoginValues {
 @observer
 export class LoginSite extends React.Component<IProps, IState> {
     state: IState = {
-        error: ""
-    }
+        error: "",
+    };
 
     submit = async (model: ILoginValues) => {
         generalStore.isLoading = true;
@@ -47,7 +47,7 @@ export class LoginSite extends React.Component<IProps, IState> {
         }
 
         generalStore.isLoading = false;
-    }
+    };
 
     render() {
         if (!authStore.isRehydrated) {
@@ -64,7 +64,7 @@ export class LoginSite extends React.Component<IProps, IState> {
                     flexGrow: 1,
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "50% 0%",
-                    padding: 24
+                    padding: 24,
                 }}
             >
                 <ImageLogo style={{ maxWidth: 200 }} />
@@ -74,7 +74,7 @@ export class LoginSite extends React.Component<IProps, IState> {
                         borderRadius: 4,
                         width: "100%",
                         maxWidth: 320,
-                        marginTop: 40
+                        marginTop: 40,
                     }}
                 >
                     <div
@@ -85,7 +85,7 @@ export class LoginSite extends React.Component<IProps, IState> {
                             padding: 24,
                             borderTopLeftRadius: 4,
                             borderTopRightRadius: 4,
-                            fontWeight: "bold"
+                            fontWeight: "bold",
                         }}
                     >
                         {t("screen.login.title")}
@@ -93,23 +93,22 @@ export class LoginSite extends React.Component<IProps, IState> {
                     <div style={{ padding: 24, border: "1px solid rgb(253, 128, 72)", borderTop: "none" }}>
                         <Formik
                             initialValues={{
-                                email: '',
-                                password: ''
+                                email: "",
+                                password: "",
                             }}
                             onSubmit={this.submit}
-                            validationSchema={
-                                Yup.object().shape({
-                                    email: Yup.string()
-                                        .email(t("screen.login.form.email.validation_error"))
-                                        .required(t("screen.login.form.email.validation_error"))
-                                        .trim(),
-                                    password: Yup.string()
-                                        .min(6, t("screen.login.form.password.validation_error"))
-                                        .required(t("screen.login.form.password.validation_error"))
-                                })}
+                            validationSchema={Yup.object().shape({
+                                email: Yup.string()
+                                    .email(t("screen.login.form.email.validation_error"))
+                                    .required(t("screen.login.form.email.validation_error"))
+                                    .trim(),
+                                password: Yup.string()
+                                    .min(6, t("screen.login.form.password.validation_error"))
+                                    .required(t("screen.login.form.password.validation_error")),
+                            })}
                             validateOnBlur
                         >
-                            {({ errors, touched, isSubmitting, }) => (
+                            {({ errors, touched, isSubmitting }) => (
                                 <Form>
                                     <Field
                                         component={CustomInputField}
@@ -131,17 +130,15 @@ export class LoginSite extends React.Component<IProps, IState> {
                                         errorMessage={errors.password}
                                         isTouched={touched.password}
                                     />
-                                    {
-                                        this.state.error && <div style={{ color: "#f00", fontSize: 14 }}>
-                                            {this.state.error}
-                                        </div>
-                                    }
+                                    {this.state.error && (
+                                        <div style={{ color: "#f00", fontSize: 14 }}>{this.state.error}</div>
+                                    )}
                                     <Button
                                         variant="contained"
                                         style={{
                                             boxShadow: "none",
                                             borderRadius: 24,
-                                            marginTop: 24
+                                            marginTop: 24,
                                         }}
                                         fullWidth
                                         disabled={isSubmitting}
@@ -154,7 +151,7 @@ export class LoginSite extends React.Component<IProps, IState> {
                         </Formik>
                     </div>
                 </div>
-            </div >
+            </div>
         );
     }
 }

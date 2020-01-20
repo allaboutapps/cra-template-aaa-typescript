@@ -13,11 +13,9 @@ export const LoadingOverlay = () => (
             justifyContent: "center",
             left: 0,
             top: 0,
-            zIndex: 9999
+            zIndex: 9999,
         }}
     >
         <CircularProgress color="secondary" />
     </div>
 );
-
-

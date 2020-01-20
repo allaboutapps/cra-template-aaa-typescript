@@ -39,7 +39,7 @@ class Auth {
         try {
             const credentials = await API.loginWithPassword({
                 username: username,
-                password: password
+                password: password,
             });
 
             this.error = null;
@@ -59,7 +59,7 @@ class Auth {
                 this.wipe("Unknown");
             }
         }
-    }
+    };
 
     @action logout() {
         this.wipe(null);
@@ -76,8 +76,8 @@ class Auth {
             const res = await fetch(`${config.API_BASE_URL}/api/v1/auth/refresh`, {
                 method: "POST",
                 body: JSON.stringify({
-                    refreshToken: this.credentials.refreshToken
-                })
+                    refreshToken: this.credentials.refreshToken,
+                }),
             });
 
             if (!res.ok) {
@@ -90,7 +90,7 @@ class Auth {
                 accessToken,
                 refreshToken,
                 expiresIn,
-                tokenType
+                tokenType,
             };
             this.error = null;
             this.isAuthenticated = true;
@@ -98,13 +98,10 @@ class Auth {
         } catch (e) {
             this.wipe("Unknown");
         }
-    }
+    };
 
     @action handleGQLUnauthorized = async (error: any) => {
-        if (error &&
-            error.networkError &&
-            error.networkError.statusCode === STATUS_CODE_UNAUTHORIZED
-        ) {
+        if (error && error.networkError && error.networkError.statusCode === STATUS_CODE_UNAUTHORIZED) {
             if (this.credentials) {
                 try {
                     await this.tokenExchange();
@@ -119,7 +116,7 @@ class Auth {
         }
 
         return false;
-    }
+    };
 
     @action private wipe(error: AuthError | null) {
         this.credentials = null;
@@ -143,32 +140,37 @@ if (process.env.NODE_ENV === "test") {
         @action logout = () => undefined;
     }
 
-    authStore = (new MockAuth()) as any; // no localstorage support in node env
+    authStore = new MockAuth() as any; // no localstorage support in node env
 } else {
     // persist this mobx state through localforage
     const hydrate = create({
-        storage: require("localforage")
+        storage: require("localforage"),
     });
     authStore = new Auth();
 
-    hydrate("auth", authStore).then(() => {
-        // trigger token exchange if credentials are available...
-        if (authStore.credentials !== null) {
-            console.log("hydrate.auth: credentials are available, awaiting new token...");
-            authStore.tokenExchange().then(() => {
-                console.log("hydrate.auth: received new token!");
+    hydrate("auth", authStore)
+        .then(() => {
+            // trigger token exchange if credentials are available...
+            if (authStore.credentials !== null) {
+                console.log("hydrate.auth: credentials are available, awaiting new token...");
+                authStore
+                    .tokenExchange()
+                    .then(() => {
+                        console.log("hydrate.auth: received new token!");
+                        authStore.isRehydrated = true;
+                    })
+                    .catch(() => {
+                        console.log("hydrate.auth: failed to receive new token!");
+                        authStore.isRehydrated = true;
+                    });
+            } else {
                 authStore.isRehydrated = true;
-            }).catch(() => {
-                console.log("hydrate.auth: failed to receive new token!");
-                authStore.isRehydrated = true;
-            });
-        } else {
-            authStore.isRehydrated = true;
-            console.log("rehydrated, no credentials are available.");
-        }
-    }).catch((error) => {
-        console.error(error);
-    });
+                console.log("rehydrated, no credentials are available.");
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 // development, make auth available on window object...

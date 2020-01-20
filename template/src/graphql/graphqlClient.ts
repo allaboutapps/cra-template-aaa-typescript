@@ -12,8 +12,8 @@ export const graphqlClient = new ApolloClient({
         // return the headers to the context so httpLink can read them
         operation.setContext({
             headers: {
-                Authorization: token ? `Bearer ${token}` : null
-            }
+                Authorization: token ? `Bearer ${token}` : null,
+            },
         });
     },
     onError(error: ErrorResponse) {
@@ -21,5 +21,5 @@ export const graphqlClient = new ApolloClient({
         if (!handled) {
             console.error("Unhandled GQL error", error);
         }
-    }
+    },
 });

@@ -2,6 +2,6 @@
 export const Routes = {
     ROOT: "/",
     DASHBOARD: {
-        ROOT: "/dashboard"
-    }
+        ROOT: "/dashboard",
+    },
 };

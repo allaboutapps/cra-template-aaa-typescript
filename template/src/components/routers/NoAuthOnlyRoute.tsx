@@ -16,15 +16,14 @@ export const NoAuthOnlyRoute: any = observer(({ component: Component, ...props }
                 !authStore.isAuthenticated ? (
                     <Component {...props} />
                 ) : (
-                        <Redirect
-                            to={{
-                                pathname: Routes.DASHBOARD.ROOT,
-                                state: { from: props.location }
-                            }}
-                        />
-                    )
+                    <Redirect
+                        to={{
+                            pathname: Routes.DASHBOARD.ROOT,
+                            state: { from: props.location },
+                        }}
+                    />
+                )
             }
         />
     );
 });
-

@@ -15,7 +15,9 @@ export class DashboardSite extends React.Component {
                 <p>{t("screen.dashboard.hello")}</p>
                 <Button
                     variant="outlined"
-                    onClick={() => { setLocale("de") }}
+                    onClick={() => {
+                        setLocale("de");
+                    }}
                     style={{ marginRight: 8 }}
                     disabled={generalStore.locale === "de"}
                 >
@@ -23,7 +25,9 @@ export class DashboardSite extends React.Component {
                 </Button>
                 <Button
                     variant="outlined"
-                    onClick={() => { setLocale("en") }}
+                    onClick={() => {
+                        setLocale("en");
+                    }}
                     disabled={generalStore.locale === "en"}
                 >
                     {t("language.english")}

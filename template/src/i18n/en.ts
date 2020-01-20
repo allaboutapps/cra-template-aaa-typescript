@@ -10,7 +10,7 @@ const locale = {
     "screen.login.form.password.label": "Password",
     "screen.dashboard.hello": "Welcome",
     "language.german": "German",
-    "language.english": "English"
+    "language.english": "English",
 };
 
 export type IAvailableI18nIds = typeof locale;
