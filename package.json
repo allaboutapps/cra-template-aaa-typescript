@@ -1,7 +1,30 @@
 {
   "name": "cra-template-aaa-typescript",
-  "version": "1.0.7",
+  "version": "1.0.0",
   "description": "The base TypeScript template for AAA Create React App.",
   "main": "template.json",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/allaboutapps/cra-template-aaa-typescript.git"
+  },
+  "keywords": [
+    "create-react-app",
+    "cra-template",
+    "typescript",
+    "formik",
+    "yup",
+    "react-intl",
+    "apollo",
+    "react-router",
+    "mobx"
+  ],
+  "author": "allaboutapps",
+  "bugs": {
+    "url": "https://github.com/allaboutapps/cra-template-aaa-typescript/issues"
+  },
+  "homepage": "https://github.com/allaboutapps/cra-template-aaa-typescript#readme"
 }
