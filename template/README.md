@@ -11,7 +11,7 @@ This project was bootstrapped through `yarn create react-app my-app --scripts-ve
 - [`lodash`](https://npmjs.org/package/lodash)
 - [`hoist-non-react-statics`](https://npmjs.org/package/hoist-non-react-statics) (If you write your own Higher Order Components)
 - [`formik`](https://github.com/jaredpalmer/formik)
-- [`yup`](https://github.com/jquense/yup)
+- [`yup`](https://github.com/jquense/yup) (as validator for formik)
 - [`mobx`](https://npmjs.org/package/mobx) + [`mobx-react`](https://npmjs.org/package/mobx-react) + [`mobx-persist`](https://npmjs.org/package/mobx-persist) + [`localforage`](https://npmjs.org/package/localforage)
 - [`react-router`](https://npmjs.org/package/react-router)
 - [`apollo-client`](https://npmjs.org/package/apollo-client) + [`graphql-tag`](https://npmjs.org/package/graphql-tag) + [`apollo-cli`](https://www.npmjs.com/package/apollo)
