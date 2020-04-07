@@ -18,7 +18,6 @@
     "formik",
     "yup",
     "react-intl",
-    "apollo",
     "react-router",
     "mobx"
   ],

@@ -1,8 +1,6 @@
 import { observer } from "mobx-react";
 import * as React from "react";
-import { ApolloProvider } from "react-apollo";
 import { Route, Router, Switch } from "react-router-dom";
-import { graphqlClient } from "../../graphql/graphqlClient";
 import { generalStore } from "../../stores/GeneralStore";
 import { LoginSite } from "../sites/LoginSite";
 import { NotFoundSite } from "../sites/NotFoundSite";
@@ -15,7 +13,7 @@ import { Routes } from "./Routes";
 import { RoutingManager } from "./RoutingManager";
 
 export const AppRouter = observer(() => (
-    <ApolloProvider client={graphqlClient}>
+    <>
         <Router history={history}>
             <RoutingManager>
                 <Switch>
@@ -26,5 +24,5 @@ export const AppRouter = observer(() => (
             </RoutingManager>
         </Router>
         {generalStore.isLoading && <LoadingOverlay />}
-    </ApolloProvider>
+    </>
 ));

@@ -100,24 +100,6 @@ class Auth {
         }
     };
 
-    @action handleGQLUnauthorized = async (error: any) => {
-        if (error && error.networkError && error.networkError.statusCode === STATUS_CODE_UNAUTHORIZED) {
-            if (this.credentials) {
-                try {
-                    await this.tokenExchange();
-                } catch {
-                    this.wipe(null);
-                }
-            } else {
-                this.wipe(null);
-            }
-
-            return true;
-        }
-
-        return false;
-    };
-
     @action private wipe(error: AuthError | null) {
         this.credentials = null;
         this.error = error;
@@ -168,7 +150,7 @@ if (process.env.NODE_ENV === "test") {
                 console.log("rehydrated, no credentials are available.");
             }
         })
-        .catch(error => {
+        .catch((error) => {
             console.error(error);
         });
 }

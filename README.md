@@ -22,7 +22,6 @@ For more information, please refer to:
 ## Differences to the official TypeScript template
 
 - We strive to support Visual Studio Code as much as possible
-- GraphQL / Apollo webpack/scripts support
 - Easy overwrite of configurations through a local `craco.config.js` file in the project. Also see [Craco](https://github.com/gsoft-inc/craco)
 - Automatically installs compatible versions of popular libraries within our organization
 - Support for compile-time safe i18n through customized typings and utils in the projects

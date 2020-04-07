@@ -14,7 +14,6 @@ This project was bootstrapped through `yarn create react-app my-app --scripts-ve
 - [`yup`](https://github.com/jquense/yup) (as validator for formik)
 - [`mobx`](https://npmjs.org/package/mobx) + [`mobx-react`](https://npmjs.org/package/mobx-react) + [`mobx-persist`](https://npmjs.org/package/mobx-persist) + [`localforage`](https://npmjs.org/package/localforage)
 - [`react-router`](https://npmjs.org/package/react-router)
-- [`apollo-client`](https://npmjs.org/package/apollo-client) + [`graphql-tag`](https://npmjs.org/package/graphql-tag) + [`apollo-cli`](https://www.npmjs.com/package/apollo)
 
 ## Original READMEs
 
