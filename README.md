@@ -27,3 +27,11 @@ For more information, please refer to:
 - Support for compile-time safe i18n through customized typings and utils in the projects
 - Sample Login-Page in the frontend code
 - `eslintrc` is overwritable and still coming with full tslint support.
+
+## How tu publish a new version
+
+To publish new versions use np (https://www.npmjs.com/package/np).
+
+```sh
+npx np
+```
