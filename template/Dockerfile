@@ -20,10 +20,9 @@ RUN rm -f /usr/local/bin/yarn && \
     chmod +x ~/.yarn/bin/yarn && \
     ln -s ~/.yarn/bin/yarn /usr/local/bin/yarn
 
-# Copy only package.json, yarn.lock and .yarnrc first to properly leverage Docker build caching for node_modules, greatly speeds up build times
+# Copy only package.json and yarn.lock first to properly leverage Docker build caching for node_modules, greatly speeds up build times
 COPY package.json /app/package.json
 COPY yarn.lock /app/yarn.lock
-COPY .yarnrc /app/.yarnrc
 
 # Install all required modules first, `--production=false` is required since the default node image sets `NODE_ENV production`,
 # which causes yarn to not install any devDependencies. Node module install script will now be cached unless the package files are modified
