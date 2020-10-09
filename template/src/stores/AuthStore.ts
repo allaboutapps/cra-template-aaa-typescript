@@ -79,7 +79,7 @@ class Auth {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    refreshToken: this.credentials.refresh_token,
+                    refresh_token: this.credentials.refresh_token,
                 }),
             });
 
