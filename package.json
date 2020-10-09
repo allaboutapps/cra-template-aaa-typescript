@@ -1,6 +1,6 @@
 {
   "name": "cra-template-aaa-typescript",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "The base TypeScript template for AAA Create React App.",
   "main": "template.json",
   "license": "MIT",
