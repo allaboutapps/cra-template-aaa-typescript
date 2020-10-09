@@ -4,10 +4,10 @@ import * as config from "../config";
 import { API, STATUS_CODE_UNAUTHORIZED } from "../network/API";
 
 export interface ICredentials {
-    accessToken: string;
-    refreshToken: string;
-    expiresIn: number;
-    tokenType: string;
+    access_token: string;
+    refresh_token: string;
+    expires_in: number;
+    token_type: string;
 }
 
 export interface IProfile {
@@ -75,8 +75,11 @@ class Auth {
 
             const res = await fetch(`${config.API_BASE_URL}/api/v1/auth/refresh`, {
                 method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
                 body: JSON.stringify({
-                    refreshToken: this.credentials.refreshToken,
+                    refreshToken: this.credentials.refresh_token,
                 }),
             });
 
@@ -84,13 +87,13 @@ class Auth {
                 throw Error(`${res.status}: ${res.statusText}`);
             }
 
-            const { accessToken, refreshToken, expiresIn, tokenType } = await res.json();
+            const { access_token, refresh_token, expires_in, token_type } = await res.json();
 
             this.credentials = {
-                accessToken,
-                refreshToken,
-                expiresIn,
-                tokenType,
+                access_token,
+                refresh_token,
+                expires_in,
+                token_type,
             };
             this.error = null;
             this.isAuthenticated = true;
