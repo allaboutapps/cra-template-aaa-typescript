@@ -1,19 +1,29 @@
-import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
+import { shouldPolyfill } from "@formatjs/intl-pluralrules/should-polyfill";
+
+// https://formatjs.io/docs/polyfills/intl-pluralrules/#dynamic-import--capability-detection
+async function polyfill(locale: string) {
+    if (shouldPolyfill()) {
+        // Load the polyfill 1st BEFORE loading data
+        await import("@formatjs/intl-pluralrules/polyfill");
+    }
+
+    if ((Intl.PluralRules as typeof Intl.PluralRules & { polyfilled: boolean }).polyfilled) {
+        switch (locale) {
+            default:
+                await import("@formatjs/intl-pluralrules/locale-data/en");
+                break;
+            case "de":
+                await import("@formatjs/intl-pluralrules/locale-data/de");
+                break;
+        }
+    }
+}
 
 (async () => {
-    // Polyfill "Intl.PluralRules"
-    // https://github.com/formatjs/react-intl/blob/master/docs/Upgrade-Guide.md#migrate-to-using-native-intl-apis
-    if (!Intl.PluralRules) {
-        require("@formatjs/intl-pluralrules/polyfill-locales");
-    }
-
-    // Polyfill "Intl.PluralRules"
-    // https://github.com/formatjs/react-intl/blob/master/docs/Upgrade-Guide.md#migrate-to-using-native-intl-apis
-    if (!(Intl as any).RelativeTimeFormat) {
-        require("@formatjs/intl-relativetimeformat/polyfill-locales");
-    }
+    await polyfill("en");
+    await polyfill("de");
 
     const App = require("./App").default;
     require("./index.css");
