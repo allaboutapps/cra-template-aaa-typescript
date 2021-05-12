@@ -10,6 +10,7 @@ import { history } from "../routers/history";
 import { Routes } from "../routers/Routes";
 import { CustomInputField } from "../ui/CustomInputField";
 import { ImageLogo } from "../util/Images";
+import { Styles } from "../util/Styles";
 
 type IProps = {};
 type IState = {
@@ -79,7 +80,7 @@ export class LoginSite extends React.Component<IProps, IState> {
                 >
                     <div
                         style={{
-                            background: "rgb(253, 128, 72)",
+                            background: Styles.PRIMARY_COLOR,
                             color: "#fff",
                             textTransform: "uppercase",
                             padding: 24,
@@ -90,7 +91,7 @@ export class LoginSite extends React.Component<IProps, IState> {
                     >
                         {t("screen.login.title")}
                     </div>
-                    <div style={{ padding: 24, border: "1px solid rgb(253, 128, 72)", borderTop: "none" }}>
+                    <div style={{ padding: 24, border: `1px solid ${Styles.PRIMARY_COLOR}`, borderTop: "none" }}>
                         <Formik
                             initialValues={{
                                 email: "",
