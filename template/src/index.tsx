@@ -2,7 +2,6 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 
-// tslint:disable-next-line:no-floating-promises
 (async () => {
     // Polyfill "Intl.PluralRules"
     // https://github.com/formatjs/react-intl/blob/master/docs/Upgrade-Guide.md#migrate-to-using-native-intl-apis
