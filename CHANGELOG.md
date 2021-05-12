@@ -2,10 +2,17 @@
 
 ## 1.2.0
 
+## Added
+
 - Added `<ErrorMessage>` component
+
+### Updated
 
 - Updated all packages to latest version
 - Updated `README.md` with instructions on how to test template locally
+- Updated to node 14
+
+### Removed
 
 - Removed last `tslint` leftovers
 - Removed `launch.json` and `tasks.json`
