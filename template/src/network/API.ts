@@ -6,7 +6,7 @@ import { authStore, ICredentials } from "../stores/AuthStore";
 export const STATUS_CODE_UNAUTHORIZED = 401;
 
 const getAuthHeaders = () => ({
-    Authorization: `Bearer ${authStore.credentials && authStore.credentials.accessToken}`,
+    Authorization: `Bearer ${authStore.credentials && authStore.credentials.access_token}`,
 });
 
 const handleUnauthorizedError = (error: any): any => {
