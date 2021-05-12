@@ -21,14 +21,18 @@ For more information, please refer to:
 
 ## Differences to the official TypeScript template
 
-- We strive to support Visual Studio Code as much as possible
-- Easy overwrite of configurations through a local `craco.config.js` file in the project. Also see [Craco](https://github.com/gsoft-inc/craco)
-- Automatically installs compatible versions of popular libraries within our organization
-- Support for compile-time safe i18n through customized typings and utils in the projects
-- Sample Login-Page in the frontend code
-- `eslintrc` is overwritable and still coming with full tslint support.
+- We strive to support Visual Studio Code as much as possible.
+- Easy overwrite of configurations through a local `craco.config.js` file in the project. Also see [Craco](https://github.com/gsoft-inc/craco).
+- Automatically installs compatible versions of popular libraries within our organization.
+- Support for compile-time safe i18n through customized typings and utils in the projects.
+- Sample Login-Page in the frontend code.
+- `eslintrc` is overwritable.
 
-## How tu publish a new version
+## Development
+
+To test the template run `yarn test`. This will create a new project in `template-test`.
+
+## How to publish a new version
 
 To publish new versions use np (https://www.npmjs.com/package/np).
 

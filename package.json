@@ -5,7 +5,7 @@
   "main": "template.json",
   "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test": "rm -rf template-test && npx create-react-app template-test --template file:."
   },
   "repository": {
     "type": "git",
