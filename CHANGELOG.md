@@ -5,6 +5,7 @@
 ## Added
 
 - Added `<ErrorMessage>` component
+- Dynamic base name
 
 ### Updated
 

@@ -39,3 +39,25 @@ To publish new versions use np (https://www.npmjs.com/package/np).
 ```sh
 npx np
 ```
+
+## Testing template Dockerfile
+
+Run `yarn test` and then switch to the newly created folder.
+
+Run the following commands to build the image and run it:
+
+```sh
+docker build . \
+--build-arg REACT_APP_API_BASE_URL=http://localhost \
+--build-arg REACT_APP_DEPLOYMENT_ENV=dev:optimized \
+--build-arg REACT_APP_BASE_NAME=/webapp \
+--build-arg PUBLIC_URL=. \
+-t cra-template-aaa-typescript
+
+docker run -p 80:80 cra-template-aaa-typescript
+docker run -p 80:80 -e REACT_APP_BASE_NAME="/webapp" cra-template-aaa-typescript
+# http://localhost/webapp
+
+docker run -p 80:80 -e REACT_APP_BASE_NAME="/cms" cra-template-aaa-typescript
+# http://localhost/cms
+```

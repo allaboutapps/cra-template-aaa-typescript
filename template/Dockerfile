@@ -67,8 +67,17 @@ RUN set -e \
 FROM nginx:alpine as runner
 EXPOSE 80
 
+# Copy entrypoint script for replacing API base URL dynamically via environment variable
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh
+
 # Copy default nginx config in repo
 COPY nginx-default.conf /etc/nginx/conf.d/default.conf
 
-# Copy only minified build files f rom builder setup
-COPY --from=builder /app/build /usr/share/nginx/html
+# Copy only minified build files from builder setup
+COPY --from=builder /app/build /etc/nginx/html
+
+# Entrypoint ensures correct API base URL is set via environment variables on runtime
+ENTRYPOINT [ "/app/docker-entrypoint.sh" ]
+
+CMD ["nginx", "-g", "daemon off;"]
