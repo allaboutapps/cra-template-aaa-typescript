@@ -32,7 +32,7 @@ For more information, please refer to:
 
 To test the template run `yarn test`. This will create a new project in `template-test`.
 
-## How to publish a new version
+### How to publish a new version
 
 To publish new versions use np (https://www.npmjs.com/package/np).
 
@@ -40,9 +40,9 @@ To publish new versions use np (https://www.npmjs.com/package/np).
 npx np
 ```
 
-## Testing template Dockerfile
+### Testing template Dockerfile
 
-Run `yarn test` and then switch to the newly created folder.
+Run `yarn test` and then switch to the newly created folder `template-test`.
 
 Run the following commands to build the image and run it:
 
@@ -55,6 +55,8 @@ docker build . \
 -t cra-template-aaa-typescript
 
 docker run -p 80:80 cra-template-aaa-typescript
+# http://localhost/webapp
+
 docker run -p 80:80 -e REACT_APP_BASE_NAME="/webapp" cra-template-aaa-typescript
 # http://localhost/webapp
 
