@@ -51,11 +51,12 @@ docker build . \
 --build-arg REACT_APP_API_BASE_URL=http://localhost \
 --build-arg REACT_APP_DEPLOYMENT_ENV=dev:optimized \
 --build-arg REACT_APP_BASE_NAME=/webapp \
+--build-arg REACT_APP_COMMIT_HASH=main_d00faffe \
 --build-arg PUBLIC_URL=. \
 -t cra-template-aaa-typescript
 
 docker run -p 80:80 cra-template-aaa-typescript
-# http://localhost/webapp
+# http://localhost
 
 docker run -p 80:80 -e REACT_APP_BASE_NAME="/webapp" cra-template-aaa-typescript
 # http://localhost/webapp

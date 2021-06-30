@@ -61,6 +61,7 @@ alias:
           --build-arg REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL} \
           --build-arg REACT_APP_DEPLOYMENT_ENV=${REACT_APP_DEPLOYMENT_ENV} \
           --build-arg REACT_APP_BASE_NAME=${REACT_APP_BASE_NAME} \
+          --build-arg REACT_APP_COMMIT_HASH=${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10} \
           --build-arg PUBLIC_URL=${PUBLIC_URL}
 
 # The actual pipeline building our product

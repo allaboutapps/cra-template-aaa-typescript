@@ -28,6 +28,12 @@ async function polyfill(locale: string) {
     const App = require("./App").default;
     require("./index.css");
 
+    // Add commit hash as header comment for deployed versions
+    const version = document.createComment(
+        `Version ${process.env.REACT_APP_COMMIT_HASH} @ ${process.env.REACT_APP_BUILD_DATE}`,
+    );
+    document.head.prepend(version);
+
     ReactDOM.render(<App />, document.getElementById("root"));
 
     // If you want your app to work offline and load faster, you can change

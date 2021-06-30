@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.0
+
+## Added
+
+- For drone builds: add git branch, hash and build time as comment to <head> section
+
 ## 1.2.0
 
 ## Added

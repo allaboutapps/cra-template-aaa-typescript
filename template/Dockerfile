@@ -41,6 +41,7 @@ COPY . /app/
 ARG REACT_APP_API_BASE_URL
 ARG REACT_APP_DEPLOYMENT_ENV
 ARG REACT_APP_BASE_NAME
+ARG REACT_APP_COMMIT_HASH
 ARG PUBLIC_URL
 ARG NODE_ENV=production
 
@@ -55,6 +56,8 @@ RUN set -e \
     && export REACT_APP_API_BASE_URL=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_API_BASE_URL") \
     && export REACT_APP_DEPLOYMENT_ENV=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_DEPLOYMENT_ENV") \
     && export REACT_APP_BASE_NAME=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_BASE_NAME") \
+    && export REACT_APP_COMMIT_HASH=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_COMMIT_HASH") \
+    && export REACT_APP_BUILD_DATE=$(TZ=":Europe/Vienna" date) \
     && export PUBLIC_URL=$(sed -e 's/^"//' -e 's/"$//' <<<"$PUBLIC_URL") \
     && export NODE_ENV=$(sed -e 's/^"//' -e 's/"$//' <<<"$NODE_ENV") \
     && yarn build
