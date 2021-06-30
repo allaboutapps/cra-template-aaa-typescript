@@ -34,6 +34,8 @@ To test the template run `yarn test`. This will create a new project in `templat
 
 ### How to publish a new version
 
+**DO NOT** increase the build version in `package.json` and don't add a git tag. `npx np` will do that for you in the next step.
+
 To publish new versions use np (https://www.npmjs.com/package/np).
 
 ```sh
