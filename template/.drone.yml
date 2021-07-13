@@ -11,7 +11,7 @@ matrix:
       REACT_APP_API_BASE_URL: https://your-public-url-dev.example.com
       REACT_APP_DEPLOYMENT_ENV: dev:optimized
       REACT_APP_BASE_NAME: /cms
-      PUBLIC_URL: https://your-public-url-dev.example.com/cms
+      PUBLIC_URL: .
       BUILD_WHEN_BRANCH_IS: ""
       DISCARD_WHEN_BRANCH_IS: "[ master, staging ]"
 

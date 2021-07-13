@@ -2,6 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+
+    <!-- This is needed because for dynamic deployment we use PUBLIC_URL of ".". <base> makes sure relative paths resolve
+         correctly and is patched in drone-entrypoint.sh with REACT_APP_BASE_NAME -->
+    <base href="/" />
+
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
@@ -24,7 +29,7 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
 
-    <script src="./config.js" type="application/javascript"></script>
+    <script src="%PUBLIC_URL%/config.js" type="application/javascript"></script>
 
     <title>TODO React App</title>
   </head>

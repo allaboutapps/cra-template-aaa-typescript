@@ -12,3 +12,6 @@ export const API_BASE_URL = (
     _.isEmpty(ENV_API_BASE_URL) ? process.env.REACT_APP_API_BASE_URL : ENV_API_BASE_URL
 ) as string;
 export const BASE_NAME = (_.isEmpty(ENV_BASE_NAME) ? process.env.REACT_APP_BASE_NAME : ENV_BASE_NAME) as string;
+
+// This is the actual complete public URL during runtime of the deployed frontend app
+export const PUBLIC_URL = window.location.origin + BASE_NAME;
