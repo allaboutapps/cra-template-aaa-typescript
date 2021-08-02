@@ -1,9 +1,9 @@
 import { observer } from "mobx-react";
 import * as React from "react";
 import { Redirect, Route } from "react-router-dom";
-import { authStore } from "../../stores/AuthStore";
+import { authStore } from "../../../stores/AuthStore";
 import { Routes } from "./Routes";
-import { LoadingOverlay } from "../ui/LoadingOverlay";
+import { LoadingOverlay } from "../../ui/LoadingOverlay";
 
 export const PrivateRoute = observer(({ component: Component, ...props }: any) => {
     if (!authStore.isRehydrated) {
@@ -17,13 +17,13 @@ export const PrivateRoute = observer(({ component: Component, ...props }: any) =
                 authStore.isAuthenticated ? (
                     <Component {...props} />
                 ) : (
-                        <Redirect
-                            to={{
-                                pathname: Routes.ROOT,
-                                state: { from: props.location },
-                            }}
-                        />
-                    )
+                    <Redirect
+                        to={{
+                            pathname: Routes.ROOT,
+                            state: { from: props.location },
+                        }}
+                    />
+                )
             }
         />
     );
