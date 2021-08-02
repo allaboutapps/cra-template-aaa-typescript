@@ -3,7 +3,7 @@ import * as React from "react";
 import { Route, Router, Switch } from "react-router-dom";
 import { generalStore } from "../../../stores/GeneralStore";
 import { LoginSite } from "../../auth/sites/LoginSite";
-import { NotFoundSite } from "../../dashboard/sites/NotFoundSite";
+import { NotFoundSite } from "../../shared/NotFoundSite";
 import { LoadingOverlay } from "../../ui/LoadingOverlay";
 import { DashboardRouter } from "../../dashboard/router/DashboardRouter";
 import { NoAuthOnlyRoute } from "./NoAuthOnlyRoute";

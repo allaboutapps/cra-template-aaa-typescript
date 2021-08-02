@@ -1,5 +1,5 @@
 import { Route, Switch } from "react-router-dom";
-import { NotFoundSite } from "../../dashboard/sites/NotFoundSite";
+import { NotFoundSite } from "../../shared/NotFoundSite";
 
 export const AuthRouter = () => (
     <Switch>
