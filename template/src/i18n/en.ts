@@ -1,4 +1,5 @@
 const locale = {
+    "common.logout": "Logout",
     "screen.not_found.title": "The site could not be found.",
     "screen.login.title": "Login",
     "screen.login.invalid_password_or_email": "The password or email address is invalid.",
