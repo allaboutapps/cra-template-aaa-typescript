@@ -20,3 +20,8 @@ RUN rm -f /usr/local/bin/yarn && \
     ln -s ~/.yarn/bin/yarn /usr/local/bin/yarn
 
 RUN yarn global add create-react-app
+
+
+COPY package.json /cra-template/package.json
+COPY template /cra-template/template
+COPY template.json /cra-template/template.json
