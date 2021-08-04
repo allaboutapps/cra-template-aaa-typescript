@@ -13,7 +13,6 @@ matrix:
 # Will be evaluated WHILE the YAML is parsed, any valid yaml allowed, substitutions ${XXX} allowed.
 
 alias:
-
   # Which build events should trigger the main pipeline (defaults to all)
   - &BUILD_EVENTS [push, pull_request, tag]
 
@@ -24,7 +23,6 @@ alias:
 
 # The actual pipeline building our product
 pipeline:
-
   # ---------------------------------------------------------------------------
   # BUILD Monorepo
   # ---------------------------------------------------------------------------
@@ -58,17 +56,16 @@ pipeline:
       - yarn build
     <<: *WHEN_BUILD_EVENT
 
-  "test (scaffolded project)":
-    group: check
-    image: ${DRONE_REPO,,}-monorepo
-    commands:
-      - cd my-app-ci
-      - yarn test
-    <<: *WHEN_BUILD_EVENT
+  #"test (scaffolded project)":
+  #  group: check
+  #  image: ${DRONE_REPO,,}-monorepo
+  #  commands:
+  #    - cd my-app-ci
+  #    - yarn test
+  #  <<: *WHEN_BUILD_EVENT
 
 # Long living services where the startup order does not matter (otherwise use detach: true)
 services:
-
   # ---------------------------------------------------------------------------
   # SERVICES
   # ---------------------------------------------------------------------------
