@@ -1,0 +1,29 @@
+name: Build & Test
+
+on:
+  push:
+    branches: "**"
+  pull_request:
+    branches: [master]
+# env:
+#   DOCKER_ENV_FILE: ".github/workflows/docker.env"
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    # services:
+    #   alpine:
+    #     image: alpine
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: docker build
+        uses: docker/build-push-action@v2
+        with:
+          push: false
+          tags: allaboutapps.dev/cra-template:${{ github.sha }}
+          # volumes: /var/run/docker.sock:/var/run/docker.sock
+      - name: docker run
+        run: docker run -d --name=container -it allaboutapps.dev/cra-template:${{ github.sha }}
+      - name: create-react-app
+        run: docker exec container yarn create react-app my-app-ci --template file://cra-template/
+      - name: build (scaffolded project)
+        run: docker exec container bash -c "cd my-app-ci && yarn build"
