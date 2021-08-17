@@ -1,4 +1,5 @@
-# `cra-template-aaa-typescript` [![npm version](https://badge.fury.io/js/cra-template-aaa-typescript.svg)](https://badge.fury.io/js/cra-template-aaa-typescript)
+# `cra-template-aaa-typescript` [![npm version](https://badge.fury.io/js/cra-template-aaa-typescript.svg)](https://badge.fury.io/js/cra-template-aaa-typescript) [![Build and Test](https://github.com/allaboutapps/cra-template-aaa-typescript/actions/workflows/build-test.yaml/badge.svg)](https://github.com/allaboutapps/cra-template-aaa-typescript/actions)
+
 
 This is the aaa TypeScript template for [Create React App](https://github.com/facebook/create-react-app).
 
