@@ -16,7 +16,7 @@ interface ILoginValues {
     password: string;
 }
 
-export const LoginSite = observer(() => {
+export const AuthLoginSite = observer(() => {
     const [error, setError] = React.useState<string>();
 
     const submit = async (model: ILoginValues) => {
