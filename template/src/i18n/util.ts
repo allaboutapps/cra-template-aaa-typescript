@@ -1,7 +1,7 @@
 import { PrimitiveType } from "intl-messageformat";
 import { createIntl, createIntlCache } from "react-intl";
-import deMessages from "./de";
-import enMessages, { IAvailableI18nIds } from "./en";
+import { german } from "./de";
+import { english } from "./en";
 import { generalStore } from "../stores/GeneralStore";
 import { ILocales } from "./ILocales";
 
@@ -14,8 +14,8 @@ type IMessages = {
 };
 
 const intlMessages: IMessages = {
-    en: enMessages,
-    de: deMessages,
+    de: german,
+    en: english,
 };
 
 const cache = createIntlCache();
@@ -28,7 +28,7 @@ let intl = createIntl(
     cache,
 );
 
-type MessageIDS = keyof IAvailableI18nIds;
+type MessageIDS = keyof typeof german;
 
 const setLocale = (locale: ILocales) => {
     intl = createIntl(

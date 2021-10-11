@@ -1,4 +1,4 @@
-const locale = {
+const english = {
     "common.logout": "Logout",
     "screen.not_found.title": "The site could not be found.",
     "screen.login.title": "Login",
@@ -14,5 +14,4 @@ const locale = {
     "language.english": "English",
 };
 
-export type IAvailableI18nIds = typeof locale;
-export default locale;
+export { english };
