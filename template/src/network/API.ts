@@ -1,6 +1,7 @@
 /* eslint-disable no-throw-literal */
 
 import * as Config from "../config";
+import { APIError } from "../errors/APIError";
 import { authStore, ICredentials } from "../stores/AuthStore";
 
 export const STATUS_CODE_UNAUTHORIZED = 401;
@@ -31,10 +32,7 @@ export const API = {
             });
 
             if (!response.ok) {
-                throw {
-                    statusCode: response.status,
-                    statusText: response.statusText,
-                };
+                throw new APIError(response.status, response.statusText);
             }
 
             return response.json();

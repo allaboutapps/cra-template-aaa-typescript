@@ -1,6 +1,7 @@
 import { action, observable } from "mobx";
 import { create, persist } from "mobx-persist";
 import * as config from "../config";
+import { APIError } from "../errors/APIError";
 import { API, STATUS_CODE_UNAUTHORIZED } from "../network/API";
 
 export interface ICredentials {
@@ -53,10 +54,12 @@ class Auth {
         } catch (error) {
             this.isLoading = false;
 
-            if (error.statusCode === STATUS_CODE_UNAUTHORIZED) {
-                this.wipe("PasswordWrong");
-            } else {
-                this.wipe("Unknown");
+            if (error instanceof APIError) {
+                if (error.statusCode === STATUS_CODE_UNAUTHORIZED) {
+                    this.wipe("PasswordWrong");
+                } else {
+                    this.wipe("Unknown");
+                }
             }
         }
     };
