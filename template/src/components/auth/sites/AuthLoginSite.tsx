@@ -19,7 +19,7 @@ interface ILoginValues {
 export const AuthLoginSite = observer(() => {
     const [error, setError] = React.useState<string>();
 
-    const submit = async (model: ILoginValues) => {
+    const handleSubmit = async (model: ILoginValues) => {
         generalStore.setIsLoading(true);
         setError("");
 
@@ -87,7 +87,7 @@ export const AuthLoginSite = observer(() => {
                             email: "",
                             password: "",
                         }}
-                        onSubmit={submit}
+                        onSubmit={handleSubmit}
                         validationSchema={Yup.object().shape({
                             email: Yup.string()
                                 .email(t("screen.login.form.email.validation_error"))
