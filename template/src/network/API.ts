@@ -10,7 +10,7 @@ const getAuthHeaders = () => ({
     Authorization: `Bearer ${authStore.credentials && authStore.credentials.access_token}`,
 });
 
-const handleUnauthorizedError = (error: any): any => {
+const handleUnauthorizedError = (error: APIError) => {
     if (error.statusCode && error.statusCode === STATUS_CODE_UNAUTHORIZED) {
         authStore.logout();
     }
@@ -37,7 +37,9 @@ export const API = {
 
             return response.json();
         } catch (error) {
-            handleUnauthorizedError(error);
+            if (error instanceof APIError) {
+                handleUnauthorizedError(error);
+            }
             throw error;
         }
     },

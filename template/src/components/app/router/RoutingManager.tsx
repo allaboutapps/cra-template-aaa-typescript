@@ -5,7 +5,7 @@ export const RoutingManager = ({ children }: { children: React.ReactNode }) => {
     const [lastLocation, setLastLocation] = React.useState(history.location);
 
     React.useEffect(() => {
-        history.listen((location: any, action: any) => {
+        history.listen((location, action) => {
             if (location !== lastLocation) {
                 console.log(
                     `%cSwitching url to "${location.pathname}${location.search}${location.hash}" by action ${action}.`,
