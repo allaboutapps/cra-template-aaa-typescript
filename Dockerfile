@@ -1,5 +1,5 @@
 # Note that this is used as build environment for the stack project, not an actual running project
-FROM node:10
+FROM node:16
 
 # Lerna uses git for its diffing and publishing operations
 RUN apt-get update \
