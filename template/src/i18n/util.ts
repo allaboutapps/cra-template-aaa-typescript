@@ -39,7 +39,7 @@ const setLocale = (locale: ILocales) => {
         cache,
     );
 
-    generalStore.locale = locale;
+    generalStore.setLocale(locale);
 
     console.log(`%cSet locale to "${locale}".`, "background: #eee; color: #666;");
 };

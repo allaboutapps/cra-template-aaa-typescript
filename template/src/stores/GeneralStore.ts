@@ -1,10 +1,22 @@
-import { observable } from "mobx";
-import { DEFAULT_LOCALE } from "../i18n/util";
+import { makeAutoObservable } from "mobx";
 import { ILocales } from "../i18n/ILocales";
+import { DEFAULT_LOCALE } from "../i18n/util";
 
 class GeneralStore {
-    @observable locale: ILocales = DEFAULT_LOCALE;
-    @observable isLoading = false;
+    locale: ILocales = DEFAULT_LOCALE;
+    isLoading = false;
+
+    constructor() {
+        makeAutoObservable(this);
+    }
+
+    setIsLoading = (isLoading: boolean) => {
+        this.isLoading = isLoading;
+    };
+
+    setLocale = (locale: ILocales) => {
+        this.locale = locale;
+    };
 }
 
 const generalStore = new GeneralStore();

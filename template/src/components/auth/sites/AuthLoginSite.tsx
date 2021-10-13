@@ -1,16 +1,16 @@
 import { Button } from "@mui/material";
-import { Field, Formik, Form } from "formik";
+import { Field, Form, Formik } from "formik";
 import { observer } from "mobx-react";
 import * as React from "react";
 import * as Yup from "yup";
 import { t } from "../../../i18n/util";
 import { authStore } from "../../../stores/AuthStore";
 import { generalStore } from "../../../stores/GeneralStore";
+import { history } from "../../app/router/history";
+import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
 import { CustomInputField } from "../../ui/CustomInputField";
 import { ImageLogo } from "../../util/Images";
 import { Styles } from "../../util/Styles";
-import { history } from "../../app/router/history";
-import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
 interface ILoginValues {
     email: string;
     password: string;
@@ -20,7 +20,7 @@ export const AuthLoginSite = observer(() => {
     const [error, setError] = React.useState<string>();
 
     const submit = async (model: ILoginValues) => {
-        generalStore.isLoading = true;
+        generalStore.setIsLoading(true);
         setError("");
 
         try {
@@ -38,7 +38,7 @@ export const AuthLoginSite = observer(() => {
             setError(t("screen.login.error_during_login"));
         }
 
-        generalStore.isLoading = false;
+        generalStore.setIsLoading(false);
     };
 
     if (!authStore.isRehydrated) {
