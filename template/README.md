@@ -1,6 +1,14 @@
-# aaa-react-scripts-ts
+# cra-template-aaa-typescript
 
-This project was bootstrapped through `yarn create react-app my-app --scripts-version=aaa-react-scripts-ts`, a customized react template project generator for [at all about apps](https://allaboutapps.at).
+This project was bootstrapped from a customized react template for `create-react-app` via
+
+```sh
+npx create-react-app my-app --template aaa-typescript
+
+# or
+
+yarn create react-app my-app --template aaa-typescript
+```
 
 ## Additional dependencies
 
@@ -17,6 +25,8 @@ This project was bootstrapped through `yarn create react-app my-app --scripts-ve
 
 ## Original READMEs
 
-[Create React App](https://github.com/facebookincubator/create-react-app).
+[cra-template-aaa-typescript](https://github.com/allaboutapps/cra-template-aaa-typescript/blob/master/README.md)
 
-The most recent version of the Create React App guides can be found [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
+[Create React App](https://github.com/facebook/create-react-app).
+
+The most recent version of the Create React App guides can be found [here](https://github.com/facebook/create-react-app/blob/main/packages/cra-template/template/README.md).
