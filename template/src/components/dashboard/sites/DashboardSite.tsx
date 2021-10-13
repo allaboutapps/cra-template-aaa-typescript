@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { t, setLocale } from "../../../i18n/util";

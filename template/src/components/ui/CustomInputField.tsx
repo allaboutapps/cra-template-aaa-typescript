@@ -1,4 +1,4 @@
-import TextField, { TextFieldProps } from "@material-ui/core/TextField";
+import { TextField, TextFieldProps } from "@mui/material";
 import { FieldInputProps } from "formik";
 import * as React from "react";
 
@@ -35,10 +35,11 @@ export const CustomInputField = ({
                 error={showError}
                 margin="dense"
                 aria-label={props["aria-label"]}
+                variant="standard"
             />
             <span
                 style={{
-                    color: "#f00",
+                    color: "#d32f2f",
                     display: "block",
                     minHeight: 18,
                     width: "100%",

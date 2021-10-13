@@ -1,4 +1,4 @@
-import { createTheme } from "@material-ui/core/styles";
+import { createTheme } from "@mui/material";
 import { Styles } from "./Styles";
 
 export const theme = createTheme({
@@ -10,13 +10,15 @@ export const theme = createTheme({
             main: Styles.PRIMARY_COLOR,
         },
     },
-    overrides: {
+    components: {
         MuiButton: {
-            contained: {
-                backgroundColor: Styles.PRIMARY_COLOR,
-                color: "white",
-                "&:hover": {
-                    backgroundColor: Styles.PRIMARY_COLOR_ACTIVE,
+            styleOverrides: {
+                contained: {
+                    backgroundColor: Styles.PRIMARY_COLOR,
+                    color: "white",
+                    "&:hover": {
+                        backgroundColor: Styles.PRIMARY_COLOR_ACTIVE,
+                    },
                 },
             },
         },

@@ -1,4 +1,4 @@
-import { MuiThemeProvider } from "@material-ui/core";
+import { ThemeProvider } from "@mui/material";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { RawIntlProvider } from "react-intl";
@@ -9,11 +9,11 @@ import { generalStore } from "./stores/GeneralStore";
 
 const App: React.FunctionComponent = observer(() => {
     return (
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
             <RawIntlProvider value={intl} key={generalStore.locale}>
                 <AppRouter />
             </RawIntlProvider>
-        </MuiThemeProvider>
+        </ThemeProvider>
     );
 });
 
