@@ -21,7 +21,7 @@ export const AppRouter = observer(() => (
                     <NoAuthOnlyRoute exact path={Routes.ROOT}>
                         <AuthLoginSite />
                     </NoAuthOnlyRoute>
-                    <PrivateRoute exact path={DashboardRoutes.ROOT}>
+                    <PrivateRoute path={DashboardRoutes.ROOT}>
                         <DashboardContainerSite />
                     </PrivateRoute>
                 </CustomSwitch>

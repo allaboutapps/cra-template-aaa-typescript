@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { t } from "../../../i18n/util";
 import { authStore } from "../../../stores/AuthStore";
 import { generalStore } from "../../../stores/GeneralStore";
-import { history } from "../../app/router/history";
+import { pushRoute } from "../../app/router/history";
 import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
 import { CustomInputField } from "../../ui/CustomInputField";
 import { ImageLogo } from "../../util/Images";
@@ -32,7 +32,7 @@ export const AuthLoginSite = observer(() => {
                     setError(t("screen.login.error_during_login"));
                 }
             } else {
-                history.push(DashboardRoutes.ROOT);
+                pushRoute(DashboardRoutes.ROOT);
             }
         } catch (error) {
             setError(t("screen.login.error_during_login"));

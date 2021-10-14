@@ -1,11 +1,11 @@
 import { Button } from "@mui/material";
 import { observer } from "mobx-react";
 import * as React from "react";
-import { t, setLocale } from "../../../i18n/util";
-import { generalStore } from "../../../stores/GeneralStore";
+import { setLocale, t } from "../../../i18n/util";
 import { authStore } from "../../../stores/AuthStore";
+import { generalStore } from "../../../stores/GeneralStore";
+import { pushRoute } from "../../app/router/history";
 import { Routes } from "../../app/router/Routes";
-import { history } from "../../app/router/history";
 
 export const DashboardSite = observer(() => {
     return (
@@ -34,7 +34,7 @@ export const DashboardSite = observer(() => {
                 <Button
                     onClick={() => {
                         authStore.logout();
-                        history.push(Routes.ROOT);
+                        pushRoute(Routes.ROOT);
                     }}
                 >
                     {t("common.logout")}
