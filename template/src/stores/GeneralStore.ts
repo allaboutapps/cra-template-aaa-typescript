@@ -13,10 +13,6 @@ class GeneralStore {
     setIsLoading = (isLoading: boolean) => {
         this.isLoading = isLoading;
     };
-
-    setLocale = (locale: ILocales) => {
-        this.locale = locale;
-    };
 }
 
 const generalStore = new GeneralStore();

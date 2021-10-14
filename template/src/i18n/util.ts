@@ -4,6 +4,7 @@ import { german } from "./de";
 import { english } from "./en";
 import { generalStore } from "../stores/GeneralStore";
 import { ILocales } from "./ILocales";
+import { action } from "mobx";
 
 const DEFAULT_LOCALE = "en";
 
@@ -30,7 +31,7 @@ let intl = createIntl(
 
 type MessageIDS = keyof typeof german;
 
-const setLocale = (locale: ILocales) => {
+const setLocale = action("setLocale", (locale: ILocales) => {
     intl = createIntl(
         {
             locale: locale,
@@ -39,11 +40,11 @@ const setLocale = (locale: ILocales) => {
         cache,
     );
 
-    generalStore.setLocale(locale);
+    generalStore.locale = locale;
     document.documentElement.lang = locale;
 
     console.log(`%cSet locale to "${locale}".`, "background: #eee; color: #666;");
-};
+});
 
 const t = (messageId: MessageIDS, values?: Record<string, PrimitiveType>) => {
     return intl.formatMessage({ id: messageId }, values);
