@@ -5,14 +5,21 @@ import { RawIntlProvider } from "react-intl";
 import { AppRouter } from "./components/app/router/AppRouter";
 import { theme } from "./components/util/Theme";
 import { intl } from "./i18n/util";
+import { authStore } from "./stores/AuthStore";
 import { generalStore } from "./stores/GeneralStore";
 
-const App: React.FunctionComponent = observer(() => (
-    <ThemeProvider theme={theme}>
-        <RawIntlProvider value={intl} key={generalStore.locale}>
-            <AppRouter />
-        </RawIntlProvider>
-    </ThemeProvider>
-));
+const App: React.FunctionComponent = observer(() => {
+    if (!authStore.isRehydrated) {
+        return null;
+    }
+
+    return (
+        <ThemeProvider theme={theme}>
+            <RawIntlProvider value={intl} key={generalStore.locale}>
+                <AppRouter />
+            </RawIntlProvider>
+        </ThemeProvider>
+    );
+});
 
 export default App;

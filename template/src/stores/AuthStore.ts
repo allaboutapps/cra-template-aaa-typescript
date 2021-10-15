@@ -1,6 +1,6 @@
 import localforage from "localforage";
 import { makeAutoObservable, runInAction } from "mobx";
-import { isHydrated, makePersistable } from "mobx-persist-store";
+import { makePersistable } from "mobx-persist-store";
 import * as config from "../config";
 import { APIError } from "../errors/APIError";
 import { API, STATUS_CODE_UNAUTHORIZED } from "../network/API";
@@ -28,32 +28,42 @@ class Auth {
     isAuthenticated = false;
     isLoading = false;
     globalLegalUpdatedAt: string | null = null;
+    isRehydrated = false;
 
     constructor() {
         makeAutoObservable(this);
+        this.initPersistence();
+    }
 
-        makePersistable(this, {
-            name: "auth",
-            properties: ["credentials", "userProfile", "username"],
-            storage: localforage,
-        }).then(() => {
+    initPersistence = async () => {
+        try {
+            await makePersistable(this, {
+                name: "auth",
+                properties: ["credentials", "userProfile", "username"],
+                storage: localforage,
+            });
+
             if (this.credentials !== null) {
-                this.tokenExchange()
-                    .then(() => {
-                        console.log("hydrate.auth: received new token!");
-                    })
-                    .catch(() => {
-                        console.log("hydrate.auth: failed to receive new token!");
-                    });
+                console.log("hydrate.auth: credentials are available, awaiting new token...");
+
+                try {
+                    await this.tokenExchange();
+                    console.log("hydrate.auth: received new token!");
+                } catch (error) {
+                    console.log("hydrate.auth: failed to receive new token!");
+                    throw error;
+                }
             } else {
                 console.log("rehydrated, no credentials are available.");
             }
-        });
-    }
-
-    get isRehydrated() {
-        return isHydrated(this);
-    }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            runInAction(() => {
+                this.isRehydrated = true;
+            });
+        }
+    };
 
     loginWithPassword = async (username: string, password: string) => {
         if (this.isLoading) {
@@ -133,7 +143,7 @@ class Auth {
                 this.isAuthenticated = true;
                 this.isLoading = false;
             });
-        } catch (e) {
+        } catch (error) {
             this.wipe("Unknown");
         }
     };
