@@ -1,4 +1,4 @@
-const german = {
+{
     "common.logout": "Logout",
     "screen.not_found.title": "Die Seite konnte leider nicht gefunden werden.",
     "screen.login.title": "Login",
@@ -11,7 +11,5 @@ const german = {
     "screen.login.form.password.label": "Passwort",
     "screen.dashboard.hello": "Willkommen",
     "language.german": "Deutsch",
-    "language.english": "Englisch",
-};
-
-export { german };
+    "language.english": "Englisch"
+}

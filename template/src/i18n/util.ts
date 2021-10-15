@@ -1,7 +1,7 @@
 import { PrimitiveType } from "intl-messageformat";
 import { createIntl, createIntlCache } from "react-intl";
-import { german } from "./de";
-import { english } from "./en";
+import german from "./de.json";
+import english from "./en.json";
 import { generalStore } from "../stores/GeneralStore";
 import { ILocales } from "./ILocales";
 import { action } from "mobx";
