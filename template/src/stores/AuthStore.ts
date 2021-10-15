@@ -51,7 +51,6 @@ class Auth {
                     console.log("hydrate.auth: received new token!");
                 } catch (error) {
                     console.log("hydrate.auth: failed to receive new token!");
-                    throw error;
                 }
             } else {
                 console.log("rehydrated, no credentials are available.");
