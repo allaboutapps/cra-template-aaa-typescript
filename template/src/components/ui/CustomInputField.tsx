@@ -1,6 +1,7 @@
-import TextField, { TextFieldProps } from "@material-ui/core/TextField";
+import { TextField, TextFieldProps } from "@mui/material";
 import { FieldInputProps } from "formik";
 import * as React from "react";
+import { FieldError } from "./FieldError";
 
 type IProps = TextFieldProps & {
     errorMessage?: string;
@@ -35,20 +36,9 @@ export const CustomInputField = ({
                 error={showError}
                 margin="dense"
                 aria-label={props["aria-label"]}
+                variant="standard"
             />
-            <span
-                style={{
-                    color: "#f00",
-                    display: "block",
-                    minHeight: 18,
-                    width: "100%",
-                    marginTop: 4,
-                    marginBottom: 10,
-                    fontSize: 12,
-                }}
-            >
-                {showError && errorMessage}
-            </span>
+            <FieldError>{showError ? errorMessage : ""}</FieldError>
         </div>
     );
 };

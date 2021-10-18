@@ -1,6 +1,8 @@
-import { action, observable } from "mobx";
-import { create, persist } from "mobx-persist";
+import localforage from "localforage";
+import { makeAutoObservable, runInAction } from "mobx";
+import { makePersistable } from "mobx-persist-store";
 import * as config from "../config";
+import { APIError } from "../errors/APIError";
 import { API, STATUS_CODE_UNAUTHORIZED } from "../network/API";
 
 export interface ICredentials {
@@ -19,16 +21,50 @@ export interface IProfile {
 export type AuthError = "PasswordWrong" | "Unknown";
 
 class Auth {
-    @persist("object") @observable credentials: ICredentials | null = null;
-    @persist("object") @observable userProfile: IProfile | null = null;
-    @persist @observable username = "";
-    @observable error: AuthError | null = null;
-    @observable isAuthenticated = false;
-    @observable isLoading = false;
-    @observable isRehydrated = false;
-    @observable globalLegalUpdatedAt: string | null = null;
+    credentials: ICredentials | null = null;
+    userProfile: IProfile | null = null;
+    username = "";
+    error: AuthError | null = null;
+    isAuthenticated = false;
+    isLoading = false;
+    globalLegalUpdatedAt: string | null = null;
+    isRehydrated = false;
 
-    @action loginWithPassword = async (username: string, password: string) => {
+    constructor() {
+        makeAutoObservable(this);
+        this.initPersistence();
+    }
+
+    initPersistence = async () => {
+        try {
+            await makePersistable(this, {
+                name: "auth",
+                properties: ["credentials", "userProfile", "username"],
+                storage: localforage,
+            });
+
+            if (this.credentials !== null) {
+                console.log("hydrate.auth: credentials are available, awaiting new token...");
+
+                try {
+                    await this.tokenExchange();
+                    console.log("hydrate.auth: received new token!");
+                } catch (error) {
+                    console.log("hydrate.auth: failed to receive new token!");
+                }
+            } else {
+                console.log("rehydrated, no credentials are available.");
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            runInAction(() => {
+                this.isRehydrated = true;
+            });
+        }
+    };
+
+    loginWithPassword = async (username: string, password: string) => {
         if (this.isLoading) {
             // bailout, noop
             return;
@@ -42,30 +78,36 @@ class Auth {
                 password: password,
             });
 
-            this.error = null;
-            this.username = username;
-            this.isLoading = false;
-            this.credentials = credentials;
+            runInAction(() => {
+                this.error = null;
+                this.username = username;
+                this.isLoading = false;
+                this.credentials = credentials;
 
-            // This has to be last! Because setting isAuthenticated to true triggers the <PublicRoute> component
-            // to start redirecting in which case the credentials must be valid.
-            this.isAuthenticated = true;
+                // This has to be last! Because setting isAuthenticated to true triggers the <PublicRoute> component
+                // to start redirecting in which case the credentials must be valid.
+                this.isAuthenticated = true;
+            });
         } catch (error) {
-            this.isLoading = false;
+            runInAction(() => {
+                this.isLoading = false;
+            });
 
-            if (error.statusCode === STATUS_CODE_UNAUTHORIZED) {
-                this.wipe("PasswordWrong");
-            } else {
-                this.wipe("Unknown");
+            if (error instanceof APIError) {
+                if (error.statusCode === STATUS_CODE_UNAUTHORIZED) {
+                    this.wipe("PasswordWrong");
+                } else {
+                    this.wipe("Unknown");
+                }
             }
         }
     };
 
-    @action logout() {
+    logout = () => {
         this.wipe(null);
-    }
+    };
 
-    @action tokenExchange = async () => {
+    tokenExchange = async () => {
         this.isLoading = true;
 
         try {
@@ -89,21 +131,23 @@ class Auth {
 
             const { access_token, refresh_token, expires_in, token_type } = await res.json();
 
-            this.credentials = {
-                access_token,
-                refresh_token,
-                expires_in,
-                token_type,
-            };
-            this.error = null;
-            this.isAuthenticated = true;
-            this.isLoading = false;
-        } catch (e) {
+            runInAction(() => {
+                this.credentials = {
+                    access_token,
+                    refresh_token,
+                    expires_in,
+                    token_type,
+                };
+                this.error = null;
+                this.isAuthenticated = true;
+                this.isLoading = false;
+            });
+        } catch (error) {
             this.wipe("Unknown");
         }
     };
 
-    @action private wipe(error: AuthError | null) {
+    private wipe(error: AuthError | null) {
         this.credentials = null;
         this.error = error;
         this.isAuthenticated = false;
@@ -115,47 +159,23 @@ class Auth {
 let authStore: Auth;
 if (process.env.NODE_ENV === "test") {
     class MockAuth {
-        @observable credentials: any = null;
-        @observable isAuthenticated = false;
-        @observable error: any = null;
-        @observable isRehydrated = true;
+        credentials: any = null;
+        isAuthenticated = false;
+        error: any = null;
+        isRehydrated = true;
 
-        @action loginWithPassword = () => undefined;
-        @action dismissError = () => undefined;
-        @action logout = () => undefined;
+        constructor() {
+            makeAutoObservable(this);
+        }
+
+        loginWithPassword = () => undefined;
+        dismissError = () => undefined;
+        logout = () => undefined;
     }
 
     authStore = new MockAuth() as any; // no localstorage support in node env
 } else {
-    // persist this mobx state through localforage
-    const hydrate = create({
-        storage: require("localforage"),
-    });
     authStore = new Auth();
-
-    hydrate("auth", authStore)
-        .then(() => {
-            // trigger token exchange if credentials are available...
-            if (authStore.credentials !== null) {
-                console.log("hydrate.auth: credentials are available, awaiting new token...");
-                authStore
-                    .tokenExchange()
-                    .then(() => {
-                        console.log("hydrate.auth: received new token!");
-                        authStore.isRehydrated = true;
-                    })
-                    .catch(() => {
-                        console.log("hydrate.auth: failed to receive new token!");
-                        authStore.isRehydrated = true;
-                    });
-            } else {
-                authStore.isRehydrated = true;
-                console.log("rehydrated, no credentials are available.");
-            }
-        })
-        .catch((error) => {
-            console.error(error);
-        });
 }
 
 // development, make auth available on window object...

@@ -1,9 +1,10 @@
 import { PrimitiveType } from "intl-messageformat";
 import { createIntl, createIntlCache } from "react-intl";
-import deMessages from "./de";
-import enMessages, { IAvailableI18nIds } from "./en";
+import german from "./de.json";
+import english from "./en.json";
 import { generalStore } from "../stores/GeneralStore";
 import { ILocales } from "./ILocales";
+import { action } from "mobx";
 
 const DEFAULT_LOCALE = "en";
 
@@ -14,8 +15,8 @@ type IMessages = {
 };
 
 const intlMessages: IMessages = {
-    en: enMessages,
-    de: deMessages,
+    de: german,
+    en: english,
 };
 
 const cache = createIntlCache();
@@ -28,9 +29,9 @@ let intl = createIntl(
     cache,
 );
 
-type MessageIDS = keyof IAvailableI18nIds;
+type MessageIDS = keyof typeof german;
 
-const setLocale = (locale: ILocales) => {
+const setLocale = action("setLocale", (locale: ILocales) => {
     intl = createIntl(
         {
             locale: locale,
@@ -40,9 +41,10 @@ const setLocale = (locale: ILocales) => {
     );
 
     generalStore.locale = locale;
+    document.documentElement.lang = locale;
 
     console.log(`%cSet locale to "${locale}".`, "background: #eee; color: #666;");
-};
+});
 
 const t = (messageId: MessageIDS, values?: Record<string, PrimitiveType>) => {
     return intl.formatMessage({ id: messageId }, values);

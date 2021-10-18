@@ -1,26 +1,26 @@
-import Button from "@material-ui/core/Button";
-import { Field, Formik, Form } from "formik";
+import { Button } from "@mui/material";
+import { Field, Form, Formik } from "formik";
 import { observer } from "mobx-react";
 import * as React from "react";
 import * as Yup from "yup";
 import { t } from "../../../i18n/util";
 import { authStore } from "../../../stores/AuthStore";
 import { generalStore } from "../../../stores/GeneralStore";
+import { pushRoute } from "../../app/router/history";
+import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
 import { CustomInputField } from "../../ui/CustomInputField";
 import { ImageLogo } from "../../util/Images";
 import { Styles } from "../../util/Styles";
-import { history } from "../../app/router/history";
-import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
 interface ILoginValues {
     email: string;
     password: string;
 }
 
-export const LoginSite = observer(() => {
+export const AuthLoginSite = observer(() => {
     const [error, setError] = React.useState<string>();
 
-    const submit = async (model: ILoginValues) => {
-        generalStore.isLoading = true;
+    const handleSubmit = async (model: ILoginValues) => {
+        generalStore.setIsLoading(true);
         setError("");
 
         try {
@@ -32,13 +32,13 @@ export const LoginSite = observer(() => {
                     setError(t("screen.login.error_during_login"));
                 }
             } else {
-                history.push(DashboardRoutes.ROOT);
+                pushRoute(DashboardRoutes.ROOT);
             }
         } catch (error) {
             setError(t("screen.login.error_during_login"));
         }
 
-        generalStore.isLoading = false;
+        generalStore.setIsLoading(false);
     };
 
     if (!authStore.isRehydrated) {
@@ -87,7 +87,7 @@ export const LoginSite = observer(() => {
                             email: "",
                             password: "",
                         }}
-                        onSubmit={submit}
+                        onSubmit={handleSubmit}
                         validationSchema={Yup.object().shape({
                             email: Yup.string()
                                 .email(t("screen.login.form.email.validation_error"))

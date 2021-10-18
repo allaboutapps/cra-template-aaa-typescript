@@ -1,6 +1,7 @@
 /* eslint-disable no-throw-literal */
 
 import * as Config from "../config";
+import { APIError } from "../errors/APIError";
 import { authStore, ICredentials } from "../stores/AuthStore";
 
 export const STATUS_CODE_UNAUTHORIZED = 401;
@@ -9,7 +10,7 @@ const getAuthHeaders = () => ({
     Authorization: `Bearer ${authStore.credentials && authStore.credentials.access_token}`,
 });
 
-const handleUnauthorizedError = (error: any): any => {
+const handleUnauthorizedError = (error: APIError) => {
     if (error.statusCode && error.statusCode === STATUS_CODE_UNAUTHORIZED) {
         authStore.logout();
     }
@@ -31,15 +32,14 @@ export const API = {
             });
 
             if (!response.ok) {
-                throw {
-                    statusCode: response.status,
-                    statusText: response.statusText,
-                };
+                throw new APIError(response.status, response.statusText);
             }
 
             return response.json();
         } catch (error) {
-            handleUnauthorizedError(error);
+            if (error instanceof APIError) {
+                handleUnauthorizedError(error);
+            }
             throw error;
         }
     },
