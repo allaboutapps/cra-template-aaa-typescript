@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.4
+
+### Updated
+
+- Fixed `<base>` tag in index.html
+
 ## 1.3.3
 
 ### Updated
