@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Route, Switch } from "react-router";
+import { Route, Switch, SwitchProps } from "react-router-dom";
 import { NotFoundSite } from "../../shared/sites/NotFoundSite";
 
-export const CustomSwitch = ({ children }: { children: React.ReactNode }) => (
-    <Switch>
+export const CustomSwitch = ({ children, ...props }: SwitchProps) => (
+    <Switch {...props}>
         {children}
         <Route>
             <NotFoundSite />
