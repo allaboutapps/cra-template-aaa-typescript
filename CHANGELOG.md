@@ -5,6 +5,7 @@
 ### Updated
 
 - Fixed `<base>` tag in index.html
+- Fixed CustomSwitch
 
 ## 1.3.3
 
