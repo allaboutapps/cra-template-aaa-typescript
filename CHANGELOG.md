@@ -1,5 +1,11 @@
 # Changelog
 
+## Upcoming
+
+### Updated
+
+- Replaced outdated `jpoissonnier.vscode-styled-components` VSC extension with new `styled-components.vscode-styled-components`
+
 ## 2.0.1
 
 ### Updated
