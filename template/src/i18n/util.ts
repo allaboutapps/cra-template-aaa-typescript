@@ -5,6 +5,7 @@ import english from "./en.json";
 import { generalStore } from "../stores/GeneralStore";
 import { ILocales } from "./ILocales";
 import { action } from "mobx";
+import { debugStore } from "../stores/DebugStore";
 
 const DEFAULT_LOCALE = "en";
 
@@ -46,8 +47,14 @@ const setLocale = action("setLocale", (locale: ILocales) => {
     console.log(`%cSet locale to "${locale}".`, "background: #eee; color: #666;");
 });
 
+function returnString(messageId: MessageIDS, translation: string) {
+    const showStringKeys = debugStore.showStringKeys;
+    return showStringKeys ? `${String(messageId)} (${translation})` : translation;
+}
+
+
 const t = (messageId: MessageIDS, values?: Record<string, PrimitiveType>) => {
-    return intl.formatMessage({ id: messageId }, values);
+    return returnString(messageId, intl.formatMessage({ id: messageId }, values));
 };
 
 export { DEFAULT_LOCALE, intl, intlMessages, setLocale, t };
