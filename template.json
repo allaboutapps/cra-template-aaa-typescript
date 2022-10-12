@@ -9,7 +9,6 @@
             "dayjs": "^1.10.7",
             "formik": "^2.2.9",
             "history": "^4.10.1",
-            "hoist-non-react-statics": "^3.3.2",
             "intl": "^1.2.5",
             "license-checker-webpack-plugin": "^0.2.1",
             "localforage": "^1.10.0",
