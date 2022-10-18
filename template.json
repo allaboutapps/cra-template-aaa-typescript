@@ -46,7 +46,9 @@
             "build": "react-scripts build",
             "build:withLicenses": "craco build",
             "test": "react-scripts test",
-            "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,gql,css,json,html}'"
+            "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,gql,css,json,html}'",
+            "lint-google": "./scripts/lint-google-fonts.sh",
+            "codegen": "./scripts/swagger-codegen.sh"
         }
     }
 }
