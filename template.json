@@ -49,7 +49,7 @@
             "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,gql,css,json,html}'",
             "lint:google-fonts": "./scripts/lint-google-fonts.sh",
             "codegen": "./scripts/swagger-codegen.sh",
-            "lint": "eslint 'src/**/*.ts*'"
+            "lint": "eslint 'src/**/*.ts*' && ./scripts/lint-google-fonts.sh"
         }
     }
 }
