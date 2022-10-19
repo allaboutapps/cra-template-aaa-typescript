@@ -7,6 +7,7 @@
 - Fix dynamic env var replacement
 - Fix env vars no longer available in nginx image due to new builder step
 - Fix handling of base names which are /
+- Use `craco` instead of `react-scripts` so that the `craco.config.js` file is used and the license checker works
 - Remove service worker file
 - Remove "REACT_APP_DEPLOYMENT_ENV" variable
 

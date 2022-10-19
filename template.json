@@ -42,13 +42,12 @@
             "typescript": "4.4.4"
         },
         "scripts": {
-            "start": "react-scripts start",
-            "build": "react-scripts build",
-            "build:withLicenses": "craco build",
-            "test": "react-scripts test",
-            "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,gql,css,json,html}'",
-            "lint:google-fonts": "./scripts/lint-google-fonts.sh",
+            "start": "craco start",
+            "build": "craco build",
+            "test": "craco test",
+            "format": "prettier --write '**/*.{js,jsx,ts,tsx,gql,css,json,html}'",
             "codegen": "./scripts/swagger-codegen.sh",
+            "lint:google-fonts": "./scripts/lint-google-fonts.sh",
             "lint": "eslint 'src/**/*.ts*' && yarn lint:google-fonts"
         }
     }
