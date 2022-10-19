@@ -3,6 +3,7 @@
 ## Upcoming
 
 - Add builder step to drone file with lint step
+- Update tsconfig.json
 - Fix dynamic env var replacement
 - Fix env vars no longer available in nginx image due to new builder step
 - Fix handling of base names which are /
