@@ -1,5 +1,4 @@
 import * as ReactDOM from "react-dom";
-import * as serviceWorker from "./serviceWorker";
 import { shouldPolyfill } from "@formatjs/intl-pluralrules/should-polyfill";
 
 // https://formatjs.io/docs/polyfills/intl-pluralrules/#dynamic-import--capability-detection
