@@ -1,5 +1,5 @@
 # Note that this is used as build environment for the stack project, not an actual running project
-FROM node:16
+FROM node:16.18.0
 
 # Lerna uses git for its diffing and publishing operations
 RUN apt-get update \
@@ -7,20 +7,19 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Yes no maybe. This is strange. Although all default shells are bash and bash has been set as the shell for yarn/npm to use, 
-# it still runs everything as /bin/sh for some weird reason. Let's make sure it doesn't. Naughty yarn. 
-RUN rm /bin/sh \ 
-    && ln -s /bin/bash /bin/sh 
+# Yes no maybe. This is strange. Although all default shells are bash and bash has been set as the shell for yarn/npm to use,
+# it still runs everything as /bin/sh for some weird reason. Let's make sure it doesn't. Naughty yarn.
+RUN rm /bin/sh \
+    && ln -s /bin/bash /bin/sh
 
 # https://github.com/nodejs/docker-node/issues/661
-# Remove the version of yarn that is coming with node:8 & Install latest yarn
+# Remove the version of yarn that is coming with node & install latest yarn
 RUN rm -f /usr/local/bin/yarn && \
     curl -o- -L https://yarnpkg.com/install.sh | bash && \
     chmod +x ~/.yarn/bin/yarn && \
     ln -s ~/.yarn/bin/yarn /usr/local/bin/yarn
 
 RUN yarn global add create-react-app
-
 
 COPY package.json /cra-template/package.json
 COPY template /cra-template/template

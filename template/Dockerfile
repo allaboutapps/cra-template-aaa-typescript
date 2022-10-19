@@ -3,7 +3,7 @@
 #############
 
 # Builder image uses node/yarn (on debian jessie) to create production build of frontend
-FROM node:16 as builder
+FROM node:16.18.0 as builder
 
 # Yes no maybe. This is strange. Although all default shells are bash and bash has been set as the shell for yarn/npm to use,
 # it still runs everything as /bin/sh for some weird reason. Let's make sure it doesn't. Naughty yarn.
@@ -14,7 +14,7 @@ RUN rm /bin/sh \
 WORKDIR /app
 
 # https://github.com/nodejs/docker-node/issues/661
-# Remove the version of yarn that is coming with node:10 & Install latest yarn
+# Remove the version of yarn that is coming with node & install latest yarn
 RUN rm -f /usr/local/bin/yarn && \
     curl -o- -L https://yarnpkg.com/install.sh | bash && \
     chmod +x ~/.yarn/bin/yarn && \
@@ -38,23 +38,23 @@ COPY . /app/
 # for your build, add them to this file and the gitkube remote, then re-apply the remote using `kubectl apply -f cms.remote.yaml`.
 # If you need to build the Docker image elsewhere, you can specify them via `--build-arg <name>=<value>` for the `docker build` command.
 # See https://docs.docker.com/engine/reference/builder/#using-arg-variables for further details
-ARG REACT_APP_API_BASE_URL
-ARG REACT_APP_DEPLOYMENT_ENV
-ARG REACT_APP_BASE_NAME
+ARG REACT_APP_API_BASE_URL=/api
+ARG REACT_APP_BASE_NAME=/
 ARG REACT_APP_COMMIT_HASH
-ARG PUBLIC_URL
+ARG PUBLIC_URL=.
 ARG NODE_ENV=production
+
+# test -n "<string>" returns 1 if the string is empty, 0 otherwise.
+# set -e stops the execution of the script if a command has an error.
 
 # Build project and copy to nginx folder, then clean up sources
 # Re-export build args to strip double quotes from them (taken from https://stackoverflow.com/a/9733456 @ 2018-08-20)
 RUN set -e \
     && cd /app \
     && test -n "${REACT_APP_API_BASE_URL}" \
-    && test -n "${REACT_APP_DEPLOYMENT_ENV}" \
     && test -n "${REACT_APP_BASE_NAME}" \
     && test -n "${PUBLIC_URL}" \
     && export REACT_APP_API_BASE_URL=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_API_BASE_URL") \
-    && export REACT_APP_DEPLOYMENT_ENV=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_DEPLOYMENT_ENV") \
     && export REACT_APP_BASE_NAME=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_BASE_NAME") \
     && export REACT_APP_COMMIT_HASH=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_COMMIT_HASH") \
     && export REACT_APP_BUILD_DATE=$(TZ=":Europe/Vienna" date) \
@@ -69,6 +69,19 @@ RUN set -e \
 # Runner image uses minimal nginx setup (on alpine linux) required for serving frontend
 FROM nginx:alpine as runner
 EXPOSE 80
+
+ARG REACT_APP_API_BASE_URL=/api
+ARG REACT_APP_BASE_NAME=/
+ARG REACT_APP_COMMIT_HASH
+ARG PUBLIC_URL=.
+ARG NODE_ENV=production
+
+ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
+ENV REACT_APP_BASE_NAME=$REACT_APP_BASE_NAME
+ENV REACT_APP_COMMIT_HASH=$REACT_APP_COMMIT_HASH
+ENV REACT_APP_BUILD_DATE="$(TZ=":Europe/Vienna" date)"
+ENV PUBLIC_URL=$PUBLIC_URL
+ENV NODE_ENV=$NODE_ENV
 
 # Copy entrypoint script for replacing API base URL dynamically via environment variable
 COPY docker-entrypoint.sh /app/docker-entrypoint.sh
