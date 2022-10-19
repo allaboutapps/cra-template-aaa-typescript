@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
 import { observer } from "mobx-react";
-import * as React from "react";
 import { setLocale, t } from "../../../i18n/util";
 import { authStore } from "../../../stores/AuthStore";
 import { generalStore } from "../../../stores/GeneralStore";

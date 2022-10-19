@@ -1,6 +1,5 @@
 import { TextField, TextFieldProps } from "@mui/material";
 import { FieldInputProps } from "formik";
-import * as React from "react";
 import { FieldError } from "./FieldError";
 
 type IProps = TextFieldProps & {

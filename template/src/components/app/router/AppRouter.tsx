@@ -1,5 +1,4 @@
 import { observer } from "mobx-react";
-import * as React from "react";
 import { Router } from "react-router-dom";
 import { generalStore } from "../../../stores/GeneralStore";
 import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";

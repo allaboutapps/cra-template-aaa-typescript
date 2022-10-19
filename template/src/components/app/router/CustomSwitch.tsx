@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Route, Switch, SwitchProps } from "react-router-dom";
 import { NotFoundSite } from "../../shared/sites/NotFoundSite";
 
