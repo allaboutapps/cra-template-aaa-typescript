@@ -19,7 +19,8 @@
     "yup",
     "react-intl",
     "react-router",
-    "mobx"
+    "mobx",
+    "react"
   ],
   "author": "allaboutapps",
   "bugs": {
