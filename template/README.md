@@ -1,31 +1,31 @@
-# cra-template-aaa-typescript
+# README
 
-This project was bootstrapped from a customized react template for `create-react-app` via
+## How to generate types from a Swagger specification
 
-```sh
-npx create-react-app my-app --template aaa-typescript
+We provide a script that lets you generate TypeScript types for a Swagger specification.
 
-# or
+### Local
 
-yarn create react-app my-app --template aaa-typescript
-```
+Run `yarn local <file_name>` to generate types from a swagger file in your local repository. Note that the file needs to be located at the root folder.
 
-## Additional dependencies
+### Remote
 
-- [`material-ui`](https://npmjs.org/package/material-ui)
-- [`react-intl`](https://npmjs.org/package/react-intl)
-  - A custom `@types/react-intl` is supplied in generated projects that introduces the generic IDS to check used i18n keys during compile time
-- [`intl`](https://npmjs.org/package/intl) (Polyfill for safari, only loaded if required)
-- [`lodash`](https://npmjs.org/package/lodash)
-- [`formik`](https://github.com/jaredpalmer/formik)
-- [`yup`](https://github.com/jquense/yup) (as validator for formik)
-- [`mobx`](https://npmjs.org/package/mobx) + [`mobx-react`](https://npmjs.org/package/mobx-react) + [`mobx-persist`](https://npmjs.org/package/mobx-persist) + [`localforage`](https://npmjs.org/package/localforage)
-- [`react-router`](https://npmjs.org/package/react-router)
+To use a remote source run `yarn dev`. Don't forget to set a correct `BASE_URL` in `swagger-codegen.sh` which can be found in `./scripts`.
 
-## Original READMEs
+## Setting env variables at runtime
 
-[cra-template-aaa-typescript](https://github.com/allaboutapps/cra-template-aaa-typescript/blob/master/README.md)
+Sometimes there is a need to set env variables at runtime in the environment where the constainer is being executed. We provide support for the following env variables which can be set at runtime per default:
 
-[Create React App](https://github.com/facebook/create-react-app).
+| Name          | Default       | Description   |
+| ------------- | ------------- | ------------- |
+| REACT_APP_API_BASE_URL | /api | The base URL where the API can be found. |
+| REACT_APP_BASE_NAME | / | The base URL for all locations. If your app is served from a sub-directory on your server, you’ll want to set this to the sub-directory. A properly formatted basename should have a leading slash, but no trailing slash. Take from https://v5.reactrouter.com/web/api/BrowserRouter/basename-string. |
 
-The most recent version of the Create React App guides can be found [here](https://github.com/facebook/create-react-app/blob/main/packages/cra-template/template/README.md).
+If you want to add other env variables that can be changed during runtime you need to add them in `Dockerfile`, `config.js`, `config.ts` and in `docker-entrypoint.sh`.
+
+
+## Project origin
+
+This project was bootstrapped from a customized React template for [Create React App](https://github.com/facebook/create-react-app).
+
+For the template project see [cra-template-aaa-typescript](https://github.com/allaboutapps/cra-template-aaa-typescript).

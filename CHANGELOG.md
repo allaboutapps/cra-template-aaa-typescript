@@ -2,20 +2,25 @@
 
 ## Upcoming
 
-### Updated
+- Add builder step to drone file with lint step
+- Fix dynamic env var replacement
+- Fix env vars no longer available in nginx image due to new builder step
+- Fix handling of base names which are /
+- Remove service worker file
+- Remove "REACT_APP_DEPLOYMENT_ENV" variable
+
+## 2.1.0
 
 - Replaced outdated `jpoissonnier.vscode-styled-components` VSC extension with new `styled-components.vscode-styled-components`
+- Remove `hoist-non-react-statics`
+- Add `showStringKeys` function
 
 ## 2.0.1
-
-### Updated
 
 - Fixed `<base>` tag in index.html
 - Fixed CustomSwitch
 
 ## 1.3.3
-
-### Updated
 
 -   Fixed dynamic base name
     -   added meta tag to index.html
@@ -24,13 +29,9 @@
 
 ## 1.3.1 & 1.3.2
 
-### Updated
-
 -   Updated `README.md` publishing info.
 
 ## 1.3.0
-
-## Added
 
 -   For drone builds: add git branch, hash and build time as comment to <head> section
 

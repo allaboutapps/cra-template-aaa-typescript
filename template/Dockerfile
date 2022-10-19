@@ -40,8 +40,8 @@ COPY . /app/
 # See https://docs.docker.com/engine/reference/builder/#using-arg-variables for further details
 ARG REACT_APP_API_BASE_URL=/api
 ARG REACT_APP_BASE_NAME=/
-ARG REACT_APP_COMMIT_HASH
 ARG PUBLIC_URL=.
+ARG REACT_APP_COMMIT_HASH
 ARG NODE_ENV=production
 
 # test -n "<string>" returns 1 if the string is empty, 0 otherwise.
@@ -56,9 +56,9 @@ RUN set -e \
     && test -n "${PUBLIC_URL}" \
     && export REACT_APP_API_BASE_URL=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_API_BASE_URL") \
     && export REACT_APP_BASE_NAME=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_BASE_NAME") \
+    && export PUBLIC_URL=$(sed -e 's/^"//' -e 's/"$//' <<<"$PUBLIC_URL") \
     && export REACT_APP_COMMIT_HASH=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_COMMIT_HASH") \
     && export REACT_APP_BUILD_DATE=$(TZ=":Europe/Vienna" date) \
-    && export PUBLIC_URL=$(sed -e 's/^"//' -e 's/"$//' <<<"$PUBLIC_URL") \
     && export NODE_ENV=$(sed -e 's/^"//' -e 's/"$//' <<<"$NODE_ENV") \
     && yarn build
 
@@ -72,15 +72,15 @@ EXPOSE 80
 
 ARG REACT_APP_API_BASE_URL=/api
 ARG REACT_APP_BASE_NAME=/
-ARG REACT_APP_COMMIT_HASH
 ARG PUBLIC_URL=.
+ARG REACT_APP_COMMIT_HASH
 ARG NODE_ENV=production
 
 ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
 ENV REACT_APP_BASE_NAME=$REACT_APP_BASE_NAME
+ENV PUBLIC_URL=$PUBLIC_URL
 ENV REACT_APP_COMMIT_HASH=$REACT_APP_COMMIT_HASH
 ENV REACT_APP_BUILD_DATE="$(TZ=":Europe/Vienna" date)"
-ENV PUBLIC_URL=$PUBLIC_URL
 ENV NODE_ENV=$NODE_ENV
 
 # Copy entrypoint script for replacing API base URL dynamically via environment variable

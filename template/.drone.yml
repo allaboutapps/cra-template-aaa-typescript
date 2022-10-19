@@ -7,21 +7,39 @@
 
 matrix:
   include:
+    # builds every branch but only deploys if branch is "dev"
     - BUILD_ENV: dev
-      REACT_APP_API_BASE_URL: https://your-public-url-dev.example.com
-      REACT_APP_DEPLOYMENT_ENV: dev:optimized
-      REACT_APP_BASE_NAME: /cms
+      REACT_APP_API_BASE_URL: https://api-dev.example.com
+      REACT_APP_BASE_NAME: /
       PUBLIC_URL: .
       BUILD_WHEN_BRANCH_IS: ""
-      DISCARD_WHEN_BRANCH_IS: "[ master, staging ]"
+      # because this build env builds every branch explicitly exclude the other build branches
+      # which have a separate build env specified
+      DISCARD_WHEN_BRANCH_IS: "[main, staging]"
+      PUBLISH_WHEN_BRANCH_IS: "dev"
+      K8S_DEPLOY_WHEN_BRANCH_IS: "dev"
+      K8S_DEPLOY_NS: example_namespace_dev
 
-    # - BUILD_ENV: staging
-    #   REACT_APP_API_BASE_URL: https://your-public-url-staging.example.com
-    #   REACT_APP_DEPLOYMENT_ENV: staging:optimized
-    #   REACT_APP_BASE_NAME: /cms
-    #   PUBLIC_URL: https://your-public-url-staging.example.com/cms
-    #   BUILD_WHEN_BRANCH_IS: staging
-    #   DISCARD_WHEN_BRANCH_IS: ""
+    - BUILD_ENV: staging
+      REACT_APP_API_BASE_URL: https://api-staging.example.com
+      REACT_APP_BASE_NAME: /
+      PUBLIC_URL: .
+      BUILD_WHEN_BRANCH_IS: staging
+      DISCARD_WHEN_BRANCH_IS: ""
+      PUBLISH_WHEN_BRANCH_IS: "staging"
+      K8S_DEPLOY_WHEN_BRANCH_IS: "staging"
+      K8S_DEPLOY_NS: example_namespace_staging
+
+    - BUILD_ENV: production
+      REACT_APP_API_BASE_URL: https://api-prod.example.com
+      REACT_APP_BASE_NAME: /
+      PUBLIC_URL: .
+      BUILD_WHEN_BRANCH_IS: main
+      DISCARD_WHEN_BRANCH_IS: ""
+      PUBLISH_WHEN_BRANCH_IS: "main"
+      # production should never be auto-deployed upon build that's why this random name
+      K8S_DEPLOY_WHEN_BRANCH_IS: "we/will/never/use/this/branch"
+      K8S_DEPLOY_NS: example_namespace_prod
 
 # YAML Configuration anchors - https://learnxinyminutes.com/docs/yaml/
 # Will be evaluated WHILE the YAML is parsed, any valid yaml allowed, substitutions ${XXX} allowed.
@@ -36,6 +54,50 @@ alias:
 
   # The full uniquely tagged image name
   - &IMAGE_DEPLOY_ID ${DRONE_REPO,,}-${BUILD_ENV}:${DRONE_COMMIT_SHA}
+
+  - &IMAGE_DEPLOY_ID_STAGE_BUILDER ${DRONE_REPO,,}-${BUILD_ENV}:${DRONE_COMMIT_SHA}-builder
+
+  # Docker registry publish default settings
+  - &GCR_REGISTRY_SETTINGS
+    image: plugins/gcr
+    repo: a3cloud-192413/${DRONE_REPO,,}-${BUILD_ENV}
+    registry: eu.gcr.io
+    secrets:
+      - source: AAA_GCR_SERVICE_ACCOUNT_JSON
+        target: google_credentials
+    volumes: # mount needed to push the already build container
+      - /var/run/docker.sock:/var/run/docker.sock
+    # As this is a multistage build, we define here what we are going to push
+    target: runner
+    # local short-time-cache: don't cleanup any image layers after pushing
+    purge: false
+    # force compress of docker build context
+    compress: true
+    build_args:
+      - REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}
+      - REACT_APP_BASE_NAME=${REACT_APP_BASE_NAME}
+      - PUBLIC_URL=${PUBLIC_URL}
+
+  # Deployment default settings
+  - &K8S_DEPLOY_SETTINGS
+    image: eu.gcr.io/a3cloud-192413/aw/aaa-drone-kubernetes:latest
+    pull: true
+    secrets:
+    - source: AAA_K8S_SERVER
+      target: KUBERNETES_SERVER
+    - source: AAA_K8S_SERVICE_ACCOUNT_CRT
+      target: KUBERNETES_CERT
+    - source: AAA_K8S_SERVICE_ACCOUNT_TOKEN
+      target: KUBERNETES_TOKEN
+    - source: AAA_GCR_SERVICE_ACCOUNT_JSON
+      target: GCR_SERVICE_ACCOUNT
+    deployment: webapp
+    repo: eu.gcr.io/a3cloud-192413/${DRONE_REPO,,}-${BUILD_ENV}
+    container: [webapp]
+    tag: *IMAGE_DEPLOY_TAG
+    gcr_service_account_email: drone-ci-a3cloud@a3cloud-192413.iam.gserviceaccount.com
+    mgmt_repo: https://git.allaboutapps.at/scm/aw/a3cloud-mgmt.git
+    mgmt_git_email: infrastructure+drone@allaboutapps.at
 
   # Which build events should trigger the main pipeline (defaults to all but tags (handled separately))
   - &BRANCH_BUILD_EVENTS [push, pull_request]
@@ -59,16 +121,35 @@ alias:
       - |
         docker build -t ${DRONE_REPO,,}-${BUILD_ENV}:${DRONE_COMMIT_SHA} . \
           --build-arg REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL} \
-          --build-arg REACT_APP_DEPLOYMENT_ENV=${REACT_APP_DEPLOYMENT_ENV} \
+          --build-arg REACT_APP_BASE_NAME=${REACT_APP_BASE_NAME} \
+          --build-arg REACT_APP_COMMIT_HASH=${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10} \
+          --build-arg PUBLIC_URL=${PUBLIC_URL}
+
+  - &DOCKER_BUILD_SETTINGS_BUILDER
+    image: docker:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - |
+        docker build --target builder -t ${DRONE_REPO,,}-${BUILD_ENV}:${DRONE_COMMIT_SHA}-builder . \
+          --build-arg REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL} \
           --build-arg REACT_APP_BASE_NAME=${REACT_APP_BASE_NAME} \
           --build-arg REACT_APP_COMMIT_HASH=${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10} \
           --build-arg PUBLIC_URL=${PUBLIC_URL}
 
 # The actual pipeline building our product
 pipeline:
+  # ---------------------------------------------------------------------------
+  # PRE BUILD
+  # ---------------------------------------------------------------------------
+
+  "docker build for stage builder (BUILD_ENV=${BUILD_ENV})":
+    group: pre-build
+    <<: *DOCKER_BUILD_SETTINGS_BUILDER
+    <<: *WHEN_BRANCH_BUILD_EVENT
 
   # ---------------------------------------------------------------------------
-  # BUILD 
+  # BUILD
   # ---------------------------------------------------------------------------
 
   # branch hit, only single entry of matrix will be built, controlled by WHEN_BRANCH_BUILD_EVENT
@@ -83,6 +164,73 @@ pipeline:
     <<: *DOCKER_BUILD_SETTINGS
     when:
       event: tag
+
+  # ---------------------------------------------------------------------------
+  # CHECK
+  # ---------------------------------------------------------------------------
+
+  "lint":
+    group: check
+    image: *IMAGE_DEPLOY_ID_STAGE_BUILDER
+    commands:
+      - cd /app
+      - yarn lint
+    <<: *WHEN_BRANCH_BUILD_EVENT
+
+  # ---------------------------------------------------------------------------
+  # PUBLISH
+  # ---------------------------------------------------------------------------
+
+  # Built a allowed branch? Push to cloud registry
+  "publish ${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10} (BUILD_ENV=${BUILD_ENV})":
+    group: publish
+    <<: *GCR_REGISTRY_SETTINGS
+    tags:
+      - build_${DRONE_BUILD_NUMBER}
+      - ${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10}
+      - *IMAGE_DEPLOY_TAG
+      - latest
+      - ${DRONE_BRANCH}
+      - '${DRONE_COMMIT_SHA:0:10}'
+    when:
+      branch: ${PUBLISH_WHEN_BRANCH_IS}
+      event: *BRANCH_BUILD_EVENTS
+
+  # Built a tag? Push to cloud registry
+  "publish tag_${DRONE_COMMIT_SHA:0:10} (BUILD_ENV=${BUILD_ENV})":
+    group: publish
+    <<: *GCR_REGISTRY_SETTINGS
+    tags:
+      - build_${DRONE_BUILD_NUMBER}
+      - tag_${DRONE_COMMIT_SHA:0:10}
+      - *IMAGE_DEPLOY_TAG
+      - latest
+      - ${DRONE_TAG}
+      - '${DRONE_COMMIT_SHA:0:10}'
+    when:
+      event: tag
+
+  # ---------------------------------------------------------------------------
+  # DEPLOYMENT
+  # ---------------------------------------------------------------------------
+
+  # autodeploy if it hits the branch
+  "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS} (auto)":
+    <<: *K8S_DEPLOY_SETTINGS
+    namespace: ${K8S_DEPLOY_NS}
+    mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS}/webapp.deployment.yaml
+    when:
+      branch: ${K8S_DEPLOY_WHEN_BRANCH_IS}
+      event: *BRANCH_BUILD_EVENTS
+
+  # promote dev, staging or production through "drone deploy <repo> <build> <env>"
+  "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS} (promote)":
+    <<: *K8S_DEPLOY_SETTINGS
+    namespace: ${K8S_DEPLOY_NS}
+    mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS}/webapp.deployment.yaml
+    when:
+      environment: ${BUILD_ENV}
+      event: deployment
 
 # Long living services where the startup order does not matter (otherwise use detach: true)
 services:
