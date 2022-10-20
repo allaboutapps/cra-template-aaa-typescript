@@ -40,6 +40,7 @@ COPY . /app/
 # See https://docs.docker.com/engine/reference/builder/#using-arg-variables for further details
 ARG REACT_APP_API_BASE_URL=/api
 ARG REACT_APP_BASE_NAME=/
+ARG REACT_APP_DEPLOYMENT_ENV=not-set
 ARG PUBLIC_URL=.
 ARG REACT_APP_COMMIT_HASH
 ARG NODE_ENV=production
@@ -53,9 +54,11 @@ RUN set -e \
     && cd /app \
     && test -n "${REACT_APP_API_BASE_URL}" \
     && test -n "${REACT_APP_BASE_NAME}" \
+    && test -n "${REACT_APP_DEPLOYMENT_ENV}" \
     && test -n "${PUBLIC_URL}" \
     && export REACT_APP_API_BASE_URL=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_API_BASE_URL") \
     && export REACT_APP_BASE_NAME=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_BASE_NAME") \
+    && export REACT_APP_DEPLOYMENT_ENV=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_DEPLOYMENT_ENV") \
     && export PUBLIC_URL=$(sed -e 's/^"//' -e 's/"$//' <<<"$PUBLIC_URL") \
     && export REACT_APP_COMMIT_HASH=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_COMMIT_HASH") \
     && export REACT_APP_BUILD_DATE=$(TZ=":Europe/Vienna" date) \
@@ -72,12 +75,14 @@ EXPOSE 80
 
 ARG REACT_APP_API_BASE_URL=/api
 ARG REACT_APP_BASE_NAME=/
+ARG REACT_APP_DEPLOYMENT_ENV=not-set
 ARG PUBLIC_URL=.
 ARG REACT_APP_COMMIT_HASH
 ARG NODE_ENV=production
 
 ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
 ENV REACT_APP_BASE_NAME=$REACT_APP_BASE_NAME
+ENV REACT_APP_DEPLOYMENT_ENV=$REACT_APP_DEPLOYMENT_ENV
 ENV PUBLIC_URL=$PUBLIC_URL
 ENV REACT_APP_COMMIT_HASH=$REACT_APP_COMMIT_HASH
 ENV REACT_APP_BUILD_DATE="$(TZ=":Europe/Vienna" date)"

@@ -19,7 +19,8 @@ Sometimes there is a need to set env variables at runtime in the environment whe
 | Name          | Default       | Description   |
 | ------------- | ------------- | ------------- |
 | REACT_APP_API_BASE_URL | /api | The base URL where the API can be found. |
-| REACT_APP_BASE_NAME | / | The base URL for all locations. If your app is served from a sub-directory on your server, you’ll want to set this to the sub-directory. A properly formatted basename should have a leading slash, but no trailing slash. Take from https://v5.reactrouter.com/web/api/BrowserRouter/basename-string. |
+| REACT_APP_BASE_NAME | / | "The base URL for all locations. If your app is served from a sub-directory on your server, you’ll want to set this to the sub-directory. A properly formatted basename should have a leading slash, but no trailing slash." Taken from https://v5.reactrouter.com/web/api/BrowserRouter/basename-string. |
+| REACT_APP_DEPLOYMENT_ENV | not-set | This env variable is per default not used, but you can use it to customize your application depending on the environment it is running in. For example set it to `dev`, `staging` or `production` for your different environments. |
 
 If you want to add other env variables that can be changed during runtime you need to add them in `Dockerfile`, `config.js`, `config.ts` and in `docker-entrypoint.sh`.
 
