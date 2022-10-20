@@ -45,7 +45,7 @@
             "start": "craco start",
             "build": "craco build",
             "test": "craco test",
-            "format": "prettier --write '**/*.{js,jsx,ts,tsx,gql,css,json,html}'",
+            "format": "prettier --write '**/*.{js,jsx,ts,tsx,gql,css,json,html,htm}'",
             "codegen": "./scripts/swagger-codegen.sh",
             "lint:google-fonts": "./scripts/lint-google-fonts.sh",
             "lint": "eslint 'src/**/*.ts*' && yarn lint:google-fonts"

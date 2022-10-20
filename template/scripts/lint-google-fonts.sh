@@ -1,5 +1,5 @@
 #!/bin/bash
-files="$(grep -rwl "$(pwd)" --exclude="$(pwd)/scripts/lint-google-fonts.sh" --include=\*.{js,jsx,ts,tsx,gql,css,json,html} -e "fonts.googleapis.com")"
+files="$(grep -rwl "$(pwd)" --exclude="$(pwd)/scripts/lint-google-fonts.sh" --include=\*.{js,jsx,ts,tsx,gql,css,json,html,htm} -e "fonts.googleapis.com")"
 if [ -z "$files" ]
 then
    echo "OK";
