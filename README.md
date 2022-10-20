@@ -70,6 +70,6 @@ docker run -p 80:80 -e REACT_APP_BASE_NAME="/cms" cra-template-aaa-typescript
 
 ### How to generate types from a Swagger Specification
 
-Run `yarn local <file_name>` to generate types from a swagger file in your local repository. Note that the file needs to be located at the root folder.
+Run `yarn codegen local <file_name>` to generate types from a swagger file in your local repository. Note that the file needs to be located at the root folder.
 
-To use a remote source run `yarn dev`. Don´t forget to set a correct BASE_URL in `swagger-codegen.sh` which can be found in `./scripts`.
+To use a remote source run `yarn codegen dev`. Don´t forget to set a correct BASE_URL in `swagger-codegen.sh` which can be found in `./scripts`.
