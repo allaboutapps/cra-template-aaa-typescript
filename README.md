@@ -1,7 +1,7 @@
 # `cra-template-aaa-typescript` [![npm version](https://badge.fury.io/js/cra-template-aaa-typescript.svg)](https://badge.fury.io/js/cra-template-aaa-typescript) [![Build and Test](https://github.com/allaboutapps/cra-template-aaa-typescript/actions/workflows/build-test.yaml/badge.svg)](https://github.com/allaboutapps/cra-template-aaa-typescript/actions)
 
 
-This is the aaa TypeScript template for [Create React App](https://github.com/facebook/create-react-app).
+This is the [all about apps](https://allaboutapps.at/) TypeScript template for [Create React App](https://github.com/facebook/create-react-app).
 
 To use this template, add `--template aaa-typescript` when creating a new app.
 
@@ -50,20 +50,17 @@ Run `yarn test` and then switch to the newly created folder `template-test`.
 Run the following commands to build the image and run it:
 
 ```sh
-docker build . \
---build-arg REACT_APP_API_BASE_URL=http://localhost \
---build-arg REACT_APP_DEPLOYMENT_ENV=dev:optimized \
---build-arg REACT_APP_BASE_NAME=/webapp \
---build-arg REACT_APP_COMMIT_HASH=main_d00faffe \
---build-arg PUBLIC_URL=. \
--t cra-template-aaa-typescript
+docker build . --build-arg REACT_APP_COMMIT_HASH=happy-commit-hash -t cra-template-aaa-typescript-test
 
-docker run -p 80:80 cra-template-aaa-typescript
+docker run -p 80:80 cra-template-aaa-typescript-test
 # http://localhost
 
-docker run -p 80:80 -e REACT_APP_BASE_NAME="/webapp" cra-template-aaa-typescript
-# http://localhost/webapp
-
-docker run -p 80:80 -e REACT_APP_BASE_NAME="/cms" cra-template-aaa-typescript
-# http://localhost/cms
+docker run -p 80:80 -e REACT_APP_API_BASE_URL="/whatever-api-url" -e REACT_APP_BASE_NAME="/drop-the-base" -e REACT_APP_DEPLOYMENT_ENV="happy-env" cra-template-aaa-typescript-test
+# http://localhost/this-is-my-base
 ```
+
+or use the commands
+
+- `yarn test:with-build`
+- `yarn test:with-build-and-run`
+- `yarn test:with-build-and-run-with-overwrites`

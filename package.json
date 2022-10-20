@@ -5,7 +5,10 @@
   "main": "template.json",
   "license": "MIT",
   "scripts": {
-    "test": "rm -rf template-test && npx create-react-app template-test --template file:."
+    "test": "rm -rf template-test && npx create-react-app template-test --template file:.",
+    "test:with-build": "yarn test && docker build ./template-test --build-arg REACT_APP_COMMIT_HASH=happy-commit-hash -t cra-template-aaa-typescript-test",
+    "test:with-build-and-run": "yarn test:with-build && docker run -p 80:80 cra-template-aaa-typescript-test",
+    "test:with-build-and-run-with-overwrites": "yarn test:with-build && docker run -p 80:80 -e REACT_APP_API_BASE_URL=\"/whatever-api-url\" -e REACT_APP_BASE_NAME=\"/drop-the-base\" -e REACT_APP_DEPLOYMENT_ENV=\"happy-env\" cra-template-aaa-typescript-test"
   },
   "repository": {
     "type": "git",

@@ -120,10 +120,7 @@ alias:
     commands:
       - |
         docker build -t ${DRONE_REPO,,}-${BUILD_ENV}:${DRONE_COMMIT_SHA} . \
-          --build-arg REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL} \
-          --build-arg REACT_APP_BASE_NAME=${REACT_APP_BASE_NAME} \
-          --build-arg REACT_APP_COMMIT_HASH=${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10} \
-          --build-arg PUBLIC_URL=${PUBLIC_URL}
+          --build-arg REACT_APP_COMMIT_HASH=${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10}
 
   - &DOCKER_BUILD_SETTINGS_BUILDER
     image: docker:latest
@@ -132,10 +129,7 @@ alias:
     commands:
       - |
         docker build --target builder -t ${DRONE_REPO,,}-${BUILD_ENV}:${DRONE_COMMIT_SHA}-builder . \
-          --build-arg REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL} \
-          --build-arg REACT_APP_BASE_NAME=${REACT_APP_BASE_NAME} \
-          --build-arg REACT_APP_COMMIT_HASH=${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10} \
-          --build-arg PUBLIC_URL=${PUBLIC_URL}
+          --build-arg REACT_APP_COMMIT_HASH=${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10}
 
 # The actual pipeline building our product
 pipeline:

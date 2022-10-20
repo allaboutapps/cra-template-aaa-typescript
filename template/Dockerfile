@@ -31,38 +31,17 @@ RUN yarn install --pure-lockfile --production=false
 # Copy project sources
 COPY . /app/
 
-# Define all used build-time arguments including default values, will be available as ENV variables for build command below.
-# Always define the build args as late as possible since changed values will result in cache misses for every RUN command following their definition.
-# Build args without a default value should be treated as required and checked for existence, aborting the build if they haven't been defined.
-# Build args will be defined via gitkube remote in k8s deployment, make sure they match what's defined here! If you require additional ENV variables
-# for your build, add them to this file and the gitkube remote, then re-apply the remote using `kubectl apply -f cms.remote.yaml`.
-# If you need to build the Docker image elsewhere, you can specify them via `--build-arg <name>=<value>` for the `docker build` command.
-# See https://docs.docker.com/engine/reference/builder/#using-arg-variables for further details
-ARG REACT_APP_API_BASE_URL=/api
-ARG REACT_APP_BASE_NAME=/
-ARG REACT_APP_DEPLOYMENT_ENV=not-set
-ARG PUBLIC_URL=.
-ARG REACT_APP_COMMIT_HASH
-ARG NODE_ENV=production
-
-# test -n "<string>" returns 1 if the string is empty, 0 otherwise.
-# set -e stops the execution of the script if a command has an error.
+ARG REACT_APP_COMMIT_HASH=unspecified
 
 # Build project and copy to nginx folder, then clean up sources
 # Re-export build args to strip double quotes from them (taken from https://stackoverflow.com/a/9733456 @ 2018-08-20)
+# set -e stops the execution of the script if a command has an error.
 RUN set -e \
     && cd /app \
-    && test -n "${REACT_APP_API_BASE_URL}" \
-    && test -n "${REACT_APP_BASE_NAME}" \
-    && test -n "${REACT_APP_DEPLOYMENT_ENV}" \
-    && test -n "${PUBLIC_URL}" \
-    && export REACT_APP_API_BASE_URL=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_API_BASE_URL") \
-    && export REACT_APP_BASE_NAME=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_BASE_NAME") \
-    && export REACT_APP_DEPLOYMENT_ENV=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_DEPLOYMENT_ENV") \
-    && export PUBLIC_URL=$(sed -e 's/^"//' -e 's/"$//' <<<"$PUBLIC_URL") \
+    && export PUBLIC_URL=. \
     && export REACT_APP_COMMIT_HASH=$(sed -e 's/^"//' -e 's/"$//' <<<"$REACT_APP_COMMIT_HASH") \
     && export REACT_APP_BUILD_DATE=$(TZ=":Europe/Vienna" date) \
-    && export NODE_ENV=$(sed -e 's/^"//' -e 's/"$//' <<<"$NODE_ENV") \
+    && export NODE_ENV=production \
     && yarn build
 
 ############
@@ -73,20 +52,9 @@ RUN set -e \
 FROM nginx:alpine as runner
 EXPOSE 80
 
-ARG REACT_APP_API_BASE_URL=/api
-ARG REACT_APP_BASE_NAME=/
-ARG REACT_APP_DEPLOYMENT_ENV=not-set
-ARG PUBLIC_URL=.
-ARG REACT_APP_COMMIT_HASH
-ARG NODE_ENV=production
-
-ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
-ENV REACT_APP_BASE_NAME=$REACT_APP_BASE_NAME
-ENV REACT_APP_DEPLOYMENT_ENV=$REACT_APP_DEPLOYMENT_ENV
-ENV PUBLIC_URL=$PUBLIC_URL
-ENV REACT_APP_COMMIT_HASH=$REACT_APP_COMMIT_HASH
-ENV REACT_APP_BUILD_DATE="$(TZ=":Europe/Vienna" date)"
-ENV NODE_ENV=$NODE_ENV
+ENV REACT_APP_API_BASE_URL=/api
+ENV REACT_APP_BASE_NAME=/
+ENV REACT_APP_DEPLOYMENT_ENV=unspecified
 
 # Copy entrypoint script for replacing API base URL dynamically via environment variable
 COPY docker-entrypoint.sh /app/docker-entrypoint.sh
@@ -96,7 +64,7 @@ RUN chmod +x /app/docker-entrypoint.sh
 COPY nginx-default.conf /etc/nginx/conf.d/default.conf
 
 # Copy only minified build files from builder setup
-COPY --from=builder /app/build /etc/nginx/html
+COPY --from=builder /app/build /etc/nginx/html/app
 
 # Entrypoint ensures correct API base URL is set via environment variables on runtime
 ENTRYPOINT [ "/app/docker-entrypoint.sh" ]

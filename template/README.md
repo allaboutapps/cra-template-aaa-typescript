@@ -24,6 +24,9 @@ Sometimes there is a need to set env variables at runtime in the environment whe
 
 If you want to add other env variables that can be changed during runtime you need to add them in `Dockerfile`, `config.js`, `config.ts` and in `docker-entrypoint.sh`.
 
+## Third party licenses
+
+A file containing all third party licenses is automatically generated upon build and is available unter `third-party-licenses.txt`.
 
 ## Project origin
 
