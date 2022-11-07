@@ -1,4 +1,4 @@
-export const Routes = {
+export const BaseRoutes = {
     ROOT: "/",
     DASHBOARD: "/dashboard",
 };
