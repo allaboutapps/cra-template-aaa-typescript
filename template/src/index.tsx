@@ -1,4 +1,4 @@
-import * as ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { shouldPolyfill } from "@formatjs/intl-pluralrules/should-polyfill";
 
 // https://formatjs.io/docs/polyfills/intl-pluralrules/#dynamic-import--capability-detection
@@ -33,5 +33,9 @@ async function polyfill(locale: string) {
     );
     document.head.prepend(version);
 
-    ReactDOM.render(<App />, document.getElementById("root"));
+    const container = document.getElementById("root");
+    // eslint-disable-next-line
+    const root = createRoot(container!);
+
+    root.render(<App />);
 })();

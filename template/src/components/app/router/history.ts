@@ -1,8 +1,5 @@
-import { createBrowserHistory } from "history";
 import * as queryString from "query-string";
-import { BASE_NAME } from "../../../config";
-
-export const history = createBrowserHistory({ basename: BASE_NAME || "/" });
+import { useNavigate } from "react-router-dom";
 
 type RouteOptions = {
     params?: { [key: string]: string };
@@ -28,16 +25,22 @@ export const withParams = (route: string, params: { [key: string]: string }) => 
     return paramKeys.reduce((url, key) => url.replace(`:${key}`, params[key]), route);
 };
 
-export const pushRoute = (route: string, options?: RouteOptions) => {
-    let url = route;
+export const usePushRoute = () => {
+    const navigate = useNavigate();
 
-    if (options?.params) {
-        url = withParams(url, options.params);
-    }
+    const pushRoute = (route: string, options?: RouteOptions) => {
+        let url = route;
 
-    if (options?.query) {
-        url = withQuery(url, options.query);
-    }
+        if (options?.params) {
+            url = withParams(url, options.params);
+        }
 
-    history.push(url, options?.state);
+        if (options?.query) {
+            url = withQuery(url, options.query);
+        }
+
+        navigate(url, options?.state);
+    };
+
+    return pushRoute;
 };

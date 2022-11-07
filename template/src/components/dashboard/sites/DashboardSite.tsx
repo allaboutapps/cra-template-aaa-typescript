@@ -3,10 +3,11 @@ import { observer } from "mobx-react";
 import { setLocale, t } from "../../../i18n/util";
 import { authStore } from "../../../stores/AuthStore";
 import { generalStore } from "../../../stores/GeneralStore";
-import { pushRoute } from "../../app/router/history";
-import { Routes } from "../../app/router/Routes";
+import { usePushRoute } from "../../app/router/history";
+import { BaseRoutes } from "../../app/router/BaseRoutes";
 
 export const DashboardSite = observer(() => {
+    const pushRoute = usePushRoute();
     return (
         <h1 style={{ margin: 24, textAlign: "center" }}>
             <p>{t("screen.dashboard.hello")}</p>
@@ -33,7 +34,7 @@ export const DashboardSite = observer(() => {
                 <Button
                     onClick={() => {
                         authStore.logout();
-                        pushRoute(Routes.ROOT);
+                        pushRoute(BaseRoutes.ROOT);
                     }}
                 >
                     {t("common.logout")}

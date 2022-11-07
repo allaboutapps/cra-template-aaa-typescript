@@ -1,6 +1,6 @@
-import { Routes } from "../../app/router/Routes";
+import { BaseRoutes } from "../../app/router/BaseRoutes";
 
-const prefix = (route: string) => Routes.DASHBOARD + route;
+const prefix = (route: string) => BaseRoutes.DASHBOARD + route;
 
 export const DashboardRoutes = {
     ROOT: prefix("/"),

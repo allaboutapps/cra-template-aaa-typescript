@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { t } from "../../../i18n/util";
 import { authStore } from "../../../stores/AuthStore";
 import { generalStore } from "../../../stores/GeneralStore";
-import { pushRoute } from "../../app/router/history";
+import { usePushRoute } from "../../app/router/history";
 import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
 import { CustomInputField } from "../../ui/CustomInputField";
 import { ImageLogo } from "../../util/Images";
@@ -18,6 +18,7 @@ interface ILoginValues {
 
 export const AuthLoginSite = observer(() => {
     const [error, setError] = React.useState<string>();
+    const pushRoute = usePushRoute();
 
     const handleSubmit = async (model: ILoginValues) => {
         generalStore.setIsLoading(true);
