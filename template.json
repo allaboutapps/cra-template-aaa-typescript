@@ -43,7 +43,8 @@
     "scripts": {
       "start": "craco start",
       "build": "craco build",
-      "test": "craco test",
+      "test": "craco test --passWithNoTests",
+      "test:ci": "CI=true yarn test",
       "format": "prettier --write '**/*.{js,jsx,ts,tsx,gql,css,json,html,htm}'",
       "codegen": "./scripts/swagger-codegen.sh",
       "lint:google-fonts": "./scripts/lint-google-fonts.sh",
