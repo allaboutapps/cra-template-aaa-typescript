@@ -10,6 +10,7 @@
 - Use `craco` instead of `react-scripts` so that the `craco.config.js` file is used and the license checker works
 - Remove service worker file
 - Remove "REACT_APP_DEPLOYMENT_ENV" variable
+- Remove @types/yup
 
 ## 2.1.0
 
