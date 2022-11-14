@@ -7,55 +7,25 @@
 
 matrix:
   include:
-    # builds every branch but only deploys if branch is "dev"
-    - BUILD_ENV: dev
-      REACT_APP_API_BASE_URL: https://api-dev.example.com
-      REACT_APP_BASE_NAME: /
-      PUBLIC_URL: .
-      BUILD_WHEN_BRANCH_IS: ""
-      # because this build env builds every branch explicitly exclude the other build branches
-      # which have a separate build env specified
-      DISCARD_WHEN_BRANCH_IS: "[main, staging]"
-      PUBLISH_WHEN_BRANCH_IS: "dev"
-      K8S_DEPLOY_WHEN_BRANCH_IS: "dev"
-      K8S_DEPLOY_NS: example_namespace_dev
-
-    - BUILD_ENV: staging
-      REACT_APP_API_BASE_URL: https://api-staging.example.com
-      REACT_APP_BASE_NAME: /
-      PUBLIC_URL: .
-      BUILD_WHEN_BRANCH_IS: staging
-      DISCARD_WHEN_BRANCH_IS: ""
-      PUBLISH_WHEN_BRANCH_IS: "staging"
-      K8S_DEPLOY_WHEN_BRANCH_IS: "staging"
-      K8S_DEPLOY_NS: example_namespace_staging
-
-    - BUILD_ENV: production
-      REACT_APP_API_BASE_URL: https://api-prod.example.com
-      REACT_APP_BASE_NAME: /
-      PUBLIC_URL: .
-      BUILD_WHEN_BRANCH_IS: main
-      DISCARD_WHEN_BRANCH_IS: ""
-      PUBLISH_WHEN_BRANCH_IS: "main"
-      # production should never be auto-deployed upon build that's why this random name
-      K8S_DEPLOY_WHEN_BRANCH_IS: "we/will/never/use/this/branch"
-      K8S_DEPLOY_NS: example_namespace_prod
+    - BUILD_ENV: all
+      # The name of the k8s namespaces that these pipelines will target.
+      K8S_DEPLOY_NS_DEV: customer-product-dev # TODO: Change me
+      K8S_DEPLOY_NS_STAGING: customer-product-staging # TODO: Change me
+      K8S_DEPLOY_NS_PROD: customer-product-prod # TODO: Change me
 
 # YAML Configuration anchors - https://learnxinyminutes.com/docs/yaml/
 # Will be evaluated WHILE the YAML is parsed, any valid yaml allowed, substitutions ${XXX} allowed.
 
 alias:
-
   # The image will be tagged with this, pushed to gcr and referenced with this key in the k8s deployment
   - &IMAGE_DEPLOY_TAG ${DRONE_COMMIT_SHA}
 
-  # The image name, defaults to lowercase repo name + deploy-env <owner>/<project>-<env>, e.g. aw/aaa-cab-kubernetes-test-dev
-  - &IMAGE_DEPLOY_NAME ${DRONE_REPO,,}-${BUILD_ENV}
+  # The full uniquely tagged image names
+  - &IMAGE_RUNNER_ID ${DRONE_REPO,,}-${BUILD_ENV}:${DRONE_COMMIT_SHA}
+  - &IMAGE_BUILDER_ID ${DRONE_REPO,,}-${BUILD_ENV}:${DRONE_COMMIT_SHA}-builder
 
-  # The full uniquely tagged image name
-  - &IMAGE_DEPLOY_ID ${DRONE_REPO,,}-${BUILD_ENV}:${DRONE_COMMIT_SHA}
-
-  - &IMAGE_DEPLOY_ID_STAGE_BUILDER ${DRONE_REPO,,}-${BUILD_ENV}:${DRONE_COMMIT_SHA}-builder
+  # Defines which branches will trigger a docker image push our Google Cloud Registry (tags are always published)
+  - &GCR_PUBLISH_BRANCHES [dev, staging, master]
 
   # Docker registry publish default settings
   - &GCR_REGISTRY_SETTINGS
@@ -73,10 +43,6 @@ alias:
     purge: false
     # force compress of docker build context
     compress: true
-    build_args:
-      - REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}
-      - REACT_APP_BASE_NAME=${REACT_APP_BASE_NAME}
-      - PUBLIC_URL=${PUBLIC_URL}
 
   # Deployment default settings
   - &K8S_DEPLOY_SETTINGS
@@ -99,37 +65,33 @@ alias:
     mgmt_repo: https://git.allaboutapps.at/scm/aw/a3cloud-mgmt.git
     mgmt_git_email: infrastructure+drone@allaboutapps.at
 
-  # Which build events should trigger the main pipeline (defaults to all but tags (handled separately))
-  - &BRANCH_BUILD_EVENTS [push, pull_request]
-
-  - &BRANCH_INCLUDE ${BUILD_WHEN_BRANCH_IS}
-  - &BRANCH_EXCLUDE ${DISCARD_WHEN_BRANCH_IS}
+  # Which build events should trigger the main pipeline (defaults to all)
+  - &BUILD_EVENTS [push, pull_request, tag]
 
   # Pipeline merge helper: only execute if build event received
-  - &WHEN_BRANCH_BUILD_EVENT
+  - &WHEN_BUILD_EVENT
     when:
-      event: *BRANCH_BUILD_EVENTS
-      branch:
-        include: *BRANCH_INCLUDE
-        exclude: *BRANCH_EXCLUDE
+      event: *BUILD_EVENTS
 
   - &DOCKER_BUILD_SETTINGS
     image: docker:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      IMAGE_TAG: *IMAGE_BUILDER_ID
     commands:
       - |
-        docker build -t ${DRONE_REPO,,}-${BUILD_ENV}:${DRONE_COMMIT_SHA} . \
-          --build-arg REACT_APP_COMMIT_HASH=${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10}
+        docker build -t $${IMAGE_TAG} . --build-arg REACT_APP_COMMIT_HASH=${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10}
 
   - &DOCKER_BUILD_SETTINGS_BUILDER
     image: docker:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      IMAGE_TAG: *IMAGE_RUNNER_ID
     commands:
       - |
-        docker build --target builder -t ${DRONE_REPO,,}-${BUILD_ENV}:${DRONE_COMMIT_SHA}-builder . \
-          --build-arg REACT_APP_COMMIT_HASH=${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10}
+        docker build --target builder -t $${IMAGE_TAG} . --build-arg REACT_APP_COMMIT_HASH=${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10}
 
 # The actual pipeline building our product
 pipeline:
@@ -137,27 +99,19 @@ pipeline:
   # PRE BUILD
   # ---------------------------------------------------------------------------
 
-  "docker build for stage builder (BUILD_ENV=${BUILD_ENV})":
+  "docker build (target builder)":
     group: pre-build
     <<: *DOCKER_BUILD_SETTINGS_BUILDER
-    <<: *WHEN_BRANCH_BUILD_EVENT
+    <<: *WHEN_BUILD_EVENT
 
   # ---------------------------------------------------------------------------
   # BUILD
   # ---------------------------------------------------------------------------
 
-  # branch hit, only single entry of matrix will be built, controlled by WHEN_BRANCH_BUILD_EVENT
-  "docker build (BUILD_ENV=${BUILD_ENV})":
+  "docker build (target runner)":
     group: build
     <<: *DOCKER_BUILD_SETTINGS
-    <<: *WHEN_BRANCH_BUILD_EVENT
-
-  # tag hit, whole matrix will be built
-  "docker build (BUILD_ENV=${BUILD_ENV})":
-    group: build
-    <<: *DOCKER_BUILD_SETTINGS
-    when:
-      event: tag
+    <<: *WHEN_BUILD_EVENT
 
   # ---------------------------------------------------------------------------
   # CHECK
@@ -165,18 +119,18 @@ pipeline:
 
   "lint":
     group: check
-    image: *IMAGE_DEPLOY_ID_STAGE_BUILDER
+    image: *IMAGE_BUILDER_ID
     commands:
       - cd /app
       - yarn lint
-    <<: *WHEN_BRANCH_BUILD_EVENT
+    <<: *WHEN_BUILD_EVENT
 
   # ---------------------------------------------------------------------------
   # PUBLISH
   # ---------------------------------------------------------------------------
 
-  # Built a allowed branch? Push to cloud registry
-  "publish ${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10} (BUILD_ENV=${BUILD_ENV})":
+  # Built a branch? Push to cloud registry
+  "publish ${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10}":
     group: publish
     <<: *GCR_REGISTRY_SETTINGS
     tags:
@@ -187,11 +141,11 @@ pipeline:
       - ${DRONE_BRANCH}
       - '${DRONE_COMMIT_SHA:0:10}'
     when:
-      branch: ${PUBLISH_WHEN_BRANCH_IS}
+      branch: ${GCR_PUBLISH_BRANCHES}
       event: *BRANCH_BUILD_EVENTS
 
   # Built a tag? Push to cloud registry
-  "publish tag_${DRONE_COMMIT_SHA:0:10} (BUILD_ENV=${BUILD_ENV})":
+  "publish tag_${DRONE_COMMIT_SHA:0:10}":
     group: publish
     <<: *GCR_REGISTRY_SETTINGS
     tags:
@@ -208,20 +162,71 @@ pipeline:
   # DEPLOYMENT
   # ---------------------------------------------------------------------------
 
+  # -----------------
+  # DEPLOYMENT DEV --
+  # -----------------
+
   # autodeploy if it hits the branch
-  "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS} (auto)":
+  "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_DEV} (auto)":
     <<: *K8S_DEPLOY_SETTINGS
-    namespace: ${K8S_DEPLOY_NS}
-    mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS}/webapp.deployment.yaml
+    namespace: ${K8S_DEPLOY_NS_DEV}
+    mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS_DEV}/webapp.deployment.yaml
     when:
-      branch: ${K8S_DEPLOY_WHEN_BRANCH_IS}
+      branch: dev
       event: *BRANCH_BUILD_EVENTS
 
   # promote dev, staging or production through "drone deploy <repo> <build> <env>"
-  "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS} (promote)":
+  "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_DEV} (promote)":
     <<: *K8S_DEPLOY_SETTINGS
-    namespace: ${K8S_DEPLOY_NS}
-    mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS}/webapp.deployment.yaml
+    namespace: ${K8S_DEPLOY_NS_DEV}
+    mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS_DEV}/webapp.deployment.yaml
+    when:
+      environment: ${BUILD_ENV}
+      event: deployment
+
+  # ---------------------
+  # DEPLOYMENT STAGING --
+  # ---------------------
+
+  # autodeploy if it hits the branch
+  "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_STAGING} (auto)":
+    <<: *K8S_DEPLOY_SETTINGS
+    namespace: ${K8S_DEPLOY_NS_STAGING}
+    mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS_STAGING}/webapp.deployment.yaml
+    when:
+      branch: staging
+      event: *BRANCH_BUILD_EVENTS
+
+  # promote dev, staging or production through "drone deploy <repo> <build> <env>"
+  "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_STAGING} (promote)":
+    <<: *K8S_DEPLOY_SETTINGS
+    namespace: ${K8S_DEPLOY_NS_STAGING}
+    mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS_STAGING}/webapp.deployment.yaml
+    when:
+      environment: ${BUILD_ENV}
+      event: deployment
+
+  # ------------------
+  # DEPLOYMENT PROD --
+  # ------------------
+
+  # Note: Normally we don't autodeploy production for security reasons.
+  #       If you want to autodeploy prod make sure to discuss this with the team first.
+  #
+  # autodeploy if it hits the branch
+  # "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_PROD} (auto)":
+  #   <<: *K8S_DEPLOY_SETTINGS
+  #   namespace: ${K8S_DEPLOY_NS_PROD}
+  #   mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS_PROD}/webapp.deployment.yaml
+  #   when:
+  #     branch: staging
+  #     event: *BRANCH_BUILD_EVENTS
+
+  # promote dev, staging or production through "drone deploy <repo> <build> <env>"
+  "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_PROD} (promote)":
+    <<: *K8S_DEPLOY_SETTINGS
+    namespace: ${K8S_DEPLOY_NS_PROD}
+    mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS_PROD}/webapp.deployment.yaml
     when:
       environment: ${BUILD_ENV}
       event: deployment
@@ -233,11 +238,7 @@ services:
   # SERVICES
   # ---------------------------------------------------------------------------
 
-  "env (BUILD_ENV=${BUILD_ENV})":
+  "env":
     image: alpine
     commands:
       - "env | sort"
-    when:
-      branch:
-        include: *BRANCH_INCLUDE
-        exclude: *BRANCH_EXCLUDE
