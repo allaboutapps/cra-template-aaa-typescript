@@ -1,6 +1,12 @@
 import { useLocation } from "react-router";
 import * as queryString from "query-string";
 
+// Parse the URLs hash param into an object of type T.
+// hash param keys that represent an array are provided in <arrayKeys>.
+//
+// E.g. useHash<{name: string; titles: string[];}({arrayKeys: ["titles"]}); to
+// parse #name=Max&titles=BA&titles=MA into { name: "Max", titles: ["BA", "MA"] }
+//
 // Default to void so we get a compile error, if users are not providing an explicit type. This avoids implicit any.
 export const useHash = <T = void>(options?: { arrayKeys?: string[] }) => {
     const location = useLocation();
