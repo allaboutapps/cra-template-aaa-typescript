@@ -19,3 +19,5 @@ export const DEPLOYMENT_ENV = (
 
 // This is the actual complete public URL during runtime of the deployed frontend app.
 export const PUBLIC_URL = window.location.origin + BASE_NAME;
+
+export const LOADING_INDICATOR_DELAY_MS = 300;

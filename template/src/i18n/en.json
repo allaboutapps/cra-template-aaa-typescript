@@ -1,4 +1,6 @@
 {
+    "button.loadingShort": "Short loading (no indicator)",
+    "button.loadingLong": "Long loading (with indicator)",
     "common.logout": "Logout",
     "screen.not_found.title": "The site could not be found.",
     "screen.login.title": "Login",
