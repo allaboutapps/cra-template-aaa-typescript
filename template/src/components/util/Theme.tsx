@@ -1,23 +1,23 @@
 import { createTheme } from "@mui/material";
-import { Styles } from "./Styles";
+import { Colors } from "./Colors";
 
 export const theme = createTheme({
     palette: {
         primary: {
-            main: Styles.PRIMARY_COLOR,
+            main: Colors.PRIMARY_COLOR,
         },
         secondary: {
-            main: Styles.PRIMARY_COLOR,
+            main: Colors.PRIMARY_COLOR,
         },
     },
     components: {
         MuiButton: {
             styleOverrides: {
                 contained: {
-                    backgroundColor: Styles.PRIMARY_COLOR,
+                    backgroundColor: Colors.PRIMARY_COLOR,
                     color: "white",
                     "&:hover": {
-                        backgroundColor: Styles.PRIMARY_COLOR_ACTIVE,
+                        backgroundColor: Colors.PRIMARY_COLOR_ACTIVE,
                     },
                 },
             },

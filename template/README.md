@@ -30,6 +30,10 @@ When you have many strings in your application it can be hard for QA and transla
 
 For this you can open your browser console (CMD+ALT+i in Mac Chrome or CTRL+SHIFT+i in Windows Chrome), enter `debugStore.showStringKeys = true` and then press RETURN. This will display the string keys additionally to the translated text. Toggle this off again by using `debugStore.showStringKeys = false`.
 
+## Text styling
+
+CSS styles for all in app texts are defined in `TextStyles.css`. Preferably all heading/paragraph styles should be defined there and then used in you components instead of using CSS inline styles in JSX.
+
 ## Third party licenses
 
 A file containing all third party licenses is automatically generated upon build and is available unter `third-party-licenses.txt`.
