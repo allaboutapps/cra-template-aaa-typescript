@@ -21,7 +21,7 @@ export const AppRouter = observer(() => {
                         <Route element={<NoAuthOnlyRoute />}>
                             <Route path={BaseRoutes.ROOT} element={<AuthLoginSite />} />
                         </Route>
-                        <Route element={<DEBUG_PUBLIC_DASHBOARD ? Outlet : PrivateRoute/>}>
+                        <Route element={DEBUG_PUBLIC_DASHBOARD ? <Outlet /> : <PrivateRoute />}>
                             <Route path={DashboardRoutes.ROOT} element={<DashboardSite />} />
                         </Route>
                         <Route path="*" element={<NotFoundSite />} />
