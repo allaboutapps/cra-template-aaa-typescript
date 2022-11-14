@@ -1,6 +1,9 @@
 {
     "button.loadingShort": "Kurzes Laden (kein indicator)",
     "button.loadingLong": "Langes Laden (mit indicator)",
+    "common.query": "Query",
+    "common.hash": "Hash",
+    "common.uptime": "Komponente gemountet vor {uptime} Sekunden.",
     "common.logout": "Logout",
     "screen.not_found.title": "Die Seite konnte leider nicht gefunden werden.",
     "screen.login.title": "Login",
