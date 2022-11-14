@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { BASE_NAME, LOADING_INDICATOR_DELAY_MS } from "../../../config";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BASE_NAME, DEBUG_PUBLIC_DASHBOARD, LOADING_INDICATOR_DELAY_MS } from "../../../config";
 import { generalStore } from "../../../stores/GeneralStore";
 import { AuthLoginSite } from "../../auth/sites/AuthLoginSite";
 import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
@@ -9,6 +9,7 @@ import { NotFoundSite } from "../../shared/sites/NotFoundSite";
 import { LoadingOverlay } from "../../ui/LoadingOverlay";
 import { BaseRoutes } from "./BaseRoutes";
 import { NoAuthOnlyRoute } from "./NoAuthOnlyRoute";
+import { PrivateRoute } from "./PrivateRoute";
 import { RoutingManager } from "./RoutingManager";
 
 export const AppRouter = observer(() => {
@@ -20,7 +21,7 @@ export const AppRouter = observer(() => {
                         <Route element={<NoAuthOnlyRoute />}>
                             <Route path={BaseRoutes.ROOT} element={<AuthLoginSite />} />
                         </Route>
-                        <Route element={<PrivateRoute />}>
+                        <Route element={<DEBUG_PUBLIC_DASHBOARD ? Outlet : PrivateRoute/>}>
                             <Route path={DashboardRoutes.ROOT} element={<DashboardSite />} />
                         </Route>
                         <Route path="*" element={<NotFoundSite />} />
