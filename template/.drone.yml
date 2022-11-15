@@ -175,7 +175,7 @@ pipeline:
       branch: dev
       event: *BRANCH_BUILD_EVENTS
 
-  # promote dev, staging or production through "drone deploy <repo> <build> <env>"
+  # promote dev, staging or production through "drone deploy <repo> <build> <env>" or "woodpecker-cli deploy <repo> <build> <env>"
   "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_DEV} (promote)":
     <<: *K8S_DEPLOY_SETTINGS
     namespace: ${K8S_DEPLOY_NS_DEV}
@@ -197,7 +197,7 @@ pipeline:
       branch: staging
       event: *BRANCH_BUILD_EVENTS
 
-  # promote dev, staging or production through "drone deploy <repo> <build> <env>"
+  # promote dev, staging or production through "drone deploy <repo> <build> <env>" or "woodpecker-cli deploy <repo> <build> <env>"
   "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_STAGING} (promote)":
     <<: *K8S_DEPLOY_SETTINGS
     namespace: ${K8S_DEPLOY_NS_STAGING}
@@ -222,7 +222,7 @@ pipeline:
   #     branch: staging
   #     event: *BRANCH_BUILD_EVENTS
 
-  # promote dev, staging or production through "drone deploy <repo> <build> <env>"
+  # promote dev, staging or production through "drone deploy <repo> <build> <env>" or "woodpecker-cli deploy <repo> <build> <env>"
   "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_PROD} (promote)":
     <<: *K8S_DEPLOY_SETTINGS
     namespace: ${K8S_DEPLOY_NS_PROD}
