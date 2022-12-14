@@ -131,7 +131,7 @@ pipeline:
 
   "test":
     group: test
-    image: *IMAGE_DEPLOY_ID_STAGE_BUILDER
+    image: *IMAGE_BUILDER_ID
     commands:
       - cd /app
       - yarn test:ci
