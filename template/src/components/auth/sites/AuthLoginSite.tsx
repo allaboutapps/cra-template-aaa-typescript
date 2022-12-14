@@ -10,7 +10,7 @@ import { usePushRoute } from "../../app/router/history";
 import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
 import { CustomInputField } from "../../ui/CustomInputField";
 import { ImageLogo } from "../../util/Images";
-import { Styles } from "../../util/Styles";
+import { Colors } from "../../util/Colors";
 interface ILoginValues {
     email: string;
     password: string;
@@ -71,7 +71,7 @@ export const AuthLoginSite = observer(() => {
             >
                 <div
                     style={{
-                        background: Styles.PRIMARY_COLOR,
+                        background: Colors.PRIMARY_COLOR,
                         color: "#fff",
                         textTransform: "uppercase",
                         padding: 24,
@@ -82,7 +82,7 @@ export const AuthLoginSite = observer(() => {
                 >
                     {t("screen.login.title")}
                 </div>
-                <div style={{ padding: 24, border: `1px solid ${Styles.PRIMARY_COLOR}`, borderTop: "none" }}>
+                <div style={{ padding: 24, border: `1px solid ${Colors.PRIMARY_COLOR}`, borderTop: "none" }}>
                     <Formik
                         initialValues={{
                             email: "",
@@ -122,7 +122,7 @@ export const AuthLoginSite = observer(() => {
                                     errorMessage={errors.password}
                                     isTouched={touched.password}
                                 />
-                                {error && <div style={{ color: "#f00", fontSize: 14 }}>{error}</div>}
+                                {error && <div style={{ color: Colors.ERROR, fontSize: 14 }}>{error}</div>}
                                 <Button
                                     variant="contained"
                                     style={{

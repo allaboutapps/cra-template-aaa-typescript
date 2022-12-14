@@ -26,6 +26,7 @@ async function polyfill(locale: string) {
 
     const App = require("./App").default;
     require("./index.css");
+    require("./TextStyles.css");
 
     // Add commit hash as header comment for deployed versions
     const version = document.createComment(

@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { BASE_NAME } from "../../../config";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BASE_NAME, DEBUG_PUBLIC_DASHBOARD, LOADING_INDICATOR_DELAY_MS } from "../../../config";
 import { generalStore } from "../../../stores/GeneralStore";
 import { AuthLoginSite } from "../../auth/sites/AuthLoginSite";
 import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
@@ -21,14 +21,14 @@ export const AppRouter = observer(() => {
                         <Route element={<NoAuthOnlyRoute />}>
                             <Route path={BaseRoutes.ROOT} element={<AuthLoginSite />} />
                         </Route>
-                        <Route element={<PrivateRoute />}>
+                        <Route element={DEBUG_PUBLIC_DASHBOARD ? <Outlet /> : <PrivateRoute />}>
                             <Route path={DashboardRoutes.ROOT} element={<DashboardSite />} />
                         </Route>
                         <Route path="*" element={<NotFoundSite />} />
                     </Routes>
                 </RoutingManager>
             </BrowserRouter>
-            {generalStore.isLoading && <LoadingOverlay />}
+            {generalStore.isLoading && <LoadingOverlay delayMs={LOADING_INDICATOR_DELAY_MS} />}
         </>
     );
 });
