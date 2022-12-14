@@ -25,7 +25,7 @@ alias:
   - &IMAGE_BUILDER_ID ${DRONE_REPO,,}-${BUILD_ENV}:${DRONE_COMMIT_SHA}-builder
 
   # Defines which branches will trigger a docker image push our Google Cloud Registry (tags are always published)
-  - &GCR_PUBLISH_BRANCHES [dev, staging, master]
+  - &GCR_PUBLISH_BRANCHES [dev, staging, main]
 
   # Docker registry publish default settings
   - &GCR_REGISTRY_SETTINGS
