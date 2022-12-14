@@ -1,5 +1,5 @@
 /*
-Global text styles used in Figma go here, also colors used for those text styles.
+Global text styles used in the design go here, also colors used for those text styles.
 If those colors are used programmatically then add to Colors.ts using "var(--body1)" syntax instead of
 redeclaring the color to prevent colors in CSS and JS getting out of sync.
 */
@@ -60,7 +60,7 @@ p, .body1 {
         font-weight: bold;
         font-size: 24px;
     }
-    
+
     h2, .h2 {
         font-family: "Roboto";
         color: var(--headings);
