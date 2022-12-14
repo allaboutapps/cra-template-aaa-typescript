@@ -1,7 +1,7 @@
 #!/bin/bash
-files="$(grep -rwl "$(pwd)" --exclude="$(pwd)/scripts/lint-google-fonts.sh" --exclude-dir="$(pwd)/node_modules" --include=\*.{js,jsx,ts,tsx,gql,css,json,html,htm} -e "fonts.googleapis.com")"
-if [ -z "$files" ] 
-then 
+files="$(grep -rwl "." --exclude-dir="node_modules" --include=\*.{js,jsx,ts,tsx,gql,css,json,html,htm} -e "fonts.googleapis.com")"
+if [ -z "$files" ]
+then
    echo "OK";
    exit 0;
 else

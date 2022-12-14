@@ -25,7 +25,7 @@ alias:
   - &IMAGE_BUILDER_ID ${DRONE_REPO,,}-${BUILD_ENV}:${DRONE_COMMIT_SHA}-builder
 
   # Defines which branches will trigger a docker image push our Google Cloud Registry (tags are always published)
-  - &GCR_PUBLISH_BRANCHES [dev, staging, master]
+  - &GCR_PUBLISH_BRANCHES [dev, staging, main]
 
   # Docker registry publish default settings
   - &GCR_REGISTRY_SETTINGS
@@ -73,12 +73,12 @@ alias:
     when:
       event: *BUILD_EVENTS
 
-  - &DOCKER_BUILD_SETTINGS
+  - &DOCKER_BUILD_SETTINGS_RUNNER
     image: docker:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      IMAGE_TAG: *IMAGE_BUILDER_ID
+      IMAGE_TAG: *IMAGE_RUNNER_ID
     commands:
       - |
         docker build -t $${IMAGE_TAG} . --build-arg REACT_APP_COMMIT_HASH=${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10}
@@ -88,7 +88,7 @@ alias:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      IMAGE_TAG: *IMAGE_RUNNER_ID
+      IMAGE_TAG: *IMAGE_BUILDER_ID
     commands:
       - |
         docker build --target builder -t $${IMAGE_TAG} . --build-arg REACT_APP_COMMIT_HASH=${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10}
@@ -110,7 +110,7 @@ pipeline:
 
   "docker build (target runner)":
     group: build
-    <<: *DOCKER_BUILD_SETTINGS
+    <<: *DOCKER_BUILD_SETTINGS_RUNNER
     <<: *WHEN_BUILD_EVENT
 
   # ---------------------------------------------------------------------------
@@ -131,11 +131,11 @@ pipeline:
 
   "test":
     group: test
-    image: *IMAGE_DEPLOY_ID_STAGE_BUILDER
+    image: *IMAGE_BUILDER_ID
     commands:
       - cd /app
       - yarn test:ci
-    <<: *WHEN_BRANCH_BUILD_EVENT
+    <<: *WHEN_BUILD_EVENT
 
   # ---------------------------------------------------------------------------
   # PUBLISH
@@ -154,7 +154,7 @@ pipeline:
       - '${DRONE_COMMIT_SHA:0:10}'
     when:
       branch: ${GCR_PUBLISH_BRANCHES}
-      event: *BRANCH_BUILD_EVENTS
+      event: *WHEN_BUILD_EVENT
 
   # Built a tag? Push to cloud registry
   "publish tag_${DRONE_COMMIT_SHA:0:10}":
@@ -185,7 +185,7 @@ pipeline:
     mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS_DEV}/webapp.deployment.yaml
     when:
       branch: dev
-      event: *BRANCH_BUILD_EVENTS
+      event: *WHEN_BUILD_EVENT
 
   # promote dev, staging or production through "drone deploy <repo> <build> <env>" or "woodpecker-cli deploy <repo> <build> <env>"
   "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_DEV} (promote)":
@@ -207,7 +207,7 @@ pipeline:
     mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS_STAGING}/webapp.deployment.yaml
     when:
       branch: staging
-      event: *BRANCH_BUILD_EVENTS
+      event: *WHEN_BUILD_EVENT
 
   # promote dev, staging or production through "drone deploy <repo> <build> <env>" or "woodpecker-cli deploy <repo> <build> <env>"
   "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_STAGING} (promote)":
@@ -232,7 +232,7 @@ pipeline:
   #   mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS_PROD}/webapp.deployment.yaml
   #   when:
   #     branch: staging
-  #     event: *BRANCH_BUILD_EVENTS
+  #     event: *WHEN_BUILD_EVENT
 
   # promote dev, staging or production through "drone deploy <repo> <build> <env>" or "woodpecker-cli deploy <repo> <build> <env>"
   "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_PROD} (promote)":
