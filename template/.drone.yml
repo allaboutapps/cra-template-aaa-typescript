@@ -135,7 +135,7 @@ pipeline:
     commands:
       - cd /app
       - yarn test:ci
-    <<: *WHEN_BRANCH_BUILD_EVENT
+    <<: *WHEN_BUILD_EVENT
 
   # ---------------------------------------------------------------------------
   # PUBLISH
