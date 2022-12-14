@@ -73,12 +73,12 @@ alias:
     when:
       event: *BUILD_EVENTS
 
-  - &DOCKER_BUILD_SETTINGS
+  - &DOCKER_BUILD_SETTINGS_RUNNER
     image: docker:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      IMAGE_TAG: *IMAGE_BUILDER_ID
+      IMAGE_TAG: *IMAGE_RUNNER_ID
     commands:
       - |
         docker build -t $${IMAGE_TAG} . --build-arg REACT_APP_COMMIT_HASH=${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10}
@@ -88,7 +88,7 @@ alias:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      IMAGE_TAG: *IMAGE_RUNNER_ID
+      IMAGE_TAG: *IMAGE_BUILDER_ID
     commands:
       - |
         docker build --target builder -t $${IMAGE_TAG} . --build-arg REACT_APP_COMMIT_HASH=${DRONE_BRANCH}_${DRONE_COMMIT_SHA:0:10}
@@ -110,7 +110,7 @@ pipeline:
 
   "docker build (target runner)":
     group: build
-    <<: *DOCKER_BUILD_SETTINGS
+    <<: *DOCKER_BUILD_SETTINGS_RUNNER
     <<: *WHEN_BUILD_EVENT
 
   # ---------------------------------------------------------------------------
