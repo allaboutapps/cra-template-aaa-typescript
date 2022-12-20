@@ -6,8 +6,7 @@ import { generalStore } from "../stores/GeneralStore";
 import { ILocales } from "./ILocales";
 import { action } from "mobx";
 import { debugStore } from "../stores/DebugStore";
-
-const DEFAULT_LOCALE = "en";
+import { DEFAULT_LOCALE } from "./i18n_defaults";
 
 type IMessages = {
     [locale in ILocales]: {
@@ -57,4 +56,4 @@ const t = (messageId: MessageIDS, values?: Record<string, PrimitiveType>) => {
     return returnString(messageId, intl.formatMessage({ id: messageId }, values));
 };
 
-export { DEFAULT_LOCALE, intl, intlMessages, setLocale, t };
+export { intl, intlMessages, setLocale, t };

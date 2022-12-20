@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
+import { DEFAULT_LOCALE } from "../i18n/i18n_defaults";
 import { ILocales } from "../i18n/ILocales";
-import { DEFAULT_LOCALE } from "../i18n/util";
 
 class GeneralStore {
     locale: ILocales = DEFAULT_LOCALE;
