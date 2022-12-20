@@ -6,7 +6,7 @@ import { generalStore } from "../stores/GeneralStore";
 import { ILocales } from "./ILocales";
 import { action } from "mobx";
 import { debugStore } from "../stores/DebugStore";
-import { DEFAULT_LOCALE } from "./i18n_defaults";
+import { DEFAULT_LOCALE } from "./i18nDefaults";
 
 type IMessages = {
     [locale in ILocales]: {
