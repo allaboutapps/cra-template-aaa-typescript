@@ -5,9 +5,13 @@ redeclaring the color to prevent colors in CSS and JS getting out of sync.
 */
 
 :root{
+    /* headings */
     --body1: #444756;
     --body2: #797979;
     --headings: #1D2442;
+
+    /* other stuff */
+    --body-background-color: #F2F2F6;
 }
 
 h1, .h1 {
