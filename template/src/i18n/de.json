@@ -1,10 +1,13 @@
 {
     "button.loadingShort": "Kurzes Laden (kein indicator)",
     "button.loadingLong": "Langes Laden (mit indicator)",
+    "button.add": "Einzelner Eintrag hinzufügen Dialog",
+    "button.add.multi": "Mehrere Einträge hinzufügen Dialog",
     "common.query": "Query",
     "common.hash": "Hash",
     "common.uptime": "Komponente gemountet vor {uptime} Sekunden.",
     "common.logout": "Logout",
+    "common.no": "Nein",
     "screen.not_found.title": "Die Seite konnte leider nicht gefunden werden.",
     "screen.login.title": "Login",
     "screen.login.invalid_password_or_email": "Die eingegebene E-Mail Addresse oder das Passwort ist falsch.",
@@ -16,5 +19,18 @@
     "screen.login.form.password.label": "Passwort",
     "screen.dashboard.hello": "Willkommen",
     "language.german": "Deutsch",
-    "language.english": "Englisch"
+    "language.english": "Englisch",
+    "deleteDialog.message": "Sind Sie sicher, dass Sie mit dieser Aktion fortfahren wollen?",
+    "deleteDialog.message.multi": "Sind Sie sicher, dass Sie mit dieser Aktion fortfahren wollen? Es sind {count} Einträge betroffen",
+    "deleteDialog.submitLabel": "Ja, Eintrag löschen",
+    "deleteDialog.submitLabel.multi": "Ja, Einträge löschen",
+    "deleteDialog.title": "Eintrag löschen",
+    "deleteDialog.title.multi": "Einträge löschen",
+    "addDialog.message": "Sind Sie sicher, dass Sie mit dieser Aktion fortfahren wollen?",
+    "addDialog.message.multi": "Sind Sie sicher, dass Sie mit dieser Aktion fortfahren wollen? Es sind {count} Einträge betroffen",
+    "addDialog.submitLabel": "Ja, Eintrag hinzufügen",
+    "addDialog.submitLabel.multi": "Ja, Einträge hinzufügen",
+    "addDialog.title": "Eintrag hinzufügen",
+    "addDialog.title.multi": "Einträge hinzufügen"
+    
 }
