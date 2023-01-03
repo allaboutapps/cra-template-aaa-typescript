@@ -1,11 +1,11 @@
-import * as Yup from "yup";
+// import * as Yup from "yup";
 // import * as ibantools from "ibantools";
 
-declare module 'yup' {
-    interface StringSchema {
-        iban(errorMEssage: string): StringSchema
-    }
-}
+// declare module 'yup' {
+//     interface StringSchema {
+//         iban(errorMEssage: string): StringSchema
+//     }
+// }
 
 export function addCustomYupValidators() {
     // Yup.addMethod(Yup.string, "iban", function (errorMessage) {
