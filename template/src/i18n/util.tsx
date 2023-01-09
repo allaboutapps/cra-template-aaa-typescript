@@ -80,14 +80,12 @@ export const tHtml = (messageId: MessageIDS, values?: Record<string, any>) => {
                 p: (chunks) => {
                     return <p>{chunks}</p>;
                 },
-                // aPaymentConditions: (chunks) => {
-                //     const link: MessageIDS = "links.payment_conditions";
-                //     return (
-                //         <a href={intl.formatMessage({ id: link })} target="_blank" rel="noopener noreferrer">
-                //             {chunks}
-                //         </a>
-                //     );
-                // },
+                // This is a more complexe example of how to use it with e.g. <a> or other HTML elements.
+                // This example defines the attributes manually, but lets you dynamically
+                // set the <a> content. The "chunks" param is everything you put between
+                // your custom tags ("aPrivacyPolicy" are the tags in this example).
+                // If you write "<aPrivacyPolicy>this is a link to my privacy policy</aPrivacyPolicy>" in your translation
+                // you will get a link as defined below with the text "this is a link to my privacy policy".
                 // aPrivacyPolicy: (chunks) => {
                 //     const link: MessageIDS = "links.privacy_policy";
                 //     return (
