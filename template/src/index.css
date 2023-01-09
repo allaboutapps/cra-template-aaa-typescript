@@ -33,6 +33,7 @@ body {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
+    font-display: swap;
     src: url('./assets/fonts/open-sans-v34-latin-regular.eot'); /* IE9 Compat Modes */
     src: url('./assets/fonts/open-sans-v34-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
         url('./assets/fonts/open-sans-v34-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
@@ -46,6 +47,7 @@ body {
 font-family: 'Open Sans';
 font-style: normal;
 font-weight: 700;
+font-display: swap;
 src: url('./assets/fonts/open-sans-v34-latin-700.eot'); /* IE9 Compat Modes */
 src: url('./assets/fonts/open-sans-v34-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
     url('./assets/fonts/open-sans-v34-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
