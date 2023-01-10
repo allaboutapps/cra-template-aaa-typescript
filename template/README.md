@@ -38,6 +38,16 @@ CSS styles for all in app texts are defined in `TextStyles.css`. Preferably all 
 
 A file containing all third party licenses is automatically generated upon build and is available unter `third-party-licenses.txt`.
 
+## Icons
+
+Icons are located and defined in `src/component/ui/Icon.tsx`.
+
+To add new ones following steps are necessary:
+
+* Copy SVG content
+* Add content to path, set filename (Replace <svg> with a <g> if you want to set tranformations for all child elements)
+* Camel case the attributes inside the SVG
+
 ## Project origin
 
 This project was bootstrapped from a customized React template for [Create React App](https://github.com/facebook/create-react-app).
