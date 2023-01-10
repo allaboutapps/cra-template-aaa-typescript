@@ -9,8 +9,6 @@ const HeaderContainer = styled("div")({
     alignItems: "center",
 });
 
-
-
 const ButtonContainer = styled("div")({
     display: "flex",
     alignItems: "center",
@@ -41,7 +39,7 @@ export const ConfirmationDialog = ({
         <CustomDialog open={open}>
             <HeaderContainer>
                 <h1 style={{ fontSize: 32 }}>{title}</h1>
-                <IconButton onClick={onCancel}>
+                <IconButton onClick={onCancel} style={{ marginLeft: 4 }}>
                     <Icon name="close" />
                 </IconButton>
             </HeaderContainer>
