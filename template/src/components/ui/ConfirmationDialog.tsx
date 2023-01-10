@@ -55,7 +55,7 @@ export const ConfirmationDialog = ({
             <ButtonContainer style={{ marginTop: 32 }}>
                 {!hideCancel && (
                     <Button onClick={onCancel} style={{ backgroundColor: "transparent" }}>
-                        <CancelLabel>{cancelLabel}</CancelLabel>
+                        {cancelLabel}
                     </Button>
                 )}
                 <Button variant="contained" fullWidth onClick={onSubmit}>
