@@ -9,13 +9,12 @@ const HeaderContainer = styled("div")({
     alignItems: "center",
 });
 
-const MessageContainer = styled("div")({
-    textAlign: "left",
-});
+
 
 const ButtonContainer = styled("div")({
     display: "flex",
     alignItems: "center",
+    justifyContent: "flex-end",
     gap: 16,
 });
 
@@ -46,14 +45,14 @@ export const ConfirmationDialog = ({
                     <Icon name="close" />
                 </IconButton>
             </HeaderContainer>
-            <MessageContainer style={{ marginTop: 16 }}>{message}</MessageContainer>
+            <p style={{ marginTop: 16 }}>{message}</p>
             <ButtonContainer style={{ marginTop: 32 }}>
                 {!hideCancel && (
                     <Button onClick={onCancel} variant="text">
                         {cancelLabel}
                     </Button>
                 )}
-                <Button variant="contained" fullWidth onClick={onSubmit}>
+                <Button variant="contained" onClick={onSubmit}>
                     {submitLabel}
                 </Button>
             </ButtonContainer>
