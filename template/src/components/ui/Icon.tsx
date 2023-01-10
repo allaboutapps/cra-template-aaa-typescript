@@ -7,7 +7,6 @@ const icons: { [k in IIconNames]: { path: React.ReactNode; fileName: string } } 
     close: {
         fileName: "ic_close.svg",
         path: (
-            // ic_close.svg
             <g fill="none">
                 <path
                     d="M8.46451 7.05026L7.05029 8.46448L10.5858 12L7.05029 15.5355L8.46451 16.9498L12 13.4142L15.5356 16.9498L16.9498 15.5355L13.4143 12L16.9498 8.46448L15.5356 7.05026L12 10.5858L8.46451 7.05026Z"
