@@ -49,7 +49,7 @@ export const ConfirmationDialog = ({
             <MessageContainer style={{ marginTop: 16 }}>{message}</MessageContainer>
             <ButtonContainer style={{ marginTop: 32 }}>
                 {!hideCancel && (
-                    <Button onClick={onCancel} style={{ backgroundColor: "transparent" }}>
+                    <Button onClick={onCancel} variant="text">
                         {cancelLabel}
                     </Button>
                 )}
