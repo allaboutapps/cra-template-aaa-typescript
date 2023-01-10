@@ -19,11 +19,6 @@ const ButtonContainer = styled("div")({
     gap: 16,
 });
 
-const CancelLabel = styled("p")({
-    fontWeight: 600,
-    lineHeight: "16px",
-});
-
 export const ConfirmationDialog = ({
     open,
     title,
