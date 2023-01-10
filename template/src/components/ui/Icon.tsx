@@ -21,7 +21,7 @@ type IContainerProps = {
     color?: string;
     strokeColor?: string;
     hoverColor?: string;
-    onClick?: any;
+    onClick?: () => void;
     disabled?: boolean;
     useCurrentColor?: boolean;
 };
@@ -76,7 +76,7 @@ export type IconNames = keyof typeof icons;
 export type IProps = {
     name: IconNames;
     title?: string;
-    onClick?: any;
+    onClick?: () => void;
     disabled?: boolean;
     color?: string;
     hoverColor?: string;
