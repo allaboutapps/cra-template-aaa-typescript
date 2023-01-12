@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { observer } from "mobx-react";
 import React from "react";
+import { useConfirmationDialog } from "../../../hooks/useConfirmationDialog";
 import { useHash } from "../../../hooks/useHash";
 import { useInterval } from "../../../hooks/useInterval";
 import { useQuery } from "../../../hooks/useQuery";
@@ -10,6 +11,7 @@ import { generalStore } from "../../../stores/GeneralStore";
 import { sleep } from "../../../util/helpers";
 import { BaseRoutes } from "../../app/router/BaseRoutes";
 import { usePushRoute } from "../../app/router/history";
+import { DialogVariant, getDialogConfiguration } from "../../util/Dialogs";
 
 const Uptime = () => {
     const [uptime, setUptime] = React.useState(0);
@@ -33,7 +35,36 @@ const QueryAndHash = () => {
 };
 
 export const DashboardSite = observer(() => {
+    const [action, setAction] = React.useState<DialogVariant>("add");
+    const [count, setCount] = React.useState(1);
+
     const pushRoute = usePushRoute();
+
+    const handleSubmitAddDialog = () => {
+        return;
+    }
+
+    const handleSubmitDeleteDialog = () => {
+        return;
+    }
+
+    const confirmationDialogSubmitHandler: { [key in DialogVariant]: () => void } = {
+        add: handleSubmitAddDialog,
+        delete: handleSubmitDeleteDialog,
+    };
+
+    const confirmationDialog = useConfirmationDialog({
+        ...getDialogConfiguration(action, {
+            count: count,
+        }),
+        onSubmit: confirmationDialogSubmitHandler[action],  
+    });
+
+    const handleClickUserAction = (action: DialogVariant, count: number) => {
+        setCount(count);
+        setAction(action);
+        confirmationDialog.open();
+    };
 
     const languages = (
         <div>
@@ -102,13 +133,29 @@ export const DashboardSite = observer(() => {
             {loading}
             <QueryAndHash />
             <Button
-                onClick={() => {
+                 onClick={() => {
                     authStore.logout();
                     pushRoute(BaseRoutes.ROOT);
                 }}
             >
-                {t("common.logout")}
+               {t("common.logout")}
             </Button>
+
+            <Button
+                onClick={() => {
+                    handleClickUserAction("add", 10);
+                }}
+            >
+              {t("button.add.multi")}
+            </Button>
+            <Button
+                onClick={() => {
+                    handleClickUserAction("add", 1);
+                }}
+            >
+                {t("button.add")}
+            </Button>
+            {confirmationDialog.component}
         </div>
     );
 });
