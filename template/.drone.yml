@@ -153,7 +153,7 @@ pipeline:
       - ${DRONE_BRANCH}
       - '${DRONE_COMMIT_SHA:0:10}'
     when:
-      branch: ${GCR_PUBLISH_BRANCHES}
+      branch: *GCR_PUBLISH_BRANCHES
       event: *WHEN_BUILD_EVENT
 
   # Built a tag? Push to cloud registry
