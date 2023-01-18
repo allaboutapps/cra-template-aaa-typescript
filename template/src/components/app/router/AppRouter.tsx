@@ -11,11 +11,13 @@ import { BaseRoutes } from "./BaseRoutes";
 import { NoAuthOnlyRoute } from "./NoAuthOnlyRoute";
 import { PrivateRoute } from "./PrivateRoute";
 import { RoutingManager } from "./RoutingManager";
+import ScrollToTop from "./ScrollToTop";
 
 export const AppRouter = observer(() => {
     return (
         <>
             <BrowserRouter basename={BASE_NAME || "/"}>
+                <ScrollToTop />
                 <RoutingManager>
                     <Routes>
                         <Route element={<NoAuthOnlyRoute />}>
