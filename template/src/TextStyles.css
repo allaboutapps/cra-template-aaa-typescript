@@ -5,34 +5,35 @@ redeclaring the color to prevent colors in CSS and JS getting out of sync.
 */
 
 :root{
+    /* headings */
     --body1: #444756;
     --body2: #797979;
     --headings: #1D2442;
 }
 
 h1, .h1 {
-    font-family: "Roboto";
+    font-family: "Open Sans";
     color: var(--headings);
     font-size: 32px;
     font-weight: bold;
 }
 
 h2, .h2 {
-    font-family: "Roboto";
+    font-family: "Open Sans";
     color: var(--headings);
     font-size: 24px;
     font-weight: bold;
 }
 
 h3, .h3 {
-    font-family: "Roboto";
+    font-family: "Open Sans";
     color: var(--headings);
     font-size: 20px;
     font-weight: bold;
 }
 
 h4, .h4 {
-    font-family: "Roboto";
+    font-family: "Open Sans";
     color: var(--headings);
     font-size: 16px;
     font-weight: 600;
@@ -41,31 +42,30 @@ h4, .h4 {
 
 /* p defaults to body1 */
 p, .body1 {
-    font-family: "Roboto";
+    font-family: "Open Sans";
     font-size: 14px;
     letter-spacing: 0.1px;
     color: var(--body1);
 }
 
 .body2 {
-    font-family: "Roboto";
+    font-family: "Open Sans";
     font-size: 12px;
     color: var(--body2);
 }
 
 @media(max-width: 1000px) {
     h1, .h1 {
-        font-family: "Roboto";
+        font-family: "Open Sans";
         color: var(--headings);
         font-weight: bold;
         font-size: 24px;
     }
 
     h2, .h2 {
-        font-family: "Roboto";
+        font-family: "Open Sans";
         color: var(--headings);
         font-weight: bold;
         font-size: 22px;
-
     }
 }

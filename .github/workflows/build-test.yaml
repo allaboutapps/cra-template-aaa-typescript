@@ -14,9 +14,9 @@ jobs:
     #   alpine:
     #     image: alpine
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v3
       - name: docker build
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           push: false
           tags: allaboutapps.dev/cra-template:${{ github.sha }}

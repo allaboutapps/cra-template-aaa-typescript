@@ -17,6 +17,7 @@
 - Add useInterval
 - Add TextStyles.css
 - Renamed Styles.ts to Colors.ts
+- Removed styled-components
 
 
 ## 2.1.0
