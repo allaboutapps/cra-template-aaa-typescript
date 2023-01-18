@@ -36,7 +36,7 @@ export const ConfirmationDialog = ({
     hideCancel?: boolean;
 }) => {
     return (
-        <CustomDialog open={open}>
+        <CustomDialog open={open || false}>
             <HeaderContainer>
                 <h1 style={{ fontSize: 32 }}>{title}</h1>
                 <IconButton onClick={onCancel} style={{ marginLeft: 4 }}>
