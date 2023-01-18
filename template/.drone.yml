@@ -126,16 +126,30 @@ pipeline:
     <<: *WHEN_BUILD_EVENT
 
   # ---------------------------------------------------------------------------
-  # TEST
+  # TEST COMPONENTS
   # ---------------------------------------------------------------------------
 
-  "test":
+  "test:components":
     group: test
     image: *IMAGE_BUILDER_ID
     commands:
       - cd /app
-      - yarn test:ci
+      - yarn test:components
     <<: *WHEN_BUILD_EVENT
+
+  # ---------------------------------------------------------------------------
+  # TEST E2E
+  # ---------------------------------------------------------------------------
+
+  # If you enable E2E tests don't forget to also uncomment the line in the Dockerfile
+  # which installs the Cypress dependencies.
+  # "test:e2e":
+  #   group: test
+  #   image: *IMAGE_BUILDER_ID
+  #   commands:
+  #     - cd /app
+  #     - yarn test:e2e
+  #   <<: *WHEN_BUILD_EVENT
 
   # ---------------------------------------------------------------------------
   # PUBLISH

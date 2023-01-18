@@ -42,17 +42,21 @@
       "@types/react-router-dom": "^5.3.1",
       "@types/webpack-env": "1.18.0",
       "prettier": "^2.4.1",
+      "start-server-and-test": "^1.15.2",
       "typescript": "4.8.4"
     },
     "scripts": {
       "start": "craco start",
       "build": "craco build",
       "test": "craco test --passWithNoTests",
-      "test:ci": "CI=true yarn test",
+      "test:components": "CI=true yarn test",
+      "test:e2e": "start-server-and-test start http://localhost:3000 cypress:run",
       "format": "prettier --write '**/*.{js,jsx,ts,tsx,gql,css,json,html,htm}'",
       "codegen": "./scripts/swagger-codegen.sh",
       "lint:google-fonts": "./scripts/lint-google-fonts.sh",
-      "lint": "eslint 'src/**/*.ts*' && yarn lint:google-fonts"
+      "lint": "eslint 'src/**/*.ts*' && yarn lint:google-fonts",
+      "cypress:open": "cypress open",
+      "cypress:run": "cypress run"
     }
   }
 }
