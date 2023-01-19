@@ -5,7 +5,7 @@ import { FieldError } from "./FieldError";
 
 type IProps = TextFieldProps & {
     field: FieldInputProps<string>;
-    onChange: () => void;
+    onChange?: () => void;
     form: FormikState<any>;
     showValidationErrorText?: boolean;
     selectOptions?: { value: string; label: string }[];
@@ -35,9 +35,7 @@ export const CustomInputField = ({
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         field.onChange(event);
 
-        if (onChange) {
-            onChange();
-        }
+        onChange?.();
     };
 
     return (
@@ -62,7 +60,7 @@ export const CustomInputField = ({
                 maxRows={maxRows}
                 // For date inputs shrink does not work correctly so explicitly set it.
                 // See here: https://mui.com/material-ui/react-text-field/#shrink
-                InputLabelProps={{ shrink: type === "date" ? true : undefined }}
+                InputLabelProps={type === "date" ? { shrink: true } : undefined}
             >
                 {selectOptions?.map((selectOption) => (
                     <MenuItem key={selectOption.value} value={selectOption.value}>

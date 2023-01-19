@@ -168,7 +168,7 @@ pipeline:
       - '${DRONE_COMMIT_SHA:0:10}'
     when:
       branch: *GCR_PUBLISH_BRANCHES
-      event: *WHEN_BUILD_EVENT
+      event: *BUILD_EVENTS
 
   # Built a tag? Push to cloud registry
   "publish tag_${DRONE_COMMIT_SHA:0:10}":
@@ -199,7 +199,7 @@ pipeline:
     mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS_DEV}/webapp.deployment.yaml
     when:
       branch: dev
-      event: *WHEN_BUILD_EVENT
+      event: *BUILD_EVENTS
 
   # promote dev through "drone deploy <repo> <build> <env>" or "woodpecker-cli deploy <repo> <build> <env>"
   "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_DEV} (promote)":
@@ -221,7 +221,7 @@ pipeline:
     mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS_STAGING}/webapp.deployment.yaml
     when:
       branch: staging
-      event: *WHEN_BUILD_EVENT
+      event: *BUILD_EVENTS
 
   # promote staging through "drone deploy <repo> <build> <env>" or "woodpecker-cli deploy <repo> <build> <env>"
   "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_STAGING} (promote)":
@@ -246,7 +246,7 @@ pipeline:
   #   mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS_PROD}/webapp.deployment.yaml
   #   when:
   #     branch: staging
-  #     event: *WHEN_BUILD_EVENT
+  #     event: *BUILD_EVENTS
 
   # promote production through "drone deploy <repo> <build> <env>" or "woodpecker-cli deploy <repo> <build> <env>"
   "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_PROD} (promote)":

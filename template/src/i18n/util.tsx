@@ -80,7 +80,7 @@ export const tHtml = (messageId: MessageIDS, values?: Record<string, any>) => {
                 p: (chunks) => {
                     return <p>{chunks}</p>;
                 },
-                // This is a more complexe example of how to use it with e.g. <a> or other HTML elements.
+                // This is a more complex example of how to use it with e.g. <a> or other HTML elements.
                 // This example defines the attributes manually, but lets you dynamically
                 // set the <a> content. The "chunks" param is everything you put between
                 // your custom tags ("aPrivacyPolicy" are the tags in this example).
