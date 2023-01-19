@@ -64,7 +64,6 @@ export const tHtml = (messageId: MessageIDS, values?: Record<string, any>) => {
             key={messageId}
             id={messageId}
             values={{
-                ...values,
                 b: (chunks) => {
                     return <b>{chunks}</b>;
                 },
@@ -94,6 +93,7 @@ export const tHtml = (messageId: MessageIDS, values?: Record<string, any>) => {
                 //         </a>
                 //     );
                 // },
+                ...values,
             }}
         />
     );
