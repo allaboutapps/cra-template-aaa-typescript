@@ -25,7 +25,6 @@ export const CustomInputField = ({
     "aria-label": ariaLabel,
     placeholder,
     showValidationErrorText = true,
-    select,
     selectOptions,
     onChange,
 }: IProps) => {
@@ -41,7 +40,7 @@ export const CustomInputField = ({
     return (
         <div style={style}>
             <TextField
-                select={select}
+                select={!!selectOptions}
                 label={required ? `${label} *` : label}
                 value={field.value}
                 name={field.name}
