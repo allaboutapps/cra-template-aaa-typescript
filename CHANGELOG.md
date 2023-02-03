@@ -16,7 +16,16 @@
 - Add useHash
 - Add useInterval
 - Add TextStyles.css
-- Renamed Styles.ts to Colors.ts
+- Rename Styles.ts to Colors.ts
+- Remove styled-components
+- Update used GitHub actions
+- Git ignore swagger codegen files
+- Switch to Open Sans as default font
+- Add tHtml function for translations with HTML support
+- Fix cyclic dependency issue with i18n default locale
+- Add Yup custom validator example
+- Add scroll to top upon navigation
+- Add Cypress setup
 
 
 ## 2.1.0

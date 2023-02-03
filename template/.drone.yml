@@ -126,16 +126,30 @@ pipeline:
     <<: *WHEN_BUILD_EVENT
 
   # ---------------------------------------------------------------------------
-  # TEST
+  # TEST COMPONENTS
   # ---------------------------------------------------------------------------
 
-  "test":
+  "test:components":
     group: test
     image: *IMAGE_BUILDER_ID
     commands:
       - cd /app
-      - yarn test:ci
+      - yarn test:components
     <<: *WHEN_BUILD_EVENT
+
+  # ---------------------------------------------------------------------------
+  # TEST E2E
+  # ---------------------------------------------------------------------------
+
+  # If you enable E2E tests don't forget to also uncomment the line in the Dockerfile
+  # which installs the Cypress dependencies.
+  # "test:e2e":
+  #   group: test
+  #   image: *IMAGE_BUILDER_ID
+  #   commands:
+  #     - cd /app
+  #     - yarn test:e2e
+  #   <<: *WHEN_BUILD_EVENT
 
   # ---------------------------------------------------------------------------
   # PUBLISH
@@ -154,7 +168,7 @@ pipeline:
       - '${DRONE_COMMIT_SHA:0:10}'
     when:
       branch: *GCR_PUBLISH_BRANCHES
-      event: *WHEN_BUILD_EVENT
+      event: *BUILD_EVENTS
 
   # Built a tag? Push to cloud registry
   "publish tag_${DRONE_COMMIT_SHA:0:10}":
@@ -185,9 +199,9 @@ pipeline:
     mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS_DEV}/webapp.deployment.yaml
     when:
       branch: dev
-      event: *WHEN_BUILD_EVENT
+      event: *BUILD_EVENTS
 
-  # promote dev, staging or production through "drone deploy <repo> <build> <env>" or "woodpecker-cli deploy <repo> <build> <env>"
+  # promote dev through "drone deploy <repo> <build> <env>" or "woodpecker-cli deploy <repo> <build> <env>"
   "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_DEV} (promote)":
     <<: *K8S_DEPLOY_SETTINGS
     namespace: ${K8S_DEPLOY_NS_DEV}
@@ -207,9 +221,9 @@ pipeline:
     mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS_STAGING}/webapp.deployment.yaml
     when:
       branch: staging
-      event: *WHEN_BUILD_EVENT
+      event: *BUILD_EVENTS
 
-  # promote dev, staging or production through "drone deploy <repo> <build> <env>" or "woodpecker-cli deploy <repo> <build> <env>"
+  # promote staging through "drone deploy <repo> <build> <env>" or "woodpecker-cli deploy <repo> <build> <env>"
   "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_STAGING} (promote)":
     <<: *K8S_DEPLOY_SETTINGS
     namespace: ${K8S_DEPLOY_NS_STAGING}
@@ -232,9 +246,9 @@ pipeline:
   #   mgmt_deployment_yaml: namespaces/${K8S_DEPLOY_NS_PROD}/webapp.deployment.yaml
   #   when:
   #     branch: staging
-  #     event: *WHEN_BUILD_EVENT
+  #     event: *BUILD_EVENTS
 
-  # promote dev, staging or production through "drone deploy <repo> <build> <env>" or "woodpecker-cli deploy <repo> <build> <env>"
+  # promote production through "drone deploy <repo> <build> <env>" or "woodpecker-cli deploy <repo> <build> <env>"
   "deploy ${DRONE_COMMIT_SHA:0:10} to ${K8S_DEPLOY_NS_PROD} (promote)":
     <<: *K8S_DEPLOY_SETTINGS
     namespace: ${K8S_DEPLOY_NS_PROD}

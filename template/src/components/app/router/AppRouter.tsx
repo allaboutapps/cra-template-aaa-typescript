@@ -7,15 +7,18 @@ import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
 import { DashboardSite } from "../../dashboard/sites/DashboardSite";
 import { NotFoundSite } from "../../shared/sites/NotFoundSite";
 import { LoadingOverlay } from "../../ui/LoadingOverlay";
+import { ErrorToast } from "../../ui/ErrorToast";
 import { BaseRoutes } from "./BaseRoutes";
 import { NoAuthOnlyRoute } from "./NoAuthOnlyRoute";
 import { PrivateRoute } from "./PrivateRoute";
 import { RoutingManager } from "./RoutingManager";
+import ScrollToTop from "./ScrollToTop";
 
 export const AppRouter = observer(() => {
     return (
         <>
             <BrowserRouter basename={BASE_NAME || "/"}>
+                <ScrollToTop />
                 <RoutingManager>
                     <Routes>
                         <Route element={<NoAuthOnlyRoute />}>
@@ -29,6 +32,7 @@ export const AppRouter = observer(() => {
                 </RoutingManager>
             </BrowserRouter>
             {generalStore.isLoading && <LoadingOverlay delayMs={LOADING_INDICATOR_DELAY_MS} />}
+            <ErrorToast />
         </>
     );
 });
