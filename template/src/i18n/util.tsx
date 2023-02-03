@@ -70,15 +70,6 @@ export const tHtml = (messageId: MessageIDS, values?: Record<string, any>) => {
                 br: () => {
                     return <br />;
                 },
-                div: (chunks) => {
-                    return <div>{chunks}</div>;
-                },
-                sup: (chunks) => {
-                    return <sup>{chunks}</sup>;
-                },
-                p: (chunks) => {
-                    return <p>{chunks}</p>;
-                },
                 // This is a more complex example of how to use it with e.g. <a> or other HTML elements.
                 // This example defines the attributes manually, but lets you dynamically
                 // set the <a> content. The "chunks" param is everything you put between
