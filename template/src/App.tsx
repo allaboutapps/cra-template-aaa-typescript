@@ -8,6 +8,9 @@ import { intl } from "./i18n/util";
 import { authStore } from "./stores/AuthStore";
 import { debugStore } from "./stores/DebugStore";
 import { generalStore } from "./stores/GeneralStore";
+import { addCustomYupValidators } from "./util/Yup";
+
+addCustomYupValidators();
 
 const App: React.FunctionComponent = observer(() => {
     if (!authStore.isRehydrated) {

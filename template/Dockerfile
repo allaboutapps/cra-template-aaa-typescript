@@ -20,6 +20,11 @@ RUN rm -f /usr/local/bin/yarn && \
     chmod +x ~/.yarn/bin/yarn && \
     ln -s ~/.yarn/bin/yarn /usr/local/bin/yarn
 
+
+# Install Cypress dependencies
+# https://docs.cypress.io/guides/continuous-integration/introduction#Dependencies
+# RUN apt-get update && apt-get install --no-install-recommends -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+
 # Copy only package.json and yarn.lock first to properly leverage Docker build caching for node_modules, greatly speeds up build times
 COPY package.json /app/package.json
 COPY yarn.lock /app/yarn.lock

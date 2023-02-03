@@ -26,7 +26,7 @@ If you want to add other env variables that can be changed during runtime you ne
 
 ## Debug string keys
 
-When you have many strings in your application it can be hard for QA and translators to figure out which string key in your language file (e.g. en.json) is used for which on screen text. 
+When you have many strings in your application it can be hard for QA and translators to figure out which string key in your language file (e.g. en.json) is used for which on screen text.
 
 For this you can open your browser console (CMD+ALT+i in Mac Chrome or CTRL+SHIFT+i in Windows Chrome), enter `debugStore.showStringKeys = true` and then press RETURN. This will display the string keys additionally to the translated text. Toggle this off again by using `debugStore.showStringKeys = false`.
 
@@ -37,6 +37,16 @@ CSS styles for all in app texts are defined in `TextStyles.css`. Preferably all 
 ## Third party licenses
 
 A file containing all third party licenses is automatically generated upon build and is available unter `third-party-licenses.txt`.
+
+## Icons
+
+Icons are located and defined in `src/component/ui/Icon.tsx`.
+
+To add new ones following steps are necessary:
+
+* Copy SVG content
+* Add content to path, set filename (Replace <svg> with a <g> if you want to set transformations for all child elements)
+* Camel case the attributes inside the SVG
 
 ## Project origin
 

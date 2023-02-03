@@ -1,11 +1,14 @@
-import { TextField, TextFieldProps } from "@mui/material";
-import { FieldInputProps } from "formik";
+import { MenuItem, TextField, TextFieldProps } from "@mui/material";
+import { FieldInputProps, FormikState, getIn } from "formik";
+import * as React from "react";
 import { FieldError } from "./FieldError";
 
 type IProps = TextFieldProps & {
-    errorMessage?: string;
     field: FieldInputProps<string>;
-    isTouched?: boolean;
+    onChange?: () => void;
+    form: FormikState<any>;
+    showValidationErrorText?: boolean;
+    selectOptions?: { value: string; label: string }[];
 };
 
 export const CustomInputField = ({
@@ -13,31 +16,58 @@ export const CustomInputField = ({
     label,
     type,
     autoComplete,
+    multiline,
+    minRows,
+    maxRows,
     required,
-    errorMessage,
+    form,
     field,
-    isTouched,
-    ...props
+    "aria-label": ariaLabel,
+    placeholder,
+    showValidationErrorText = true,
+    selectOptions,
+    onChange,
 }: IProps) => {
-    const showError = isTouched && !!errorMessage;
+    const fieldError = getIn(form.errors, field.name);
+    const showError = getIn(form.touched, field.name) && !!fieldError;
+
+    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        field.onChange(event);
+
+        onChange?.();
+    };
 
     return (
         <div style={style}>
             <TextField
+                select={!!selectOptions}
                 label={required ? `${label} *` : label}
                 value={field.value}
                 name={field.name}
-                onChange={field.onChange}
                 onBlur={field.onBlur}
+                onChange={handleChange}
                 fullWidth
                 type={type}
                 autoComplete={autoComplete}
                 error={showError}
                 margin="dense"
-                aria-label={props["aria-label"]}
-                variant="standard"
-            />
-            <FieldError>{showError ? errorMessage : ""}</FieldError>
+                aria-label={ariaLabel}
+                variant="outlined"
+                placeholder={placeholder}
+                multiline={multiline}
+                minRows={minRows}
+                maxRows={maxRows}
+                // For date inputs shrink does not work correctly so explicitly set it.
+                // See here: https://mui.com/material-ui/react-text-field/#shrink
+                InputLabelProps={type === "date" ? { shrink: true } : undefined}
+            >
+                {selectOptions?.map((selectOption) => (
+                    <MenuItem key={selectOption.value} value={selectOption.value}>
+                        {selectOption.label}
+                    </MenuItem>
+                ))}
+            </TextField>
+            {showValidationErrorText && <FieldError>{showError ? fieldError : ""}</FieldError>}
         </div>
     );
 };

@@ -1,10 +1,13 @@
 {
     "button.loadingShort": "Short loading (no indicator)",
     "button.loadingLong": "Long loading (with indicator)",
+    "button.add": "Add Single Entry Dialog",
+    "button.add.multi": "Add Multiple Entries Dialog",
     "common.query": "Query",
     "common.hash": "Hash",
     "common.uptime": "Component has been mounted for {uptime} seconds.",
     "common.logout": "Logout",
+    "common.no": "No",
     "screen.not_found.title": "The site could not be found.",
     "screen.login.title": "Login",
     "screen.login.invalid_password_or_email": "The password or email address is invalid.",
@@ -16,5 +19,17 @@
     "screen.login.form.password.label": "Password",
     "screen.dashboard.hello": "Welcome",
     "language.german": "German",
-    "language.english": "English"
+    "language.english": "English",
+    "deleteDialog.message": "Are you sure you want to continue with this action?",
+    "deleteDialog.message.multi": "Are you sure you want to continue with this action? There are {count} entries affected",
+    "deleteDialog.submitLabel": "Yes, delete entry",
+    "deleteDialog.submitLabel.multi": "Yes, delete entries",
+    "deleteDialog.title": "Delete entry",
+    "deleteDialog.title.multi": "Delete entries",
+    "addDialog.message": "Are you sure you want to continue with this action?",
+    "addDialog.message.multi": "Are you sure you want to continue with this action? There are {count} entries affected",
+    "addDialog.submitLabel": "Yes, add entry",
+    "addDialog.submitLabel.multi": "Yes, add entries",
+    "addDialog.title": "Add entry",
+    "addDialog.title.multi": "Add entries"
 }
