@@ -25,6 +25,7 @@
 - Fix cyclic dependency issue with i18n default locale
 - Add Yup custom validator example
 - Add scroll to top upon navigation
+- Add Cypress setup
 
 
 ## 2.1.0
