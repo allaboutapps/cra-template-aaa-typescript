@@ -1,31 +1,37 @@
 import { ThemeProvider } from "@mui/material";
-import { observer } from "mobx-react";
 import * as React from "react";
 import { RawIntlProvider } from "react-intl";
+import { QueryClientProvider } from "react-query";
 import { AppRouter } from "./components/app/router/AppRouter";
 import { theme } from "./components/util/Theme";
 import { intl } from "./i18n/util";
-import { authStore } from "./stores/AuthStore";
-import { debugStore } from "./stores/DebugStore";
-import { generalStore } from "./stores/GeneralStore";
+import { reactQueryClient } from "./network/reactQueryClient";
+import { useAuthStore } from "./stores/authStore";
+import { useGeneralStore } from "./stores/generalStore";
 import { addCustomYupValidators } from "./util/Yup";
+import { useDebugCommands } from "./hooks/useDebugCommands";
 
 addCustomYupValidators();
 
-const App: React.FunctionComponent = observer(() => {
-    if (!authStore.isRehydrated) {
+const App: React.FunctionComponent = () => {
+    const locale = useGeneralStore((state) => state.locale);
+
+    useDebugCommands();
+
+    const isRehydrated = useAuthStore.persist.hasHydrated();
+    if (!isRehydrated) {
         return null;
     }
 
-    (window as any).debugStore = debugStore;
-
     return (
         <ThemeProvider theme={theme}>
-            <RawIntlProvider value={intl} key={generalStore.locale}>
-                <AppRouter />
+            <RawIntlProvider value={intl} key={locale}>
+                <QueryClientProvider client={reactQueryClient}>
+                    <AppRouter />
+                </QueryClientProvider>
             </RawIntlProvider>
         </ThemeProvider>
     );
-});
+};
 
 export default App;

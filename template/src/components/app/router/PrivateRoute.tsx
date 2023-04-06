@@ -1,17 +1,19 @@
-import { observer } from "mobx-react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { authStore } from "../../../stores/AuthStore";
+import { useAuthStore } from "../../../stores/authStore";
 import { LoadingOverlay } from "../../ui/LoadingOverlay";
 import { BaseRoutes } from "./BaseRoutes";
 
-export const PrivateRoute = observer(() => {
+export const PrivateRoute = () => {
     const location = useLocation();
 
-    if (!authStore.isRehydrated) {
+    const isRehydrated = useAuthStore.persist.hasHydrated();
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated());
+
+    if (!isRehydrated) {
         return <LoadingOverlay />;
     }
 
-    if (authStore.isAuthenticated) {
+    if (isAuthenticated) {
         return <Outlet />;
     } else {
         return (
@@ -23,4 +25,4 @@ export const PrivateRoute = observer(() => {
             />
         );
     }
-});
+};
