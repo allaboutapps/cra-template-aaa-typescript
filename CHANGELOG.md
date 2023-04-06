@@ -26,7 +26,11 @@
 - Add Yup custom validator example
 - Add scroll to top upon navigation
 - Add Cypress setup
-
+- Replace mobx with zustand
+- Add networking with react-query and axios
+- Renamed useQuery and useHash to useQueryParams and useHashParams due to clash with react-query
+- Add useDebugCommands to make debug functions accessible in browser console
+- Add debug screen
 
 ## 2.1.0
 
