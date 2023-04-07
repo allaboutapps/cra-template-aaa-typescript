@@ -1,7 +1,7 @@
 import { ReactQueryDevtools } from "react-query/devtools";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { BASE_NAME, DEBUG_PUBLIC_DASHBOARD, LOADING_INDICATOR_DELAY_MS } from "../../../config";
-import { useDebugStore } from "../../../stores/debugStore";
+import { IDebugTab, useDebugStore } from "../../../stores/debugStore";
 import { useGeneralStore } from "../../../stores/generalStore";
 import { AuthLoginSite } from "../../auth/sites/AuthLoginSite";
 import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
@@ -16,12 +16,14 @@ import { NoAuthOnlyRoute } from "./NoAuthOnlyRoute";
 import { PrivateRoute } from "./PrivateRoute";
 import { RoutingManager } from "./RoutingManager";
 import ScrollToTop from "./ScrollToTop";
+import { useQueryParams } from "../../../hooks/useQueryParams";
 
 export const AppRouter = () => {
     const isLoading = useGeneralStore((state) => state.isLoading);
     const debugEnabled = useDebugStore((state) => state.enabled);
     const debugDialogOpen = useDebugStore((state) => state.dialogOpen);
     const reactQueryDevtoolsEnabled = useDebugStore((state) => state.reactQueryDevtoolsEnabled);
+    const { debugTab } = useQueryParams<{ debugTab?: IDebugTab }>();
 
     return (
         <>
@@ -35,12 +37,13 @@ export const AppRouter = () => {
                         <Route element={DEBUG_PUBLIC_DASHBOARD ? <Outlet /> : <PrivateRoute />}>
                             <Route path={DashboardRoutes.ROOT} element={<DashboardSite />} />
                         </Route>
+                        <Route path={BaseRoutes.DEBUG} element={<Debug />} />
                         <Route path="*" element={<NotFoundSite />} />
                     </Routes>
                 </RoutingManager>
                 {debugEnabled && (
                     <>
-                        {debugDialogOpen && <Debug />}
+                        {(debugDialogOpen || !!debugTab) && <Debug debugTab={debugTab} />}
                         <DebugButton />
                         {reactQueryDevtoolsEnabled && <ReactQueryDevtools initialIsOpen={false} />}
                     </>

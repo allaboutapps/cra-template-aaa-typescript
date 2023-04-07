@@ -1,6 +1,5 @@
-import * as queryString from "query-string";
-import { useLocation } from "react-router";
 import { compact } from "lodash";
+import * as queryString from "query-string";
 
 // Parse the URLs query param into an object of type T.
 // query param keys that represent an array are provided in <arrayKeys>.
@@ -10,7 +9,7 @@ import { compact } from "lodash";
 //
 // Default to void so we get a compile error, if users are not providing an explicit type. This avoids implicit any.
 export const useQueryParams = <T = void>(options?: { arrayKeys?: string[] }) => {
-    const location = useLocation();
+    const location = window.location;
     const result = queryString.parse(location.search, { parseBooleans: true, arrayFormat: "bracket" }) as any;
     if (options?.arrayKeys) {
         options.arrayKeys.forEach((key) => {

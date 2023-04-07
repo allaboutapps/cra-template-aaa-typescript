@@ -1,13 +1,19 @@
 import { Dialog, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { DebugDesign } from "./DebugDesign";
 import { DebugFunctionality } from "./DebugFunctionality";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IDebugTab, useDebugStore } from "../../stores/debugStore";
 
-export default function Debug() {
+export default function Debug({ debugTab: initialDebugTab }: { debugTab?: IDebugTab }) {
     const [open, setOpen] = useState(true);
     const closeDialog = useDebugStore((state) => state.closeDialog);
+
     const [debugTab, setDebugTab] = useDebugStore((state) => [state.debugTab, state.setDebugTab]);
+    useEffect(() => {
+        if (initialDebugTab) {
+            setDebugTab(initialDebugTab);
+        }
+    }, [initialDebugTab, setDebugTab]);
 
     return (
         <Dialog
