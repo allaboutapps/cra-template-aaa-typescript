@@ -37,7 +37,6 @@ export const AppRouter = () => {
                         <Route element={DEBUG_PUBLIC_DASHBOARD ? <Outlet /> : <PrivateRoute />}>
                             <Route path={DashboardRoutes.ROOT} element={<DashboardSite />} />
                         </Route>
-                        <Route path={BaseRoutes.DEBUG} element={<Debug />} />
                         <Route path="*" element={<NotFoundSite />} />
                     </Routes>
                 </RoutingManager>
