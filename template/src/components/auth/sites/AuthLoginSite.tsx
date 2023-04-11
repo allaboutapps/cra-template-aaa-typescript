@@ -36,8 +36,9 @@ export const AuthLoginSite = () => {
             await loginMutation.mutateAsync({ username: model.email, password: model.password });
             pushRoute(DashboardRoutes.ROOT);
         } catch (error) {
-            const axiosError = error as AxiosError;
-            setError(`${t("screen.login.error_during_login")}: ${axiosError.response?.status}`);
+            if (error instanceof AxiosError) {
+                setError(`${t("screen.login.error_during_login")}: ${error.response?.status}`);
+            }
         }
 
         setIsLoading(false);

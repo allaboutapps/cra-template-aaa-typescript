@@ -4,7 +4,7 @@ import { DebugFunctionality } from "./DebugFunctionality";
 import { useEffect, useState } from "react";
 import { IDebugTab, useDebugStore } from "../../stores/debugStore";
 
-export default function Debug({ debugTab: initialDebugTab }: { debugTab?: IDebugTab }) {
+export const Debug = ({ debugTab: initialDebugTab }: { debugTab?: IDebugTab }) => {
     const [open, setOpen] = useState(true);
     const closeDialog = useDebugStore((state) => state.closeDialog);
 
@@ -57,4 +57,4 @@ export default function Debug({ debugTab: initialDebugTab }: { debugTab?: IDebug
             </div>
         </Dialog>
     );
-}
+};

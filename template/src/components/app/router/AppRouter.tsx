@@ -6,7 +6,7 @@ import { useGeneralStore } from "../../../stores/generalStore";
 import { AuthLoginSite } from "../../auth/sites/AuthLoginSite";
 import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
 import { DashboardSite } from "../../dashboard/sites/DashboardSite";
-import Debug from "../../debug/Debug";
+import { Debug } from "../../debug/Debug";
 import { DebugButton } from "../../debug/DebugButton";
 import { NotFoundSite } from "../../shared/sites/NotFoundSite";
 import { ErrorToast } from "../../ui/ErrorToast";

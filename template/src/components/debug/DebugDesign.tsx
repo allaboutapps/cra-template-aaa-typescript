@@ -3,7 +3,7 @@ import { Button, Fab, Link } from "@mui/material";
 import { DebugBox } from "./DebugBox";
 import { Icon } from "../ui/Icon";
 
-function RowDescription(props: { children: React.ReactNode }) {
+const RowDescription = (props: { children?: React.ReactNode }) => {
     return (
         <div
             style={{
@@ -15,33 +15,21 @@ function RowDescription(props: { children: React.ReactNode }) {
             {props.children}
         </div>
     );
-}
+};
 
-function RowItem(props: { children: React.ReactNode }) {
+const RowItem = (props: { children: React.ReactNode }) => {
     return <div style={{ display: "flex", alignItems: "center" }}>{props.children}</div>;
-}
+};
 
-function Grid(props: { gridTemplateColumns: string; children: React.ReactNode }) {
+const Grid = (props: { gridTemplateColumns: string; children: React.ReactNode }) => {
     return (
         <div style={{ display: "grid", gridTemplateColumns: props.gridTemplateColumns, gridGap: 10 }}>
             {props.children}
         </div>
     );
-}
+};
 
-function RowHeader(props: { children?: React.ReactNode }) {
-    return (
-        <div
-            style={{
-                display: "flex",
-                alignItems: "center",
-                color: "#999",
-            }}
-        >
-            {props.children}
-        </div>
-    );
-}
+const RowHeader = RowDescription;
 
 const Buttons = () => {
     const gridTemplateColumns = "1fr 1fr 1fr 1fr";
@@ -347,7 +335,7 @@ const TextStyles = () => {
     );
 };
 
-export function DebugDesign() {
+export const DebugDesign = () => {
     return (
         <>
             <DebugBox>
@@ -358,4 +346,4 @@ export function DebugDesign() {
             </DebugBox>
         </>
     );
-}
+};

@@ -9,7 +9,6 @@ export const useLogin = () => {
             "/api/v1/auth/login",
             {
                 ...payload,
-                scope: "cms",
             },
             {
                 skipAuthRefresh: true,

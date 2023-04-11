@@ -73,15 +73,13 @@ const Misc = () => {
     );
 };
 
-export function DebugFunctionality() {
-    return (
-        <>
-            <DebugBox>
-                <I18n />
-            </DebugBox>
-            <DebugBox>
-                <Misc />
-            </DebugBox>
-        </>
-    );
-}
+export const DebugFunctionality = () => (
+    <>
+        <DebugBox>
+            <I18n />
+        </DebugBox>
+        <DebugBox>
+            <Misc />
+        </DebugBox>
+    </>
+);
