@@ -1,48 +1,50 @@
 import { Button } from "@mui/material";
+import { AxiosError } from "axios";
 import { Field, Form, Formik } from "formik";
-import { observer } from "mobx-react";
 import * as React from "react";
 import * as Yup from "yup";
 import { t } from "../../../i18n/util";
-import { authStore } from "../../../stores/AuthStore";
-import { generalStore } from "../../../stores/GeneralStore";
+import { useLogin } from "../../../network/api/useLogin";
+import { useAuthStore } from "../../../stores/authStore";
+import { useGeneralStore } from "../../../stores/generalStore";
 import { usePushRoute } from "../../app/router/history";
 import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
 import { CustomInputField } from "../../ui/CustomInputField";
-import { ImageLogo } from "../../util/Images";
 import { Colors } from "../../util/Colors";
+import { ImageLogo } from "../../util/Images";
+
 interface ILoginValues {
     email: string;
     password: string;
 }
 
-export const AuthLoginSite = observer(() => {
+export const AuthLoginSite = () => {
     const [error, setError] = React.useState<string>();
     const pushRoute = usePushRoute();
 
+    const isRehydrated = useAuthStore.persist.hasHydrated();
+
+    const loginMutation = useLogin();
+
+    const setIsLoading = useGeneralStore((state) => state.setIsLoading);
+
     const handleSubmit = async (model: ILoginValues) => {
-        generalStore.setIsLoading(true);
+        setIsLoading(true);
         setError("");
 
         try {
-            await authStore.loginWithPassword(model.email, model.password);
-            if (authStore.error) {
-                if (authStore.error === "PasswordWrong") {
-                    setError(t("screen.login.invalid_password_or_email"));
-                } else if (authStore.error === "Unknown") {
-                    setError(t("screen.login.error_during_login"));
-                }
-            } else {
-                pushRoute(DashboardRoutes.ROOT);
-            }
+            await loginMutation.mutateAsync({ username: model.email, password: model.password });
+            pushRoute(DashboardRoutes.ROOT);
         } catch (error) {
-            setError(t("screen.login.error_during_login"));
+            if (error instanceof AxiosError) {
+                setError(`${t("screen.login.error_during_login")}: ${error.response?.status}`);
+            }
         }
 
-        generalStore.setIsLoading(false);
+        setIsLoading(false);
     };
 
-    if (!authStore.isRehydrated) {
+    if (!isRehydrated) {
         return null;
     }
 
@@ -143,4 +145,4 @@ export const AuthLoginSite = observer(() => {
             </div>
         </div>
     );
-});
+};

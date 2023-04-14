@@ -10,17 +10,24 @@ export const theme = createTheme({
             main: Colors.PRIMARY_COLOR,
         },
         secondary: {
-            main: Colors.PRIMARY_COLOR,
+            main: Colors.SECONDARY_COLOR,
         },
     },
     components: {
         MuiButton: {
             styleOverrides: {
-                contained: {
+                containedPrimary: {
                     backgroundColor: Colors.PRIMARY_COLOR,
                     color: "white",
                     "&:hover": {
                         backgroundColor: Colors.PRIMARY_COLOR_ACTIVE,
+                    },
+                },
+                containedSecondary: {
+                    backgroundColor: Colors.SECONDARY_COLOR,
+                    color: "white",
+                    "&:hover": {
+                        backgroundColor: Colors.SECONDARY_COLOR_ACTIVE,
                     },
                 },
             },

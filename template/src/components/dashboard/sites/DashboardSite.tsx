@@ -1,13 +1,12 @@
 import { Button } from "@mui/material";
-import { observer } from "mobx-react";
 import React from "react";
 import { useConfirmationDialog } from "../../../hooks/useConfirmationDialog";
-import { useHash } from "../../../hooks/useHash";
+import { useHashParams } from "../../../hooks/useHashParams";
 import { useInterval } from "../../../hooks/useInterval";
-import { useQuery } from "../../../hooks/useQuery";
+import { useQueryParams } from "../../../hooks/useQueryParams";
 import { setLocale, t } from "../../../i18n/util";
-import { authStore } from "../../../stores/AuthStore";
-import { generalStore } from "../../../stores/GeneralStore";
+import { useAuthStore } from "../../../stores/authStore";
+import { useGeneralStore } from "../../../stores/generalStore";
 import { sleep } from "../../../util/helpers";
 import { BaseRoutes } from "../../app/router/BaseRoutes";
 import { usePushRoute } from "../../app/router/history";
@@ -23,8 +22,8 @@ const Uptime = () => {
 };
 
 const QueryAndHash = () => {
-    const query = useQuery<any>();
-    const hash = useHash<any>();
+    const query = useQueryParams<any>();
+    const hash = useHashParams<any>();
 
     return (
         <>
@@ -34,19 +33,26 @@ const QueryAndHash = () => {
     );
 };
 
-export const DashboardSite = observer(() => {
+export const DashboardSite = () => {
     const [action, setAction] = React.useState<DialogVariant>("add");
     const [count, setCount] = React.useState(1);
+
+    const logout = useAuthStore((state) => state.logout);
+    const [locale, setIsLoading, setError] = useGeneralStore((state) => [
+        state.locale,
+        state.setIsLoading,
+        state.setError,
+    ]);
 
     const pushRoute = usePushRoute();
 
     const handleSubmitAddDialog = () => {
         return;
-    }
+    };
 
     const handleSubmitDeleteDialog = () => {
         return;
-    }
+    };
 
     const confirmationDialogSubmitHandler: { [key in DialogVariant]: () => void } = {
         add: handleSubmitAddDialog,
@@ -57,7 +63,7 @@ export const DashboardSite = observer(() => {
         ...getDialogConfiguration(action, {
             count: count,
         }),
-        onSubmit: confirmationDialogSubmitHandler[action],  
+        onSubmit: confirmationDialogSubmitHandler[action],
     });
 
     const handleClickUserAction = (action: DialogVariant, count: number) => {
@@ -74,7 +80,7 @@ export const DashboardSite = observer(() => {
                     setLocale("de");
                 }}
                 style={{ marginRight: 8 }}
-                disabled={generalStore.locale === "de"}
+                disabled={locale === "de"}
             >
                 {t("language.german")}
             </Button>
@@ -83,7 +89,7 @@ export const DashboardSite = observer(() => {
                 onClick={() => {
                     setLocale("en");
                 }}
-                disabled={generalStore.locale === "en"}
+                disabled={locale === "en"}
             >
                 {t("language.english")}
             </Button>
@@ -95,9 +101,9 @@ export const DashboardSite = observer(() => {
             <Button
                 variant="outlined"
                 onClick={async () => {
-                    generalStore.isLoading = true;
+                    setIsLoading(true);
                     await sleep(100);
-                    generalStore.isLoading = false;
+                    setIsLoading(false);
                 }}
             >
                 {t("button.loadingShort")}
@@ -105,9 +111,9 @@ export const DashboardSite = observer(() => {
             <Button
                 variant="outlined"
                 onClick={async () => {
-                    generalStore.isLoading = true;
+                    setIsLoading(true);
                     await sleep(1000);
-                    generalStore.isLoading = false;
+                    setIsLoading(false);
                 }}
             >
                 {t("button.loadingLong")}
@@ -131,24 +137,35 @@ export const DashboardSite = observer(() => {
             <Uptime />
             {languages}
             {loading}
+            <Button
+                variant="outlined"
+                onClick={() => {
+                    setError(t("error.general"));
+                }}
+            >
+                {t("button.showError")}
+            </Button>
             <QueryAndHash />
             <Button
-                 onClick={() => {
-                    authStore.logout();
+                variant="outlined"
+                onClick={() => {
+                    logout();
                     pushRoute(BaseRoutes.ROOT);
                 }}
             >
-               {t("common.logout")}
+                {t("common.logout")}
             </Button>
 
             <Button
+                variant="outlined"
                 onClick={() => {
                     handleClickUserAction("add", 10);
                 }}
             >
-              {t("button.add.multi")}
+                {t("button.add.multi")}
             </Button>
             <Button
+                variant="outlined"
                 onClick={() => {
                     handleClickUserAction("add", 1);
                 }}
@@ -158,4 +175,4 @@ export const DashboardSite = observer(() => {
             {confirmationDialog.component}
         </div>
     );
-});
+};

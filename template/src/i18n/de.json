@@ -3,6 +3,8 @@
     "button.loadingLong": "Langes Laden (mit indicator)",
     "button.add": "Einzelner Eintrag hinzufügen Dialog",
     "button.add.multi": "Mehrere Einträge hinzufügen Dialog",
+    "button.showError": "Fehler anzeigen",
+    "error.general": "Etwas ist schiefgegangen. Bitte versuchen Sie es später noch einmal.",
     "common.query": "Query",
     "common.hash": "Hash",
     "common.uptime": "Komponente gemountet vor {uptime} Sekunden.",
@@ -32,5 +34,4 @@
     "addDialog.submitLabel.multi": "Ja, Einträge hinzufügen",
     "addDialog.title": "Eintrag hinzufügen",
     "addDialog.title.multi": "Einträge hinzufügen"
-    
 }

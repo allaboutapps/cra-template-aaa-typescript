@@ -28,7 +28,11 @@ If you want to add other env variables that can be changed during runtime you ne
 
 When you have many strings in your application it can be hard for QA and translators to figure out which string key in your language file (e.g. en.json) is used for which on screen text.
 
-For this you can open your browser console (CMD+ALT+i in Mac Chrome or CTRL+SHIFT+i in Windows Chrome), enter `debugStore.showStringKeys = true` and then press RETURN. This will display the string keys additionally to the translated text. Toggle this off again by using `debugStore.showStringKeys = false`.
+For this you can open your browser console (CMD+ALT+i in Mac Chrome or CTRL+SHIFT+i in Windows Chrome), enter `debugShowStringKeys(true)` and then press RETURN. This will display the string keys additionally to the translated text. Toggle this off again by using `debugShowStringKeys(false)`.
+
+## Debug screen
+
+Enable a screen with helpful debug options by entering `debugEnable(true)` in the browser console.
 
 ## Text styling
 

@@ -3,6 +3,8 @@
     "button.loadingLong": "Long loading (with indicator)",
     "button.add": "Add Single Entry Dialog",
     "button.add.multi": "Add Multiple Entries Dialog",
+    "button.showError": "Show Error",
+    "error.general": "Something went wrong. Please try again later.",
     "common.query": "Query",
     "common.hash": "Hash",
     "common.uptime": "Component has been mounted for {uptime} seconds.",
