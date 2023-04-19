@@ -51,7 +51,8 @@
       "codegen": "./scripts/swagger-codegen.sh",
       "lint:google-fonts": "./scripts/lint-google-fonts.sh",
       "lint:base-href": "./scripts/lint-base-href.sh",
-      "lint": "eslint 'src/**/*.ts*' && yarn lint:google-fonts && yarn lint:base-href",
+      "lint:node-version": "./scripts/lint-node-version.sh",
+      "lint": "eslint 'src/**/*.ts*' && yarn lint:google-fonts && yarn lint:base-href && yarn lint:node-version",
       "cypress:open": "cypress open",
       "cypress:run": "cypress run"
     }
