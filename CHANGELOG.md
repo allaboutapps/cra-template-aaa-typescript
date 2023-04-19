@@ -31,6 +31,7 @@
 - Renamed useQuery and useHash to useQueryParams and useHashParams due to clash with react-query
 - Add useDebugCommands to make debug functions accessible in browser console
 - Add debug screen
+- Add node version lint step
 
 ## 2.1.0
 
