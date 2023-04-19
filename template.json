@@ -52,7 +52,6 @@
       "lint:google-fonts": "./scripts/lint-google-fonts.sh",
       "lint:base-href": "./scripts/lint-base-href.sh",
       "lint": "eslint 'src/**/*.ts*' && yarn lint:google-fonts && yarn lint:base-href",
-      "lint": "eslint 'src/**/*.ts*' && yarn lint:google-fonts",
       "cypress:open": "cypress open",
       "cypress:run": "cypress run"
     }
