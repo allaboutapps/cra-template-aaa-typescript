@@ -1,6 +1,6 @@
 #!/bin/bash
-errorFiles="$(grep -rw "." --exclude-dir="node_modules" --include=\*.{html,htm} -e "<base.*\/>")"
-baseCount="$(grep -rw --exclude-dir="node_modules" --include=\*.{html,htm} -e "<base href=\(\"\/\"\|'\/'\)>" | wc -l)"
+errorFiles="$(grep -rw "." --exclude-dir={node_modules,build} --include=\*.{html,htm} -e "<base.*\/>")"
+baseCount="$(grep -rw --exclude-dir={node_modules,build} --include=\*.{html,htm} -e "<base href=\(\"\/\"\|'\/'\)>" | wc -l)"
 if [ -z "$errorFiles" ] && [ "$baseCount" -eq 1 ]
 then
    echo "OK";

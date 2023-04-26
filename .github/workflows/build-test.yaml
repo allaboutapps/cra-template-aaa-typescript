@@ -26,4 +26,4 @@ jobs:
       - name: create-react-app
         run: docker exec container yarn create react-app my-app-ci --template file://cra-template/
       - name: build (scaffolded project)
-        run: docker exec container bash -c "cd my-app-ci && yarn build"
+        run: docker exec container bash -c "cd my-app-ci && yarn build && yarn lint"
