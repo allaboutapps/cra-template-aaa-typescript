@@ -32,6 +32,7 @@
 - Add useDebugCommands to make debug functions accessible in browser console
 - Add debug screen
 - Add node version lint step
+- switched form swagger to openapi codegen
 
 ## 2.1.0
 
