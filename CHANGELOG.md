@@ -2,6 +2,8 @@
 
 ## Upcoming
 
+## 4.0.0
+
 - Add builder step to drone file with lint step
 - Update tsconfig.json
 - Fix dynamic env var replacement
