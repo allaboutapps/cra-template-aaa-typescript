@@ -1,13 +1,10 @@
 #!/bin/bash
 
-#####################################################
-# DO NOT CHANGE THE PINNED VERSION OF swagger-codegen
-#####################################################
+rm -rf ./openapi-typescript-client
 
 generate() {
     # Generate client
-    # modelPropertyNaming=original -> keep snake case names
-    docker run --rm -v ${PWD}:/local swaggerapi/swagger-codegen-cli:2.4.14 generate -i $BASE_URL/swagger.yml -l typescript-aurelia -o /local/swagger-typescript-client --additional-properties modelPropertyNaming=original,interface-only=true -DsupportingFiles -Dmodels
+    npx @openapitools/openapi-generator-cli generate -i $BASE_URL/swagger.yml -g typescript-aurelia -o ./openapi-typescript-client
 }
 
 if [[ $1 = "local" ]]; then
@@ -22,7 +19,7 @@ if [[ $1 = "local" ]]; then
         exit
     else
         BASE_URL=$2
-        docker run --rm -v ${PWD}:/local swaggerapi/swagger-codegen-cli:2.4.14 generate -i /local/$2 -l typescript-aurelia -o /local/swagger-typescript-client --additional-properties modelPropertyNaming=original,interface-only=true -DsupportingFiles -Dmodels
+        npx @openapitools/openapi-generator-cli generate -i $2 -g typescript-aurelia -o ./openapi-typescript-client
     fi
 elif [[ $1 = "localhost" ]]; then
     echo "localhost"
@@ -35,7 +32,8 @@ else
 fi
 
 # Copy models
-cp ./swagger-typescript-client/models.ts ./src/network/APITypes.ts
+cp ./openapi-typescript-client/models.ts ./src/network/APITypes.ts
+
 
 echo
 echo
