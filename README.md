@@ -55,7 +55,7 @@ docker build . --build-arg REACT_APP_COMMIT_HASH=happy-commit-hash -t cra-templa
 docker run -p 80:80 cra-template-aaa-typescript-test
 # http://localhost
 
-docker run -p 80:80 -e REACT_APP_API_BASE_URL="/whatever-api-url" -e REACT_APP_BASE_NAME="/drop-the-base" -e REACT_APP_DEPLOYMENT_ENV="happy-env" cra-template-aaa-typescript-test
+docker run -p 80:80 -e REACT_APP_API_BASE_URL="/whatever-api-url" -e REACT_APP_BASE_NAME="/this-is-my-base" -e REACT_APP_DEPLOYMENT_ENV="happy-env" cra-template-aaa-typescript-test
 # http://localhost/this-is-my-base
 ```
 
