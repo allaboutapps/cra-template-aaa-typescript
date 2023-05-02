@@ -1,6 +1,7 @@
 import { ReactQueryDevtools } from "react-query/devtools";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { BASE_NAME, DEBUG_PUBLIC_DASHBOARD, LOADING_INDICATOR_DELAY_MS } from "../../../config";
+import { useQueryParams } from "../../../hooks/useQueryParams";
 import { IDebugTab, useDebugStore } from "../../../stores/debugStore";
 import { useGeneralStore } from "../../../stores/generalStore";
 import { AuthLoginSite } from "../../auth/sites/AuthLoginSite";
@@ -16,7 +17,6 @@ import { NoAuthOnlyRoute } from "./NoAuthOnlyRoute";
 import { PrivateRoute } from "./PrivateRoute";
 import { RoutingManager } from "./RoutingManager";
 import ScrollToTop from "./ScrollToTop";
-import { useQueryParams } from "../../../hooks/useQueryParams";
 
 export const AppRouter = () => {
     const isLoading = useGeneralStore((state) => state.isLoading);

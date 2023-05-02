@@ -33,7 +33,6 @@ export const CustomInputField = ({
     onChange,
 }: IProps) => {
     const fieldError = fieldState.error?.message;
-    const showError = fieldState.isTouched && !!fieldError;
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         field.onChange(event);
@@ -49,7 +48,7 @@ export const CustomInputField = ({
                 fullWidth
                 type={type}
                 autoComplete={autoComplete}
-                error={showError}
+                error={!!fieldError}
                 margin="dense"
                 aria-label={ariaLabel}
                 variant="outlined"
@@ -71,7 +70,7 @@ export const CustomInputField = ({
                     </MenuItem>
                 ))}
             </TextField>
-            {showValidationErrorText && <FieldError>{showError ? fieldError : ""}</FieldError>}
+            {showValidationErrorText && <FieldError>{fieldError}</FieldError>}
         </div>
     );
 };

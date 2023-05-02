@@ -25,7 +25,7 @@ export const AuthLoginSite = () => {
             email: "",
             password: "",
         },
-        mode: "onBlur",
+        mode: "onTouched",
         resolver: yupResolver(
             Yup.object().shape({
                 email: Yup.string()
