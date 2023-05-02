@@ -1,11 +1,13 @@
-import axios, { AxiosHeaders } from "axios";
+import axios from "axios";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
 import { API_BASE_URL } from "../config";
 import { authStore, ICredentials } from "../stores/authStore";
+import { generalStore } from "../stores/generalStore";
 
 ////////////////////////////////////////////////////////////////////////////
 // This file contains out basic axios client setup
 // - Injects Bearer token
+// - Injects Accept-Language
 // - Injects base URL
 // - Refreshes access token upon 401
 ////////////////////////////////////////////////////////////////////////////
@@ -21,11 +23,17 @@ declare module "axios" {
     export interface AxiosRequestConfig extends CustomAxiosRequestConfig {}
 }
 
-// Inject Bearer token
+// Inject headers
 axiosInstance.interceptors.request.use((request) => {
-    if (request.headers && !request.noAuthHeaders) {
-        const accessToken = authStore.getState().credentials?.access_token;
-        (request.headers as AxiosHeaders).set("Authorization", `Bearer ${accessToken}`);
+    if (request.headers) {
+        // Inject Bearer token
+        if (!request.noAuthHeaders) {
+            const accessToken = authStore.getState().credentials?.access_token;
+            request.headers.set("Authorization", `Bearer ${accessToken}`);
+        }
+
+        // Inject Accept-Language
+        request.headers.set("Accept-Language", generalStore.getState().locale);
     }
 
     return request;
