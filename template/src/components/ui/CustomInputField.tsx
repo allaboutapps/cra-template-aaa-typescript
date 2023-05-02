@@ -1,16 +1,16 @@
 import { MenuItem, TextField, TextFieldProps } from "@mui/material";
 import * as React from "react";
-import { Control, useController } from "react-hook-form";
+import { FieldValues, UseControllerProps, useController } from "react-hook-form";
 import { FieldError } from "./FieldError";
 
-type IProps = TextFieldProps & {
-    control: Control<any>;
-    onChange?: () => void;
-    showValidationErrorText?: boolean;
-    selectOptions?: { value: string; label: string }[];
-};
+type IProps<T extends FieldValues> = TextFieldProps &
+    UseControllerProps<T> & {
+        onChange?: () => void;
+        showValidationErrorText?: boolean;
+        selectOptions?: { value: string; label: string }[];
+    };
 
-export const CustomInputField = ({
+export const CustomInputField = <T extends FieldValues>({
     style,
     label,
     type,
@@ -26,7 +26,7 @@ export const CustomInputField = ({
     showValidationErrorText = true,
     selectOptions,
     onChange,
-}: IProps) => {
+}: IProps<T>) => {
     const { field, fieldState } = useController({ control, name: name ?? "" });
 
     const fieldError = fieldState.error?.message;
