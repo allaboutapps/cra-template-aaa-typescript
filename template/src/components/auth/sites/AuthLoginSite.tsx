@@ -1,18 +1,18 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "@mui/material";
+import { AxiosError } from "axios";
 import * as React from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { t } from "../../../i18n/util";
 import { useLogin } from "../../../network/api/useLogin";
 import { useAuthStore } from "../../../stores/authStore";
 import { useGeneralStore } from "../../../stores/generalStore";
 import { usePushRoute } from "../../app/router/history";
+import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
 import { CustomInputField } from "../../ui/CustomInputField";
 import { Colors } from "../../util/Colors";
 import { ImageLogo } from "../../util/Images";
-import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
-import { AxiosError } from "axios";
 
 interface ILoginValues {
     email: string;
@@ -109,31 +109,22 @@ export const AuthLoginSite = () => {
                     onSubmit={handleSubmit(onSubmit)}
                     style={{ padding: 24, border: `1px solid ${Colors.PRIMARY_COLOR}`, borderTop: "none" }}
                 >
-                    <Controller
+                    <CustomInputField
                         name="email"
                         control={control}
-                        render={(formProps) => (
-                            <CustomInputField
-                                label={t("screen.login.form.email.label")}
-                                type="email"
-                                autoComplete="username"
-                                {...formProps}
-                            />
-                        )}
+                        label={t("screen.login.form.email.label")}
+                        type="email"
+                        autoComplete="username"
                     />
 
-                    <Controller
+                    <CustomInputField
                         name="password"
                         control={control}
-                        render={(formProps) => (
-                            <CustomInputField
-                                label={t("screen.login.form.password.label")}
-                                type="password"
-                                autoComplete="current-password"
-                                {...formProps}
-                            />
-                        )}
+                        label={t("screen.login.form.password.label")}
+                        type="password"
+                        autoComplete="current-password"
                     />
+
                     {error && <div style={{ color: Colors.ERROR, fontSize: 14 }}>{error}</div>}
                     <Button
                         variant="contained"

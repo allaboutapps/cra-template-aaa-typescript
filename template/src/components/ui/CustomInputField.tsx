@@ -1,13 +1,10 @@
 import { MenuItem, TextField, TextFieldProps } from "@mui/material";
 import * as React from "react";
-import { ControllerFieldState, ControllerRenderProps, FieldValues, UseFormStateReturn } from "react-hook-form";
+import { Control, useController } from "react-hook-form";
 import { FieldError } from "./FieldError";
 
 type IProps = TextFieldProps & {
-    field: ControllerRenderProps<any, any>;
-    fieldState: ControllerFieldState;
-    formState: UseFormStateReturn<FieldValues>;
-
+    control: Control<any>;
     onChange?: () => void;
     showValidationErrorText?: boolean;
     selectOptions?: { value: string; label: string }[];
@@ -22,16 +19,16 @@ export const CustomInputField = ({
     minRows,
     maxRows,
     required,
-
-    field,
-    fieldState,
-    formState,
+    name,
+    control,
     "aria-label": ariaLabel,
     placeholder,
     showValidationErrorText = true,
     selectOptions,
     onChange,
 }: IProps) => {
+    const { field, fieldState } = useController({ control, name: name ?? "" });
+
     const fieldError = fieldState.error?.message;
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
