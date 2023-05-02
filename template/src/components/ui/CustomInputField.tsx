@@ -1,12 +1,14 @@
 import { MenuItem, TextField, TextFieldProps } from "@mui/material";
-import { FieldInputProps, FormikState, getIn } from "formik";
 import * as React from "react";
+import { ControllerFieldState, ControllerRenderProps, FieldValues, UseFormStateReturn } from "react-hook-form";
 import { FieldError } from "./FieldError";
 
 type IProps = TextFieldProps & {
-    field: FieldInputProps<string>;
+    field: ControllerRenderProps<any, any>;
+    fieldState: ControllerFieldState;
+    formState: UseFormStateReturn<FieldValues>;
+
     onChange?: () => void;
-    form: FormikState<any>;
     showValidationErrorText?: boolean;
     selectOptions?: { value: string; label: string }[];
 };
@@ -20,16 +22,18 @@ export const CustomInputField = ({
     minRows,
     maxRows,
     required,
-    form,
+
     field,
+    fieldState,
+    formState,
     "aria-label": ariaLabel,
     placeholder,
     showValidationErrorText = true,
     selectOptions,
     onChange,
 }: IProps) => {
-    const fieldError = getIn(form.errors, field.name);
-    const showError = getIn(form.touched, field.name) && !!fieldError;
+    const fieldError = fieldState.error?.message;
+    const showError = fieldState.isTouched && !!fieldError;
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         field.onChange(event);
@@ -42,10 +46,6 @@ export const CustomInputField = ({
             <TextField
                 select={!!selectOptions}
                 label={required ? `${label} *` : label}
-                value={field.value}
-                name={field.name}
-                onBlur={field.onBlur}
-                onChange={handleChange}
                 fullWidth
                 type={type}
                 autoComplete={autoComplete}
@@ -60,6 +60,10 @@ export const CustomInputField = ({
                 // For date inputs shrink does not work correctly so explicitly set it.
                 // See here: https://mui.com/material-ui/react-text-field/#shrink
                 InputLabelProps={type === "date" ? { shrink: true } : undefined}
+                // Injects name, onChange, onBlur, value, ref
+                // So if you override an of these you have to put it after this
+                {...field}
+                onChange={handleChange}
             >
                 {selectOptions?.map((selectOption) => (
                     <MenuItem key={selectOption.value} value={selectOption.value}>

@@ -1,17 +1,18 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "@mui/material";
-import { AxiosError } from "axios";
-import { Field, Form, Formik } from "formik";
 import * as React from "react";
+import { Controller, useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { t } from "../../../i18n/util";
 import { useLogin } from "../../../network/api/useLogin";
 import { useAuthStore } from "../../../stores/authStore";
 import { useGeneralStore } from "../../../stores/generalStore";
 import { usePushRoute } from "../../app/router/history";
-import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
 import { CustomInputField } from "../../ui/CustomInputField";
 import { Colors } from "../../util/Colors";
 import { ImageLogo } from "../../util/Images";
+import { DashboardRoutes } from "../../dashboard/router/DashboardRoutes";
+import { AxiosError } from "axios";
 
 interface ILoginValues {
     email: string;
@@ -19,6 +20,25 @@ interface ILoginValues {
 }
 
 export const AuthLoginSite = () => {
+    const { handleSubmit, formState, control } = useForm<ILoginValues>({
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+        mode: "onBlur",
+        resolver: yupResolver(
+            Yup.object().shape({
+                email: Yup.string()
+                    .email(t("screen.login.form.email.validation_error"))
+                    .required(t("screen.login.form.email.validation_error"))
+                    .trim(),
+                password: Yup.string()
+                    .min(6, t("screen.login.form.password.validation_error"))
+                    .required(t("screen.login.form.password.validation_error")),
+            }),
+        ),
+    });
+
     const [error, setError] = React.useState<string>();
     const pushRoute = usePushRoute();
 
@@ -28,7 +48,7 @@ export const AuthLoginSite = () => {
 
     const setIsLoading = useGeneralStore((state) => state.setIsLoading);
 
-    const handleSubmit = async (model: ILoginValues) => {
+    const onSubmit = async (model: ILoginValues) => {
         setIsLoading(true);
         setError("");
 
@@ -84,64 +104,51 @@ export const AuthLoginSite = () => {
                 >
                     {t("screen.login.title")}
                 </div>
-                <div style={{ padding: 24, border: `1px solid ${Colors.PRIMARY_COLOR}`, borderTop: "none" }}>
-                    <Formik
-                        initialValues={{
-                            email: "",
-                            password: "",
-                        }}
-                        onSubmit={handleSubmit}
-                        validationSchema={Yup.object().shape({
-                            email: Yup.string()
-                                .email(t("screen.login.form.email.validation_error"))
-                                .required(t("screen.login.form.email.validation_error"))
-                                .trim(),
-                            password: Yup.string()
-                                .min(6, t("screen.login.form.password.validation_error"))
-                                .required(t("screen.login.form.password.validation_error")),
-                        })}
-                        validateOnBlur
-                    >
-                        {({ errors, touched, isSubmitting }) => (
-                            <Form>
-                                <Field
-                                    component={CustomInputField}
-                                    label={t("screen.login.form.email.label")}
-                                    name="email"
-                                    type="email"
-                                    required
-                                    autoComplete="username"
-                                    errorMessage={errors.email}
-                                    isTouched={touched.email}
-                                />
-                                <Field
-                                    component={CustomInputField}
-                                    label={t("screen.login.form.password.label")}
-                                    name="password"
-                                    type="password"
-                                    required
-                                    autoComplete="current-password"
-                                    errorMessage={errors.password}
-                                    isTouched={touched.password}
-                                />
-                                {error && <div style={{ color: Colors.ERROR, fontSize: 14 }}>{error}</div>}
-                                <Button
-                                    variant="contained"
-                                    style={{
-                                        boxShadow: "none",
-                                        borderRadius: 24,
-                                        marginTop: 24,
-                                    }}
-                                    fullWidth
-                                    disabled={isSubmitting}
-                                    type="submit"
-                                >
-                                    {t("screen.login.form.submit")}
-                                </Button>
-                            </Form>
+
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    style={{ padding: 24, border: `1px solid ${Colors.PRIMARY_COLOR}`, borderTop: "none" }}
+                >
+                    <Controller
+                        name="email"
+                        control={control}
+                        render={(formProps) => (
+                            <CustomInputField
+                                label={t("screen.login.form.email.label")}
+                                type="email"
+                                autoComplete="username"
+                                {...formProps}
+                            />
                         )}
-                    </Formik>
-                </div>
+                    />
+
+                    <Controller
+                        name="password"
+                        control={control}
+                        render={(formProps) => (
+                            <CustomInputField
+                                label={t("screen.login.form.password.label")}
+                                type="password"
+                                autoComplete="current-password"
+                                {...formProps}
+                            />
+                        )}
+                    />
+                    {error && <div style={{ color: Colors.ERROR, fontSize: 14 }}>{error}</div>}
+                    <Button
+                        variant="contained"
+                        style={{
+                            boxShadow: "none",
+                            borderRadius: 24,
+                            marginTop: 24,
+                        }}
+                        fullWidth
+                        disabled={formState.isSubmitting}
+                        type="submit"
+                    >
+                        {t("screen.login.form.submit")}
+                    </Button>
+                </form>
             </div>
         </div>
     );
