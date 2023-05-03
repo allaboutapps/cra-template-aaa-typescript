@@ -37,6 +37,7 @@
       "@types/react-router": "^5.1.17",
       "@types/react-router-dom": "^5.3.1",
       "@types/webpack-env": "1.18.0",
+      "@types/jest": "^29.5.1",
       "prettier": "^2.4.1",
       "start-server-and-test": "^1.15.2",
       "typescript": "^5.0.3"
@@ -45,6 +46,7 @@
       "start": "craco start",
       "build": "craco build && ./scripts/check-license-file.sh",
       "test": "craco test --passWithNoTests",
+      "test:ci": "CI=true yarn test",
       "test:components": "CI=true yarn test",
       "test:e2e": "start-server-and-test start http://localhost:3000 cypress:run",
       "format": "prettier --write '**/*.{js,jsx,ts,tsx,gql,css,json,html,htm}'",
