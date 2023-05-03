@@ -2,6 +2,8 @@
 
 ## Upcoming
 
+- Send Accept-Language header
+
 ## 4.0.0
 
 - Add builder step to drone file with lint step
