@@ -43,7 +43,7 @@
     },
     "scripts": {
       "start": "craco start",
-      "build": "craco build",
+      "build": "craco build && ./scripts/check-license-file.sh",
       "test": "craco test --passWithNoTests",
       "test:components": "CI=true yarn test",
       "test:e2e": "start-server-and-test start http://localhost:3000 cypress:run",
