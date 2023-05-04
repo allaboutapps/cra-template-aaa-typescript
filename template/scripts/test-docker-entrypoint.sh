@@ -6,6 +6,7 @@ mkdir -p /etc/nginx/conf.d
 
 NGINX_CONF=/etc/nginx/conf.d/default.conf
 CONFIG_JS=/etc/nginx/html/app/config.js
+INDEX_HTML=/etc/nginx/html/app/index.html
 
 # Copy build files
 cp -r ./build/* /etc/nginx/html/app
