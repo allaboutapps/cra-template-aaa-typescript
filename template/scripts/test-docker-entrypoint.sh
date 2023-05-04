@@ -24,8 +24,8 @@ REACT_APP_DEPLOYMENT_ENV=$ENV
 
 # Run script with source so REACT_XYZ ate visible
 # "test" param is used to skip exec "$@" at the end of the script
-chmod +x docker-entrypoint.sh
-source docker-entrypoint.sh "test"
+chmod +x ./docker-entrypoint.sh
+source ./docker-entrypoint.sh "test"
 
 # Verify nginx config was patched correctly
 if ! grep -q "location $BASE {" "$NGINX_CONF" || ! grep -q "location $BASE/static {" "$NGINX_CONF"; then
