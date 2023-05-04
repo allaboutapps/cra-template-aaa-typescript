@@ -7,7 +7,7 @@ set -e
 
 # Only update config with defined env variables if we are running an nginx process so we can still attach with debugging commands
 # without accidentally modifying anything
-if [ "$1" == "nginx" ]; then
+if [ "$1" == "nginx" ] || [ "$1" == "test" ]; then
     if [ ! -z "${REACT_APP_API_BASE_URL}" ]; then
         sed -i "/ENV_API_BASE_URL/c\var ENV_API_BASE_URL = \"${REACT_APP_API_BASE_URL}\";" /etc/nginx/html/app/config.js
     fi
@@ -28,4 +28,7 @@ if [ "$1" == "nginx" ]; then
     fi
 fi
 
-exec "$@"
+# Test param is used during CI tests to see if the patching is correct -> skip exec "$@"
+if [ "$1" != "test" ]; then
+    exec "$@"
+fi

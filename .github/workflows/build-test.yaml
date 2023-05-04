@@ -27,3 +27,9 @@ jobs:
         run: docker exec container yarn create react-app my-app-ci --template file://cra-template/
       - name: build (scaffolded project)
         run: docker exec container bash -c "cd my-app-ci && yarn build && yarn lint"
+      - name: test (scaffolded project)
+        run: docker exec container bash -c "cd my-app-ci && yarn test:ci"
+      - name: test docker-entrypoint.sh patching
+        run: docker exec container bash -c "cd my-app-ci && ./scripts/test-docker-entrypoint.sh"  
+        
+      
