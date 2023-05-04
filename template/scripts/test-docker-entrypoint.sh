@@ -27,7 +27,7 @@ REACT_APP_DEPLOYMENT_ENV=$ENV
 
 # Run script with source so REACT_XYZ ate visible
 # "test" param is used to skip exec "$@" at the end of the script
-source docker-entrypoint-test.sh "test"
+source docker-entrypoint.sh "test"
 
 # Verify nginx config was patched correctly
 if ! grep -q "location $BASE {" "$NGINX_CONF" || ! grep -q "location $BASE/static {" "$NGINX_CONF"; then
@@ -43,6 +43,12 @@ if ! grep -q "ENV_BASE_NAME = \"$BASE\"" "$CONFIG_JS" || \
   echo "config.js not patched successfully"
   cat $CONFIG_JS
   exit 1
+fi
+
+# Verify index.html was patched correctly
+if ! grep -q "<base href=\"$BASE/\">" "$INDEX_HTML"; then
+  echo "index.html not patched successfully"
+  cat $INDEX_HTML
 fi
 
 # Cleanup
