@@ -5,31 +5,26 @@ on:
     branches: "**"
   pull_request:
     branches: [main]
-# env:
-#   DOCKER_ENV_FILE: ".github/workflows/docker.env"
 jobs:
   build-test:
     runs-on: ubuntu-latest
-    # services:
-    #   alpine:
-    #     image: alpine
     steps:
       - uses: actions/checkout@v3
-      - name: docker build
-        uses: docker/build-push-action@v3
-        with:
-          push: false
-          tags: allaboutapps.dev/cra-template:${{ github.sha }}
-          # volumes: /var/run/docker.sock:/var/run/docker.sock
-      - name: docker run
-        run: docker run -d --name=container -it allaboutapps.dev/cra-template:${{ github.sha }}
-      - name: create-react-app
-        run: docker exec container yarn create react-app my-app-ci --template file://cra-template/
-      - name: build (scaffolded project)
-        run: docker exec container bash -c "cd my-app-ci && yarn build && yarn lint"
-      - name: test (scaffolded project)
-        run: docker exec container bash -c "cd my-app-ci && yarn test:ci"
-      - name: test docker-entrypoint.sh patching
-        run: docker exec container bash -c "cd my-app-ci && ./scripts/test-docker-entrypoint.sh"  
+      - name: install dependencies
+        run: yarn
+      - name: scaffold test project
+        run: yarn test
+      - name: build test project
+        run: cd template-test && yarn build
+      - name: lint
+        run: cd template-test && yarn lint
+      - name: test
+        run: cd template-test && yarn test:ci
+      #- name: build (scaffolded project)
+      #  run: docker exec container bash -c "cd my-app-ci && yarn build && yarn lint"
+      #- name: test (scaffolded project)
+      #  run: docker exec container bash -c "cd my-app-ci && yarn test:ci"
+      #- name: test docker-entrypoint.sh patching
+      #  run: docker exec container bash -c "cd my-app-ci && ./scripts/test-docker-entrypoint.sh"  
         
       
