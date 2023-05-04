@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: install dependencies
-        run: yarn
       - name: scaffold test project
         run: yarn test
       - name: build test project
@@ -20,11 +18,7 @@ jobs:
         run: cd template-test && yarn lint
       - name: test
         run: cd template-test && yarn test:ci
-      #- name: build (scaffolded project)
-      #  run: docker exec container bash -c "cd my-app-ci && yarn build && yarn lint"
-      #- name: test (scaffolded project)
-      #  run: docker exec container bash -c "cd my-app-ci && yarn test:ci"
-      #- name: test docker-entrypoint.sh patching
-      #  run: docker exec container bash -c "cd my-app-ci && ./scripts/test-docker-entrypoint.sh"  
+      - name: test docker-entrypoint.sh patching
+        run: cd template-test && ./scripts/test-docker-entrypoint.sh
         
       
