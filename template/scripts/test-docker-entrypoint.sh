@@ -14,10 +14,6 @@ cp -r ./build/* /etc/nginx/html/app
 # Copy nginx config
 cp ./nginx-default.conf $NGINX_CONF
 
-# Create test entrypoint script
-cp docker-entrypoint.sh docker-entrypoint-test.sh
-chmod +x docker-entrypoint-test.sh
-
 BASE="/docker-entry-test"
 API="/api"
 ENV="test-env"
@@ -28,7 +24,8 @@ REACT_APP_DEPLOYMENT_ENV=$ENV
 
 # Run script with source so REACT_XYZ ate visible
 # "test" param is used to skip exec "$@" at the end of the script
-source docker-entrypoint-test.sh "test"
+chmod +x docker-entrypoint.sh
+source docker-entrypoint.sh "test"
 
 # Verify nginx config was patched correctly
 if ! grep -q "location $BASE {" "$NGINX_CONF" || ! grep -q "location $BASE/static {" "$NGINX_CONF"; then
@@ -54,6 +51,5 @@ fi
 
 # Cleanup
 rm -rf /etc/nginx
-rm docker-entrypoint-test.sh
 
 echo "docker-entrypoint.sh test passed successfully"
