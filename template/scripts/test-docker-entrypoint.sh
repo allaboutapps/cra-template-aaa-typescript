@@ -22,7 +22,7 @@ REACT_APP_BASE_NAME=$BASE
 REACT_APP_API_BASE_URL=$API
 REACT_APP_DEPLOYMENT_ENV=$ENV
 
-# Run script with source so REACT_XYZ ate visible
+# Run script with source so REACT_XYZ are visible
 # "test" param is used to skip exec "$@" at the end of the script
 chmod +x ./docker-entrypoint.sh
 source ./docker-entrypoint.sh "test"
