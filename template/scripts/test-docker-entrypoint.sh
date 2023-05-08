@@ -1,15 +1,18 @@
 #!/bin/bash
 
-# Create fake nginx folder structure to match production
-mkdir -p /etc/nginx/html/app
-mkdir -p /etc/nginx/conf.d
+NGINX_BASE=./nginx
 
-NGINX_CONF=/etc/nginx/conf.d/default.conf
-CONFIG_JS=/etc/nginx/html/app/config.js
-INDEX_HTML=/etc/nginx/html/app/index.html
+# Create fake nginx folder structure to match production
+mkdir -p $NGINX_BASE/html/app
+mkdir -p $NGINX_BASE/conf.d
+
+
+NGINX_CONF=$NGINX_BASE/conf.d/default.conf
+CONFIG_JS=$NGINX_BASE/html/app/config.js
+INDEX_HTML=$NGINX_BASE/html/app/index.html
 
 # Copy build files
-cp -r ./build/* /etc/nginx/html/app
+cp -r ./build/* $NGINX_BASE/html/app
 
 # Copy nginx config
 cp ./nginx-default.conf $NGINX_CONF
@@ -50,6 +53,6 @@ if ! grep -q "<base href=\"$BASE/\">" "$INDEX_HTML"; then
 fi
 
 # Cleanup
-rm -rf /etc/nginx
+rm -rf $NGINX_BASE
 
 echo "docker-entrypoint.sh test passed successfully"
