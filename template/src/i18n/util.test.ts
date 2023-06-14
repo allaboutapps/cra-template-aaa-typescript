@@ -34,6 +34,12 @@ describe("t", () => {
 
         // @ts-expect-error should show an error because of missing placeholder values
         t("common.uptime");
+
+        // @ts-expect-error should show an error because of wrong placeholder values
+        t("common.uptime", { hansi: "hansi" });
+
+        // @ts-expect-error should show an error because of too few placeholder values
+        t("test.twoParams", { param1: "{param1}" });
     });
 
     it("cannot infer placeholders from variables", () => {
