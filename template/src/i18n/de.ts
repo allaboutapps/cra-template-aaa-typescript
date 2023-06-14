@@ -1,4 +1,4 @@
-{
+export const german = {
     "button.loadingShort": "Kurzes Laden (kein indicator)",
     "button.loadingLong": "Langes Laden (mit indicator)",
     "button.add": "Einzelner Eintrag hinzufügen Dialog",
@@ -23,15 +23,19 @@
     "language.german": "Deutsch",
     "language.english": "Englisch",
     "deleteDialog.message": "Sind Sie sicher, dass Sie mit dieser Aktion fortfahren wollen?",
-    "deleteDialog.message.multi": "Sind Sie sicher, dass Sie mit dieser Aktion fortfahren wollen? Es sind {count} Einträge betroffen",
+    "deleteDialog.message.multi":
+        "Sind Sie sicher, dass Sie mit dieser Aktion fortfahren wollen? Es sind {count} Einträge betroffen",
     "deleteDialog.submitLabel": "Ja, Eintrag löschen",
     "deleteDialog.submitLabel.multi": "Ja, Einträge löschen",
     "deleteDialog.title": "Eintrag löschen",
     "deleteDialog.title.multi": "Einträge löschen",
     "addDialog.message": "Sind Sie sicher, dass Sie mit dieser Aktion fortfahren wollen?",
-    "addDialog.message.multi": "Sind Sie sicher, dass Sie mit dieser Aktion fortfahren wollen? Es sind {count} Einträge betroffen",
+    "addDialog.message.multi":
+        "Sind Sie sicher, dass Sie mit dieser Aktion fortfahren wollen? Es sind {count} Einträge betroffen",
     "addDialog.submitLabel": "Ja, Eintrag hinzufügen",
     "addDialog.submitLabel.multi": "Ja, Einträge hinzufügen",
     "addDialog.title": "Eintrag hinzufügen",
-    "addDialog.title.multi": "Einträge hinzufügen"
-}
+    "addDialog.title.multi": "Einträge hinzufügen",
+    "screen.dashboard.html": "Das ist ein <b>fetter Text</b> und das ist <i>kursiv</i>",
+    "test.twoParams": "Text mit {param1} und {param2}",
+} as const;

@@ -4,7 +4,7 @@ import { useConfirmationDialog } from "../../../hooks/useConfirmationDialog";
 import { useHashParams } from "../../../hooks/useHashParams";
 import { useInterval } from "../../../hooks/useInterval";
 import { useQueryParams } from "../../../hooks/useQueryParams";
-import { setLocale, t } from "../../../i18n/util";
+import { setLocale, t, tHtml } from "../../../i18n/util";
 import { useAuthStore } from "../../../stores/authStore";
 import { useGeneralStore } from "../../../stores/generalStore";
 import { sleep } from "../../../util/helpers";
@@ -173,6 +173,7 @@ export const DashboardSite = () => {
                 {t("button.add")}
             </Button>
             {confirmationDialog.component}
+            <div>{tHtml("screen.dashboard.html")}</div>
         </div>
     );
 };

@@ -1,4 +1,4 @@
-{
+export const english = {
     "button.loadingShort": "Short loading (no indicator)",
     "button.loadingLong": "Long loading (with indicator)",
     "button.add": "Add Single Entry Dialog",
@@ -23,7 +23,8 @@
     "language.german": "German",
     "language.english": "English",
     "deleteDialog.message": "Are you sure you want to continue with this action?",
-    "deleteDialog.message.multi": "Are you sure you want to continue with this action? There are {count} entries affected",
+    "deleteDialog.message.multi":
+        "Are you sure you want to continue with this action? There are {count} entries affected",
     "deleteDialog.submitLabel": "Yes, delete entry",
     "deleteDialog.submitLabel.multi": "Yes, delete entries",
     "deleteDialog.title": "Delete entry",
@@ -33,5 +34,6 @@
     "addDialog.submitLabel": "Yes, add entry",
     "addDialog.submitLabel.multi": "Yes, add entries",
     "addDialog.title": "Add entry",
-    "addDialog.title.multi": "Add entries"
-}
+    "addDialog.title.multi": "Add entries",
+    "screen.dashboard.html": "This is <b>bold text</b> and this is <i>italic</i>",
+} as const;
