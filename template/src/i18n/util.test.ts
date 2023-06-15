@@ -6,31 +6,31 @@ describe("t", () => {
         setLocale("de");
 
         // no placeholder - does not require any values
-        let actual = t("common.logout");
-        expect(actual).toEqual(german["common.logout"]);
+        const t0 = t("common.logout");
+        expect(t0).toEqual(german["common.logout"]);
 
         // it allows us to add any kind of values in case something was inferred incorrectly
-        actual = t("common.logout", { foo: "foo" });
-        expect(actual).toEqual(german["common.logout"]);
+        const t1 = t("common.logout", { foo: "foo" });
+        expect(t1).toEqual(german["common.logout"]);
 
         // one placeholder
-        actual = t("common.uptime", { uptime: "{uptime}" });
-        expect(actual).toEqual(german["common.uptime"]);
+        const t2 = t("common.uptime", { uptime: "{uptime}" });
+        expect(t2).toEqual(german["common.uptime"]);
 
         // it allows us to add any kind of values in case something was inferred incorrectly
-        actual = t("common.uptime", { uptime: "{uptime}", foo: "foo" });
-        expect(actual).toEqual(german["common.uptime"]);
+        const t3 = t("common.uptime", { uptime: "{uptime}", foo: "foo" });
+        expect(t3).toEqual(german["common.uptime"]);
 
         // multiple placeholders
-        actual = t("test.twoParams", {
+        const t4 = t("test.twoParams", {
             param1: "{param1}",
             param2: "{param2}",
         });
-        expect(actual).toEqual(german["test.twoParams"]);
+        expect(t4).toEqual(german["test.twoParams"]);
 
         // it allows us to add any kind of values in case something was inferred incorrectly
-        actual = t("test.twoParams", { param1: "{param1}", param2: "{param2}", foo: "foo" });
-        expect(actual).toEqual(german["test.twoParams"]);
+        const t5 = t("test.twoParams", { param1: "{param1}", param2: "{param2}", foo: "foo" });
+        expect(t5).toEqual(german["test.twoParams"]);
 
         // @ts-expect-error should show an error because of missing placeholder values
         t("common.uptime");
