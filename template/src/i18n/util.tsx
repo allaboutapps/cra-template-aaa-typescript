@@ -69,6 +69,8 @@ type ParamsForTranslation<Translation extends string> = Placeholders<Translation
           [Key in Placeholders<Translation>]: PrimitiveType;
       };
 
+type TranslationForID<ID extends MessageIDS> = (typeof german)[ID];
+
 /**
  * Builds the param type for a given messageId.
  * Explanation for "MessageIDS extends ID":
@@ -80,7 +82,7 @@ type ParamsForTranslation<Translation extends string> = Placeholders<Translation
  *   If you don't use a variable but a const or something where the compiler can infer the const value, then MessageIDS will
  *   not extend ID because ID will then be a single MessageID and thus narrower than MessageIDS.
  */
-type ParamsForID<ID extends MessageIDS> = MessageIDS extends ID ? never : ParamsForTranslation<(typeof german)[ID]>;
+type ParamsForID<ID extends MessageIDS> = MessageIDS extends ID ? never : ParamsForTranslation<TranslationForID<ID>>;
 
 /**
  * Returns the translation for the given `messageId` using an optional dictionary to replace placeholders in the text.
@@ -89,9 +91,9 @@ export function t<ID extends MessageIDS, Params extends ParamsForID<ID>>(
     ...parameters: [Params] extends [never]
         ? [messageId: ID, values?: Record<string, PrimitiveType>] // cover case where type inference fails -> make values optional
         : [messageId: ID, values: Params]
-) {
+): TranslationForID<ID> {
     const [messageId, values] = parameters;
-    return returnString(messageId, intl.formatMessage({ id: messageId }, values));
+    return returnString(messageId, intl.formatMessage({ id: messageId }, values)) as TranslationForID<ID>;
 }
 
 export function tHtml<ID extends MessageIDS, Params extends ParamsForID<ID>>(
