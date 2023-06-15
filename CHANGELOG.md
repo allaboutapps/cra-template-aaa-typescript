@@ -3,6 +3,8 @@
 ## Upcoming
 
 - Send Accept-Language header
+- Typesafe i18n functions
+- Added CI tests
 
 ## 4.0.0
 
