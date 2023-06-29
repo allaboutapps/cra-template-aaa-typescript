@@ -1,4 +1,4 @@
-import * as queryString from "query-string";
+import queryString from "query-string";
 
 // Parse the URLs hash param into an object of type T.
 // hash param keys that represent an array are provided in <arrayKeys>.

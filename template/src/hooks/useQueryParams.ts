@@ -1,5 +1,5 @@
 import { compact } from "lodash";
-import * as queryString from "query-string";
+import queryString from "query-string";
 
 // Parse the URLs query param into an object of type T.
 // query param keys that represent an array are provided in <arrayKeys>.
